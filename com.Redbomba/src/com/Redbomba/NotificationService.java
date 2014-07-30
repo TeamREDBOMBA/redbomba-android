@@ -1,34 +1,153 @@
 package com.Redbomba;
 
-import org.json.JSONArray;
+import java.net.MalformedURLException;
+import java.net.URL;
 
+import io.socket.IOAcknowledge;
+import io.socket.IOCallback;
+import io.socket.SocketIO;
+import io.socket.SocketIOException;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import com.Redbomba.LoginActivity.LoginTask;
+
+import android.app.AlertDialog;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.IBinder;
 import android.util.Log;
 
-public class NotificationService extends Service implements Runnable {
+public class NotificationService extends Service {
 
+	private SocketIO socket;
+
+	public static final String BROADCAST_ACTION = "com.Redbomba.updateprogress";
 	public static final String TAG = "ServiceMine"; 
+	Intent intent;
 	private SharedPreferences prefs_system;
 	private SharedPreferences.Editor editor_system;
+
+	private int uid;
+	private int gid;
 
 	@Override
 	public void onCreate() {
 		// TODO Auto-generated method stub
 		super.onCreate();
 		
+		intent = new Intent(BROADCAST_ACTION);
 		prefs_system = getSharedPreferences("system", 0);
-		editor_system = prefs_system.edit();
+		uid = prefs_system.getInt("uid", 0);
 
-		Thread myThread = new Thread(this);  
-		myThread.start();  
+		Log.i(""+uid,""+uid);
+		
+		new SocketTask().execute(null, null, null);
+
 	}
 
+	class SocketTask extends AsyncTask<Void, Void, Boolean> {
+		protected Boolean doInBackground(Void... Void) {
+			try{
+				JSONObject jo = Settings.GET("mode=2&uid="+uid).getJSONObject(0);
+				gid = jo.getInt("gid");
+			}catch (Exception e) {
+				// TODO: handle exception
+				return false;
+			}
+			return true;
+		}
+
+		protected void onPostExecute(Boolean result) {
+			if(result){
+				startSocket();
+			}
+			return;
+		}
+	}
+
+	private void startSocket(){
+		try {
+
+			socket = new SocketIO("http://14.63.186.76:8080");
+			socket.connect(new IOCallback() {
+
+				@Override
+				public void onDisconnect() {
+					// TODO Auto-generated method stub
+					System.out.println("Connection terminated.");
+				}
+
+				@Override
+				public void onConnect() {
+					// TODO Auto-generated method stub
+					System.out.println("Connection established");
+					socket.emit("joinGroup", gid);
+					socket.emit("addUser", uid);
+					socket.emit("loadNotification", uid);
+				}
+
+				@Override
+				public void onMessage(String data, IOAcknowledge ack) {
+					// TODO Auto-generated method stub
+					System.out.println("Server said: " + data);
+				}
+
+				@Override
+				public void onMessage(JSONObject json, IOAcknowledge ack) {
+					// TODO Auto-generated method stub
+					try {
+						System.out.println("Server said:" + json.toString(2));
+					} catch (JSONException e) {
+						e.printStackTrace();
+					}
+				}
+
+				@Override
+				public void on(String event, IOAcknowledge ack, Object... args) {
+					// TODO Auto-generated method stub
+					System.out.println("Server triggered event '" + event + "'");
+					if (event.equals("html")){
+						intent.putExtra("emit", "html");
+						JSONObject jo;
+						try {
+							jo = new JSONObject(args[0].toString());
+							if((jo.getString("name")).equals("#noti_value")){
+								intent.putExtra("name", jo.getString("name"));
+								intent.putExtra("value", jo.getInt("html"));
+								sendBroadcast(intent);
+							}
+						} catch (JSONException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+				}
+
+				@Override
+				public void onError(SocketIOException socketIOException) {
+					// TODO Auto-generated method stub
+					System.out.println("an Error occured");
+					socketIOException.printStackTrace();
+				}
+
+			});
+
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	/*
 	public void run() {  
 		// TODO Auto-generated method stub  
 		int notiNo = 0;
@@ -40,11 +159,11 @@ public class NotificationService extends Service implements Runnable {
 					Log.i(""+notiNo,""+ja.getJSONObject(i).getInt("no"));
 					if(notiNo < ja.getJSONObject(i).getInt("no")){
 						String tablename = ja.getJSONObject(i).getString("tablename");
-						if(tablename.equals("home_league")) tablename = "´ëÈ¸¿¡ Âü°¡Çß½À´Ï´Ù.";
-						else if(tablename.equals("home_smile")) tablename = "½º¸¶ÀÏÀÌ Ãß°¡µÇ¾ú½À´Ï´Ù.";
-						else if(tablename.equals("home_group")) tablename = "±×·ì¿¡ ÃÊ´ëµÇ¾ú½À´Ï´Ù.";
-						else if(tablename.equals("home_leagueround")) tablename = "´ëÈ¸ ÀÏÁ¤ÀÌ ¹ßÇ¥µÇ¾ú½À´Ï´Ù.";
-						else if(tablename.equals("home_leaguematch")) tablename = "°æ±â¿¡ ÀÔÀåÇØÁÖ¼¼¿ä.";
+						if(tablename.equals("home_league")) tablename = "ï¿½ï¿½È¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ß½ï¿½ï¿½Ï´ï¿½.";
+						else if(tablename.equals("home_smile")) tablename = "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½ï¿½Ç¾ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.";
+						else if(tablename.equals("home_group")) tablename = "ï¿½×·ì¿¡ ï¿½Ê´ï¿½Ç¾ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.";
+						else if(tablename.equals("home_leagueround")) tablename = "ï¿½ï¿½È¸ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ç¥ï¿½Ç¾ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.";
+						else if(tablename.equals("home_leaguematch")) tablename = "ï¿½ï¿½â¿¡ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¼ï¿½ï¿½ï¿½.";
 						setNotification(Settings.stripHTML(ja.getJSONObject(i).getString("con")), tablename);
 						editor_system.putInt("notiNo", ja.getJSONObject(i).getInt("no"));
 						editor_system.commit();
@@ -55,7 +174,7 @@ public class NotificationService extends Service implements Runnable {
 				Log.e(TAG, ex.toString());  
 			}  
 		}  
-	}  
+	}  */
 
 	@SuppressWarnings({ "deprecation" })
 	private void setNotification(String msg, String title){

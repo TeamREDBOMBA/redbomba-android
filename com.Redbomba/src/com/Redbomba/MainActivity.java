@@ -9,9 +9,11 @@ import net.simonvt.menudrawer.MenuDrawer;
 import net.simonvt.menudrawer.MenuDrawer.Type;
 import net.simonvt.menudrawer.Position;
 import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -23,7 +25,6 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
-import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -47,6 +48,7 @@ public class MainActivity extends Activity implements OnClickListener{
 
 	private Handler mHandler;
 	private boolean mFlag = false;
+	private BroadcastReceiver broadcastReceiver;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +81,26 @@ public class MainActivity extends Activity implements OnClickListener{
 				}
 			}
 		};
+
+		broadcastReceiver = new BroadcastReceiver() {
+			@Override
+			public void onReceive(Context context, Intent intent) {
+				Bundle extra = intent.getExtras();
+
+				if(extra.getString("emit","").equals("html")){
+
+					if(extra.getString("name","").equals("#noti_value")){
+						tvNotiLength.setText(""+extra.getInt("value", 0));
+						tvLength.setText(""+extra.getInt("value", 0));
+						if(!tvNotiLength.equals("")) tvNotiLength.setVisibility(View.VISIBLE);
+						else tvNotiLength.setVisibility(View.GONE);
+					}
+
+				}
+			}
+		};
+
+		registerReceiver(broadcastReceiver, new IntentFilter(NotificationService.BROADCAST_ACTION));
 	}
 
 	private void setLeftMenu(){
@@ -139,7 +161,7 @@ public class MainActivity extends Activity implements OnClickListener{
 		if(gamelink.equals("null")){
 			llgamelink.removeAllViews();
 			TextView tv = new TextView(this);
-			tv.setText("¿¬°áµÈ °ÔÀÓÀÌ ¾ø½À´Ï´Ù.");
+			tv.setText("ì—°ê²°ëœ ê²Œì„ì´ ì—†ìŠµë‹ˆë‹¤.");
 			tv.setTextColor(Color.WHITE);
 			tv.setPadding(20, 0, 0, 0);
 			llgamelink.addView(tv);
@@ -149,7 +171,7 @@ public class MainActivity extends Activity implements OnClickListener{
 		if(groupname.equals("0")){
 			llgroup.removeAllViews();
 			TextView tv = new TextView(this);
-			tv.setText("¼Ò¼ÓµÈ ±×·ìÀÌ ¾ø½À´Ï´Ù.");
+			tv.setText("ì†Œì†ëœ ê·¸ë£¹ì´ ì—†ìŠµë‹ˆë‹¤.");
 			tv.setTextColor(Color.WHITE);
 			llgroup.addView(tv);
 		}else{
@@ -255,9 +277,9 @@ public class MainActivity extends Activity implements OnClickListener{
 		switch(keyCode) {
 		case KeyEvent.KEYCODE_BACK:
 			if(!mFlag) {
-				Toast.makeText(this, "'µÚ·Î' ¹öÆ°À» ÇÑ¹ø ´õ ´©¸£½Ã¸é Á¾·áµË´Ï´Ù.", Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "'ë’¤ë¡œ' ë²„íŠ¼ì„ í•œë²ˆ ë” ëˆ„ë¥´ì‹œë©´ ì¢…ë£Œë©ë‹ˆë‹¤.", Toast.LENGTH_SHORT).show();
 				mFlag = true;
-				mHandler.sendEmptyMessageDelayed(0, 2000); // 2ÃÊ ³»·Î ÅÍÄ¡½Ã 
+				mHandler.sendEmptyMessageDelayed(0, 2000); // 2ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ 
 				return false;
 			} else {
 				finish();
