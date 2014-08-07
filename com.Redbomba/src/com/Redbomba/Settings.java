@@ -11,6 +11,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -20,6 +21,8 @@ import android.util.Log;
 public class Settings {
 	
 	public static int user_id = 0;
+	public static JSONObject user_info = null;
+	public static JSONObject group_info = null;
 	
 	public static JSONArray GET(String var){
 		String jsonStr = null;

@@ -2,19 +2,26 @@ package com.Redbomba;
 
 import java.net.URL;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import net.simonvt.menudrawer.MenuDrawer;
 import net.simonvt.menudrawer.MenuDrawer.Type;
 import net.simonvt.menudrawer.Position;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import com.Redbomba.LoginActivity.LoginTask;
+
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -37,6 +44,8 @@ public class MainActivity extends Activity implements OnClickListener{
 	ImageButton leftbutton, rightbutton;
 	TextView tvNotiLength;
 
+	LinearLayout llGroupList;
+
 	LinearLayout llgamelink;
 	LinearLayout llgroup;
 	ImageButton btnSetting, btnLeftBack;
@@ -46,6 +55,7 @@ public class MainActivity extends Activity implements OnClickListener{
 	TextView tvLength;
 	LinearLayout llTable;
 
+	private JSONArray ja;
 	private Handler mHandler;
 	private boolean mFlag = false;
 	private BroadcastReceiver broadcastReceiver;
@@ -55,9 +65,14 @@ public class MainActivity extends Activity implements OnClickListener{
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_main);
-
-		setLeftMenu();
-		setRightMenu();
+		
+		try {
+			Settings.user_info = Settings.GET("mode=2&uid="+Settings.user_id).getJSONObject(0);
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 
 		leftbutton = (ImageButton) findViewById(R.id.leftbutton);
 		rightbutton = (ImageButton) findViewById(R.id.rightbutton);
@@ -66,41 +81,65 @@ public class MainActivity extends Activity implements OnClickListener{
 		leftbutton.setOnClickListener((OnClickListener) this);
 		rightbutton.setOnClickListener((OnClickListener) this);
 
-		loadNoti();
+		setLeftMenu();
+		setRightMenu();
+		new GroupListTask().execute(null, null, null);
+
+		setHandler();
+		setBroadcast();
 
 		ComponentName componentName = new ComponentName("com.Redbomba", "com.Redbomba.NotificationService");
 		Intent service_intent = new Intent();
 		service_intent.setComponent(componentName);
 		startService(service_intent);
 
-		mHandler = new Handler() {
-			@Override
-			public void handleMessage(Message msg) {
-				if(msg.what == 0) {
-					mFlag = false;
-				}
-			}
-		};
+		loadNoti();
+	}
 
-		broadcastReceiver = new BroadcastReceiver() {
-			@Override
-			public void onReceive(Context context, Intent intent) {
-				Bundle extra = intent.getExtras();
+	class GroupListTask extends AsyncTask<Void, Void, Boolean> {
+		protected Boolean doInBackground(Void... Void) {
+			llGroupList = (LinearLayout)findViewById(R.id.llGroupList);
+			ja = Settings.GET("mode=getGroupList&uid="+Settings.user_id);
+			return true;
+		}
 
-				if(extra.getString("emit","").equals("html")){
+		protected void onProgressUpdate(Void... Void) {
 
-					if(extra.getString("name","").equals("#noti_value")){
-						tvNotiLength.setText(""+extra.getInt("value", 0));
-						tvLength.setText(""+extra.getInt("value", 0));
-						if(!tvNotiLength.equals("")) tvNotiLength.setVisibility(View.VISIBLE);
-						else tvNotiLength.setVisibility(View.GONE);
+		}
+
+		protected void onPostExecute(Boolean result) {
+			if(result){
+				Log.i("ja_size", ""+ja.length());
+				try{
+					for(int i=0;i<ja.length();i++){
+						GroupCellView gcv  = new GroupCellView(MainActivity.this,ja.getJSONObject(i));
+						View v = gcv.getView();
+						v.setTag("group_"+i);
+						v.setOnClickListener((OnClickListener) MainActivity.this);
+						gcv.llbtnChatting.setTag("group_"+i);
+						gcv.llbtnChatting.setOnClickListener(new OnClickListener() {
+							@Override
+							public void onClick(View v) {
+								// TODO Auto-generated method stub
+								int no = Integer.parseInt(v.getTag().toString().replaceAll("group_", ""));
+								Intent gin = new Intent(MainActivity.this,GroupActivity.class);
+								gin.putExtra("tab", 1);
+								startActivity(gin);
+								try {
+									Settings.group_info = ja.getJSONObject(no);
+								} catch (JSONException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
+								overridePendingTransition(R.anim.slide_out_left, R.anim.slide_in_right);
+							}
+						});
+						llGroupList.addView(gcv.getView());
 					}
-
-				}
+				}catch(Exception e){ Log.i("error", e.getMessage()); }
 			}
-		};
-
-		registerReceiver(broadcastReceiver, new IntentFilter(NotificationService.BROADCAST_ACTION));
+			return;
+		}
 	}
 
 	private void setLeftMenu(){
@@ -113,12 +152,11 @@ public class MainActivity extends Activity implements OnClickListener{
 		String groupname = "";
 		String groupimg = "";
 		try{
-			JSONObject jo = Settings.GET("mode=2&uid="+Settings.user_id).getJSONObject(0);
-			username = jo.getString("username");
-			user_icon = jo.getString("user_icon");
-			gamelink = jo.getString("gamelink");
-			groupname = jo.getString("groupname");
-			groupimg = jo.getString("groupimg");
+			username = Settings.user_info.getString("username");
+			user_icon = Settings.user_info.getString("user_icon");
+			gamelink = Settings.user_info.getString("gamelink");
+			groupname = Settings.user_info.getString("groupname");
+			groupimg = Settings.user_info.getString("groupimg");
 			urlUsericon = new URL("http://redbomba.net/static/img/icon/usericon_"+user_icon+".jpg");
 			urlGroupimg = new URL("http://redbomba.net/media/group_icon/"+groupimg);
 		}catch (Exception e) {
@@ -221,7 +259,7 @@ public class MainActivity extends Activity implements OnClickListener{
 				String strImg = ja.getJSONObject(i).getString("imgurl");
 				NotiCellView ncv  = new NotiCellView(this,strCon,strDate,strImg);
 				View v = ncv.getView();
-				v.setTag("noti"+no);
+				v.setTag("noti_"+no);
 				v.setOnClickListener((OnClickListener) this);
 				llTable.addView(ncv.getView());
 			}
@@ -244,21 +282,6 @@ public class MainActivity extends Activity implements OnClickListener{
 		Vibrator Vibe = (Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
 		Vibe.vibrate(20);
 
-		if(v.getTag()!=null){
-			if(v.getTag().toString().substring(0, 4).equals("noti")){
-				try{
-					int no = Integer.parseInt(v.getTag().toString().replaceAll("noti", ""));
-					JSONObject jo = Settings.GET("mode=NotificationDel&no="+no).getJSONObject(0);
-					if(jo.getInt("result")==1){
-						loadNoti();
-					}
-				}catch (Exception e) {
-					// TODO: handle exception
-				}
-				Log.i(""+v.getTag(),""+v.getTag());
-			}
-		}
-
 		switch(v.getId()){
 		case R.id.leftbutton:
 			mLeft.openMenu();
@@ -270,7 +293,33 @@ public class MainActivity extends Activity implements OnClickListener{
 			mLeft.closeMenu();
 			break;
 		}
+
+		if(v.getTag()!=null){
+			String click_head = v.getTag().toString();
+			if(click_head.startsWith("noti_")){
+				try{
+					int no = Integer.parseInt(v.getTag().toString().replaceAll("noti_", ""));
+					JSONObject jo = Settings.GET("mode=NotificationDel&no="+no).getJSONObject(0);
+					if(jo.getInt("result")==1){
+						loadNoti();
+					}
+				}catch (Exception e) {
+					// TODO: handle exception
+				}
+				Log.i(""+v.getTag(),""+v.getTag());
+			}else if(click_head.startsWith("group_")){
+				try {
+					int no = Integer.parseInt(v.getTag().toString().replaceAll("group_", ""));
+					Intent gin = new Intent(this,GroupActivity.class);
+					startActivity(gin);
+					Settings.group_info = ja.getJSONObject(no);
+					overridePendingTransition(R.anim.slide_out_left, R.anim.slide_in_right);
+				} catch (Exception e) { }
+			}
+		}
+
 	}
+
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		// TODO Auto-generated method stub
@@ -279,7 +328,7 @@ public class MainActivity extends Activity implements OnClickListener{
 			if(!mFlag) {
 				Toast.makeText(this, "'뒤로' 버튼을 한번 더 누르시면 종료됩니다.", Toast.LENGTH_SHORT).show();
 				mFlag = true;
-				mHandler.sendEmptyMessageDelayed(0, 2000); // 2�� ���� ��ġ�� 
+				mHandler.sendEmptyMessageDelayed(0, 2000);
 				return false;
 			} else {
 				finish();
@@ -287,5 +336,44 @@ public class MainActivity extends Activity implements OnClickListener{
 			break;
 		}
 		return super.onKeyDown(keyCode, event);
+	}
+
+	public void setBroadcast(){
+		broadcastReceiver = new BroadcastReceiver() {
+			@Override
+			public void onReceive(Context context, Intent intent) {
+				Bundle extra = intent.getExtras();
+
+				if(extra.getString("emit","").equals("html")){
+
+					if(extra.getString("name","").equals("#noti_value")){
+						tvNotiLength.setText(""+extra.getInt("value", 0));
+						tvLength.setText(""+extra.getInt("value", 0));
+						if(!tvNotiLength.equals("")) tvNotiLength.setVisibility(View.VISIBLE);
+						else tvNotiLength.setVisibility(View.GONE);
+					}
+
+				}
+			}
+		};
+
+		registerReceiver(broadcastReceiver, new IntentFilter(NotificationService.BROADCAST_ACTION_01));
+	}
+
+	public void setHandler(){
+		mHandler = new Handler() {
+			@Override
+			public void handleMessage(Message msg) {
+				if(msg.what == 0) {
+					mFlag = false;
+				}
+			}
+		};
+	}
+
+	@Override
+	protected void onDestroy(){
+		super.onDestroy();
+		unregisterReceiver(broadcastReceiver);
 	}
 }

@@ -5,4 +5,6 @@
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
     <string name="etemail_title">이메일</string>
+    <string name="title_activity_group">GroupActivity</string>
+
 </resources>

@@ -6,7 +6,6 @@
     tools:context=".MainActivity" >
 
     <LinearLayout
-        android:id="@+id/linTitle"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:background="#2c3e50" >
@@ -27,7 +26,7 @@
             android:layout_margin="5dp"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="MY ARENA"
+            android:text="MY GROUP"
             android:textColor="#FFF"
             android:textSize="20sp" />
 
@@ -60,16 +59,23 @@
                 android:textColor="#FFF"
                 android:textSize="15sp"
                 android:visibility="gone" />
-
         </FrameLayout>
     </LinearLayout>
 
-    <ImageView
-        android:id="@+id/imageView1"
+    <ScrollView
+        android:id="@+id/scrollView1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="100dp"
-        android:scaleType="center"
-        android:src="@drawable/beta" />
+        android:background="#ecf0f1"
+        android:paddingTop="10dp" >
+
+        <LinearLayout
+            android:id="@+id/llGroupList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+        </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>

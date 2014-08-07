@@ -112,7 +112,7 @@ public class LoginActivity extends Activity implements OnClickListener{
 				editor_system.putInt("uid", uid);
 				editor_system.commit();
 				Settings.user_id = uid;
-			} catch (JSONException e) {
+			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 				return false;
