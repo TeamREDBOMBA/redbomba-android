@@ -1,29 +1,42 @@
 package com.Redbomba;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLConnection;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.content.Context;
+import android.graphics.Typeface;
+import android.os.Build;
 import android.os.StrictMode;
 import android.util.Log;
+import android.view.ViewGroup;
 
 public class Settings {
-	
+
+	private static Typeface mTypeface = null;
+
 	public static int user_id = 0;
 	public static JSONObject user_info = null;
 	public static JSONObject group_info = null;
-	
+
+	public static Typeface setFont(Context con){
+		if(mTypeface == null){
+			if (Integer.parseInt(Build.VERSION.SDK) > Build.VERSION_CODES.FROYO) {
+				mTypeface = Typeface.createFromAsset(con.getAssets(), "font.ttf");
+			}else{
+				mTypeface = Typeface.SANS_SERIF;
+			}
+		}
+		
+		return mTypeface;
+	}
+
 	public static JSONArray GET(String var){
 		String jsonStr = null;
 		jsonStr = downloadHtml("http://redbomba.net/mobile/?"+var);
@@ -61,25 +74,10 @@ public class Settings {
 		}catch(Exception ex){}
 		return html.toString();
 	}
-	
-	public static Bitmap getRemoteImage(final URL aURL) { 
-		Bitmap bm = null;
-		try { 
-			final URLConnection conn = aURL.openConnection(); 
-			conn.connect(); 
-			final BufferedInputStream bis = new BufferedInputStream(conn.getInputStream()); 
-			bm = BitmapFactory.decodeStream(bis); 
-			bis.close(); 
 
-		} catch (IOException e) { 
-			Log.d("DEBUGTAG", "Oh noooz an error..."); 
-		} 
-		return bm; 
-	}
-	
 	public static String stripHTML(String htmlStr) {
-        Pattern p = Pattern.compile("<(?:.|\\s)*?>");
-        Matcher m = p.matcher(htmlStr);
-        return m.replaceAll("");
-    }
+		Pattern p = Pattern.compile("<(?:.|\\s)*?>");
+		Matcher m = p.matcher(htmlStr);
+		return m.replaceAll("");
+	}
 }

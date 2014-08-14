@@ -12,9 +12,10 @@
         android:background="#2c3e50" >
 
         <TextView
+            android:id="@+id/tvGroupTitle"
             android:layout_width="match_parent"
             android:layout_height="fill_parent"
-            android:layout_margin="15dp"
+            android:layout_margin="18dp"
             android:layout_weight="1"
             android:gravity="center"
             android:text="GROUP"

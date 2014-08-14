@@ -1,6 +1,6 @@
 package com.Redbomba;
 
-import java.net.URL;
+import java.util.ArrayList;
 
 import net.simonvt.menudrawer.MenuDrawer;
 import net.simonvt.menudrawer.MenuDrawer.Type;
@@ -10,14 +10,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.Redbomba.LoginActivity.LoginTask;
+import com.androidquery.AQuery;
 
-import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
@@ -26,19 +23,24 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.os.Vibrator;
+import android.support.v4.app.FragmentActivity;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class MainActivity extends Activity implements OnClickListener{
+public class MainActivity extends FragmentActivity implements OnClickListener{
+	private AQuery aq = new AQuery(this);
 
 	MenuDrawer mLeft, mRight;
 	ImageButton leftbutton, rightbutton;
@@ -65,14 +67,13 @@ public class MainActivity extends Activity implements OnClickListener{
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_main);
-		
+
 		try {
 			Settings.user_info = Settings.GET("mode=2&uid="+Settings.user_id).getJSONObject(0);
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 
 		leftbutton = (ImageButton) findViewById(R.id.leftbutton);
 		rightbutton = (ImageButton) findViewById(R.id.rightbutton);
@@ -97,14 +98,11 @@ public class MainActivity extends Activity implements OnClickListener{
 	}
 
 	class GroupListTask extends AsyncTask<Void, Void, Boolean> {
+
 		protected Boolean doInBackground(Void... Void) {
 			llGroupList = (LinearLayout)findViewById(R.id.llGroupList);
 			ja = Settings.GET("mode=getGroupList&uid="+Settings.user_id);
 			return true;
-		}
-
-		protected void onProgressUpdate(Void... Void) {
-
 		}
 
 		protected void onPostExecute(Boolean result) {
@@ -138,14 +136,15 @@ public class MainActivity extends Activity implements OnClickListener{
 					}
 				}catch(Exception e){ Log.i("error", e.getMessage()); }
 			}
+
 			return;
 		}
 	}
 
 	private void setLeftMenu(){
 		Log.i("LEFT","CALLED");
-		URL urlUsericon = null;
-		URL urlGroupimg = null;
+		String urlUsericon = "";
+		String urlGroupimg = "";
 		String username = "";
 		String user_icon = "";
 		String gamelink = "";
@@ -157,8 +156,8 @@ public class MainActivity extends Activity implements OnClickListener{
 			gamelink = Settings.user_info.getString("gamelink");
 			groupname = Settings.user_info.getString("groupname");
 			groupimg = Settings.user_info.getString("groupimg");
-			urlUsericon = new URL("http://redbomba.net/static/img/icon/usericon_"+user_icon+".jpg");
-			urlGroupimg = new URL("http://redbomba.net/media/group_icon/"+groupimg);
+			urlUsericon = "http://redbomba.net/static/img/icon/usericon_"+user_icon+".jpg";
+			urlGroupimg = "http://redbomba.net/media/group_icon/"+groupimg;
 		}catch (Exception e) {
 			// TODO: handle exception
 		}
@@ -188,12 +187,16 @@ public class MainActivity extends Activity implements OnClickListener{
 		tvGamelink = (TextView) findViewById(R.id.tvGamelink);
 		tvGroupname = (TextView) findViewById(R.id.tvGroupname);
 
+		tvUsername.setTypeface(Settings.setFont(this));
+		tvGamelink.setTypeface(Settings.setFont(this));
+		tvGroupname.setTypeface(Settings.setFont(this));
+
 		btnSetting.setOnClickListener((OnClickListener) this);
 		btnLeftBack.setOnClickListener((OnClickListener) this);
 
 		if(!user_icon.equals("")){
-			imgUsericon.setImageBitmap(Settings.getRemoteImage(urlUsericon));
-			imgGroupimg.setImageBitmap(Settings.getRemoteImage(urlGroupimg));
+			aq.id(imgUsericon).image(urlUsericon);
+			aq.id(imgGroupimg).image(urlGroupimg);
 		}
 		tvUsername.setText(username);
 		if(gamelink.equals("null")){

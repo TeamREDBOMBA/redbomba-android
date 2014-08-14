@@ -3,12 +3,19 @@
     android:layout_width="fill_parent"
     android:layout_height="match_parent"
     android:background="#ecf0f1"
-    android:orientation="vertical" >
+    android:padding="10dp" >
+
+    <ImageView
+        android:id="@+id/ivChatIcon"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_marginRight="10dp"
+        android:src="@drawable/usericon_3" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp" >
+        android:orientation="vertical" >
 
         <TextView
             android:id="@+id/tvChatName"
@@ -17,17 +24,18 @@
             android:layout_gravity="top|left"
             android:layout_marginRight="5dp"
             android:text="TextView"
-            android:textSize="18sp" />
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/tvChatCon"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="top|left"
-            android:background="#fff"
-            android:padding="2dp"
+            android:layout_marginTop="5dp"
             android:text="TextView"
-            android:textSize="18sp" />
+            android:textColor="#999"
+            android:textSize="15sp" />
 
     </LinearLayout>
 

@@ -104,12 +104,14 @@ public class NotificationService extends Service {
 			public void onReceive(Context context, Intent intent) {
 				Bundle extra = intent.getExtras();
 				try {
+					String usericon = extra.getString("icon");
 					String username = extra.getString("name");
 					String contents = extra.getString("con");
 					
 					JSONObject jo_info = new JSONObject();
 					jo_info.put("name", username);
 					jo_info.put("con", contents);
+					jo_info.put("icon", usericon);
 					
 					socket.emit("chatGroup", jo_info);
 				} catch (Exception e) {
@@ -169,35 +171,28 @@ public class NotificationService extends Service {
 
 						if (event.equals("html")){
 							intent1.putExtra("emit", "html");
-
 							if((jo.getString("name")).equals("#noti_value")){
 								intent1.putExtra("name", jo.getString("name"));
 								intent1.putExtra("value", jo.getInt("html"));
 								sendBroadcast(intent1);
 							}
-
 						}else if(event.equals("isOnline")){
-							
 							Log.i("isOnline!!!!!!!!!!!!!!",""+jo.getString("id"));
 							intent3.putExtra("emit", "isOnline");
 							intent3.putExtra("Member",jo.getString("id"));
 							sendBroadcast(intent3);
-							
 						}else if(event.equals("isOffline")){
-							
 							Log.i("isOffline!!!!!!!!!!!!!",""+jo.getString("id"));
 							intent3.putExtra("emit", "isOffline");
 							intent3.putExtra("Member",jo.getString("id"));
 							sendBroadcast(intent3);
-							
 						}else if(event.equals("setChat")){
-							
 							Log.i("setChat!!!!!!!!!!!!!",""+jo.getString("name"));
 							intent4.putExtra("emit", "setChat");
 							intent4.putExtra("name",jo.getString("name"));
 							intent4.putExtra("con",jo.getString("con"));
+							intent4.putExtra("icon",jo.getString("icon"));
 							sendBroadcast(intent4);
-							
 						}
 
 

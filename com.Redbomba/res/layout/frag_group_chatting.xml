@@ -7,14 +7,15 @@
     <ScrollView
         android:id="@+id/svChatting"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="fill_parent"
         android:layout_weight="1"
+        android:fillViewport="true"
         android:background="#ecf0f1" >
 
         <LinearLayout
             android:id="@+id/llChatting"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="fill_parent"
             android:background="#ecf0f1"
             android:orientation="vertical" >
         </LinearLayout>
@@ -22,26 +23,47 @@
 
     <LinearLayout
         android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_weight="0"
+        android:background="#bdc0c1"
+        android:orientation="vertical" >
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#ecf0f1" >
+        android:background="#e0e3e4"
+        android:gravity="center_vertical|center_horizontal"
+        android:padding="10dp" >
 
         <EditText
             android:id="@+id/etChatting"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:ems="10" >
+            android:background="@drawable/group_chat_et_m"
+            android:gravity="left|center_vertical"
+            android:paddingLeft="10dp"
+            android:textSize="14sp" >
 
             <requestFocus />
         </EditText>
 
-        <Button
+        <ImageButton
             android:id="@+id/btnChatting"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="send" />
+            android:layout_weight="0"
+            android:background="#00000000"
+            android:src="@drawable/group_chat_send" />
+    </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_weight="0"
+        android:background="#bdc0c1"
+        android:orientation="vertical" >
     </LinearLayout>
 
 </LinearLayout>

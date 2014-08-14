@@ -1,16 +1,13 @@
 package com.Redbomba;
 
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.Redbomba.MainActivity.GroupListTask;
+import com.androidquery.AQuery;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -23,11 +20,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 public class GroupInfoFrag extends Fragment {
+	private AQuery aq = new AQuery(getActivity());
 
 	public static final String BROADCAST_ACTION_02 = "com.Redbomba.getMemOnOff";
 	BroadcastReceiver broadcastReceiver;
@@ -37,6 +34,7 @@ public class GroupInfoFrag extends Fragment {
 
 	private View layout;
 
+	private ImageView ivGroupStatImg;
 	private TextView tvGroupName;
 	private ImageView ivGroupIcon;
 	private TextView tvGameName;
@@ -56,34 +54,33 @@ public class GroupInfoFrag extends Fragment {
 
 		layout = inflater.inflate(R.layout.frag_group_info, container, false);
 
+		ivGroupStatImg = (ImageView)layout.findViewById(R.id.ivGroupStatImg);
 		tvGroupName = (TextView)layout.findViewById(R.id.tvGroupName);
 		ivGroupIcon = (ImageView)layout.findViewById(R.id.ivGroupIcon);
 		tvGameName = (TextView)layout.findViewById(R.id.tvGameName);
 
 		llGroupMemList0 = (LinearLayout)layout.findViewById(R.id.llGroupMemList0);
 		llGroupMemList1 = (LinearLayout)layout.findViewById(R.id.llGroupMemList1);
-
-		setGroupInfo();
-		new MemListTask().execute((Void)null);
-		setBroadcast();
-
-		return layout;
-	}
-
-	private void setGroupInfo(){
+		
+		tvGroupName.setTypeface(Settings.setFont(getActivity()));
+		tvGameName.setTypeface(Settings.setFont(getActivity()));
 
 		try {
-
 			tvGroupName.setText(jo.getString("name"));
 			tvGameName.setText(jo.getString("game"));
-			if(!jo.getString("game").equals("")){
-				ivGroupIcon.setImageBitmap(Settings.getRemoteImage(new URL("http://redbomba.net/media/group_icon/"+jo.getString("icon"))));
-			}
-
+			
+			int stat_no = (int)(Math.random()*641)+1;
+			aq.id(ivGroupStatImg).image("http://re01-xv2938.ktics.co.kr/stat_lol_"+stat_no+".jpg", true, true, 0, 0, null, AQuery.FADE_IN);
+			aq.id(ivGroupIcon).image("http://redbomba.net/media/group_icon/"+jo.getString("icon"));
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		new MemListTask().execute((Void)null);
+		setBroadcast();
+
+		return layout;
 	}
 
 	class MemListTask extends AsyncTask<Void, Void, Boolean> {
@@ -134,7 +131,6 @@ public class GroupInfoFrag extends Fragment {
 		broadcastReceiver = new BroadcastReceiver() {
 			@Override
 			public void onReceive(Context context, Intent intent) {
-
 				Bundle extra = intent.getExtras();
 				String Member = extra.getString("Member");
 
@@ -151,14 +147,12 @@ public class GroupInfoFrag extends Fragment {
 				for(int i=0;i<oo;i++)
 					Log.i("isOnline_"+i, isOnline.get(i));
 
-				for(int i=0;i<mvc.length;i++){
+				for(int i=0;i<mvc.length;i++)
 					if(isOnline.indexOf(mvc[i].getUid()) >= 0){
 						mvc[i].setOnline();
 					}else{
 						mvc[i].setOffline();
 					}
-				}
-
 			}
 		};
 

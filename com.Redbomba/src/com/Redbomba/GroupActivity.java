@@ -1,5 +1,7 @@
 package com.Redbomba;
 
+import org.json.JSONException;
+
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Vibrator;
@@ -10,9 +12,11 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 public class GroupActivity extends FragmentActivity implements OnClickListener {
 
+	TextView tvGroupTitle;
 	ImageButton btnSubBack;
 
 	ViewPager Tab;
@@ -26,8 +30,18 @@ public class GroupActivity extends FragmentActivity implements OnClickListener {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_group);
+		
+		tvGroupTitle = (TextView)findViewById(R.id.tvGroupTitle);
 		btnSubBack = (ImageButton)findViewById(R.id.btnSubBack);
 		btnSubBack.setOnClickListener((OnClickListener)this);
+		
+		tvGroupTitle.setTypeface(Settings.setFont(this));
+		try {
+			tvGroupTitle.setText(Settings.group_info.getString("name"));
+		} catch (JSONException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 
 		setFragmentView();
 		
@@ -42,8 +56,9 @@ public class GroupActivity extends FragmentActivity implements OnClickListener {
 		mTabHost = (FragmentTabHost)findViewById(android.R.id.tabhost);
 		mTabHost.setup(this, getSupportFragmentManager(), R.id.realtabcontent);
 
-		for(int i=0; i<3; i++)
+		for(int i=0; i<3; i++){
 			mTabHost.addTab(mTabHost.newTabSpec(tabmenu[i]).setIndicator(tabmenu[i]), tabclass[i], null);
+		}
 	}
 
 	@Override

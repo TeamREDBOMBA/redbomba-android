@@ -1,17 +1,20 @@
 package com.Redbomba;
 
-import java.net.URL;
-
 import org.json.JSONObject;
+
+import com.androidquery.AQuery;
+import com.androidquery.callback.ImageOptions;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 public class MemberCellView extends View {
+	private AQuery aq;
 	
 	private View feed;
 	private Context con;
@@ -27,6 +30,7 @@ public class MemberCellView extends View {
 	public MemberCellView(Context context, JSONObject jo) {
 		super(context);
 		this.con = context;
+		aq = new AQuery(con);
 		// TODO Auto-generated method stub
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		feed = inflater.inflate(R.layout.cell_groupmember, null);
@@ -35,18 +39,20 @@ public class MemberCellView extends View {
 		ivMemberOnOff = (ImageView)feed.findViewById(R.id.ivMemberOnOff);
 		tvMemberName = (TextView)feed.findViewById(R.id.tvMemberName);
 		
+		tvMemberName.setTypeface(Settings.setFont(context));
+		
 		try{
 			user_icon = jo.getString("user_icon");
 			uid = jo.getString("uid");
 			username = jo.getString("username");
 			
 			if(!user_icon.equals("")){
-				Bitmap bm = Settings.getRemoteImage(new URL("http://redbomba.net/static/img/icon/usericon_"+user_icon+".jpg"));
-				RoundImage roundedImage = new RoundImage(bm);
-				ivMemberIcon.setImageDrawable(roundedImage);
+				ImageOptions options = new ImageOptions();
+				options.round = 100;
+				aq.id(ivMemberIcon).image("http://redbomba.net/static/img/icon/usericon_"+user_icon+".jpg",options);
 			}
 			tvMemberName.setText(username);
-		}catch (Exception e){ }
+		}catch (Exception e){ Log.i("error",""+e.getMessage()); }
 		
 	}
 	

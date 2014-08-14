@@ -1,8 +1,5 @@
 package com.Redbomba;
 
-import org.json.JSONException;
-
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -13,6 +10,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.os.Vibrator;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -23,7 +21,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-public class LoginActivity extends Activity implements OnClickListener{
+public class LoginActivity extends FragmentActivity implements OnClickListener{
 
 	private EditText etEmail;
 	private EditText etPW;
@@ -54,6 +52,11 @@ public class LoginActivity extends Activity implements OnClickListener{
 		etPW = (EditText)findViewById(R.id.etPW);
 		btnLogin = (Button)findViewById(R.id.btnLogin);
 		btnJoin = (Button)findViewById(R.id.btnJoin);
+		
+		etEmail.setTypeface(Settings.setFont(this));
+		etPW.setTypeface(Settings.setFont(this));
+		btnLogin.setTypeface(Settings.setFont(this));
+		btnJoin.setTypeface(Settings.setFont(this));
 
 		etEmail.setOnFocusChangeListener(new OnFocusChangeListener() { 
 			public void onFocusChange(View v, boolean hasFocus) { 
