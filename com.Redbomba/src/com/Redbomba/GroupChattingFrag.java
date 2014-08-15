@@ -34,8 +34,11 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
-public class GroupChattingFrag extends Fragment {
 
+import com.Redbomba.R;
+
+public class GroupChattingFrag extends Fragment {
+	
 	private JSONArray ja;
 
 	private ScrollView svChatting;

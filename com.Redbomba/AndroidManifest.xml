@@ -51,6 +51,7 @@
         </service>
         <activity
             android:name="GroupActivity"
+            android:theme="@style/StyledIndicators"
             android:screenOrientation="portrait" />
         <activity android:name="FontActivity"></activity>
     </application>

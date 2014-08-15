@@ -21,7 +21,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-public class LoginActivity extends FragmentActivity implements OnClickListener{
+public class LoginActivity extends FragmentActivity implements OnClickListener, OnFocusChangeListener{
 
 	private EditText etEmail;
 	private EditText etPW;
@@ -58,24 +58,8 @@ public class LoginActivity extends FragmentActivity implements OnClickListener{
 		btnLogin.setTypeface(Settings.setFont(this));
 		btnJoin.setTypeface(Settings.setFont(this));
 
-		etEmail.setOnFocusChangeListener(new OnFocusChangeListener() { 
-			public void onFocusChange(View v, boolean hasFocus) { 
-				if(hasFocus) { 
-					if(etEmail.getText().toString().equals("이메일")) etEmail.setText("");
-				} else{
-					if(etEmail.getText().toString().equals("")) etEmail.setText("이메일");
-				}
-			} 
-		});
-		etPW.setOnFocusChangeListener(new OnFocusChangeListener() { 
-			public void onFocusChange(View v, boolean hasFocus) { 
-				if(hasFocus) { 
-					if(etPW.getText().toString().equals("********")) etPW.setText("");
-				}else{
-					if(etPW.getText().toString().equals("")) etPW.setText("********");
-				}
-			} 
-		});
+		etEmail.setOnFocusChangeListener((OnFocusChangeListener)this);
+		etPW.setOnFocusChangeListener((OnFocusChangeListener)this);
 		btnLogin.setOnClickListener((OnClickListener) this);
 		btnJoin.setOnClickListener((OnClickListener) this);
 
@@ -100,6 +84,27 @@ public class LoginActivity extends FragmentActivity implements OnClickListener{
 			new LoginTask().execute(null, null, null);
 			break;
 		case R.id.btnJoin :
+			break;
+		}
+	}
+	
+	@Override
+	public void onFocusChange(View v, boolean hasFocus) {
+		// TODO Auto-generated method stub
+		switch(v.getId()){
+		case R.id.etEmail :
+			if(hasFocus) { 
+				if(etEmail.getText().toString().equals("이메일")) etEmail.setText("");
+			} else{
+				if(etEmail.getText().toString().equals("")) etEmail.setText("이메일");
+			}
+			break;
+		case R.id.etPW :
+			if(hasFocus) { 
+				if(etPW.getText().toString().equals("********")) etPW.setText("");
+			}else{
+				if(etPW.getText().toString().equals("")) etPW.setText("********");
+			}
 			break;
 		}
 	}
