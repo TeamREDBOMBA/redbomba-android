@@ -1,33 +1,30 @@
 package com.Redbomba;
 
 import java.util.ArrayList;
-import java.util.LinkedHashSet;
-import java.util.Set;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.DialogInterface.OnKeyListener;
+import android.graphics.Canvas;
+import android.graphics.Rect;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
 import android.view.ViewGroup.LayoutParams;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -38,31 +35,36 @@ import android.widget.TextView;
 import com.Redbomba.R;
 
 public class GroupChattingFrag extends Fragment {
-	
+
 	private JSONArray ja;
 
-	private ScrollView svChatting;
+	private gsScrollview svChatting;
 	private LinearLayout llChatting;
 	private EditText etChatting;
 	private ImageButton btnChatting;
+
+	static int chat_len = 10;
 
 	public static final String BROADCAST_ACTION_05 = "com.Redbomba.setChatting";
 	private Intent intent5;
 
 	BroadcastReceiver broadcastReceiver;
+	BroadcastReceiver llbr;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
 		View layout = inflater.inflate(R.layout.frag_group_chatting, container, false);
+		
+		chat_len = 10;
 
 		intent5 = new Intent(BROADCAST_ACTION_05);
 
-		svChatting = (ScrollView)layout.findViewById(R.id.svChatting);
+		svChatting = (gsScrollview)layout.findViewById(R.id.svChatting);
 		llChatting = (LinearLayout)layout.findViewById(R.id.llChatting);
 		etChatting = (EditText)layout.findViewById(R.id.etChatting);
 		btnChatting = (ImageButton)layout.findViewById(R.id.btnChatting);
-		
+
 		etChatting.setTypeface(Settings.setFont(getActivity()));
 
 		etChatting.setOnFocusChangeListener(new OnFocusChangeListener() {
@@ -85,7 +87,7 @@ public class GroupChattingFrag extends Fragment {
 			public void afterTextChanged(Editable s) {
 				if(etChatting.getText().length() > 0){
 					etChatting.setBackgroundResource(R.drawable.group_chat_et);
-					
+
 				}else{
 					etChatting.setBackgroundResource(R.drawable.group_chat_et_m);
 				}
@@ -119,8 +121,9 @@ public class GroupChattingFrag extends Fragment {
 			}
 		});
 
-		new ChattingListTask().execute(null,null,null);
+		new ChattingListTask().execute(true,null,null);
 		setBroadcast();
+		setListLoadBroadcast();
 
 		return layout;
 	}
@@ -145,9 +148,21 @@ public class GroupChattingFrag extends Fragment {
 		getActivity().registerReceiver(broadcastReceiver, new IntentFilter(NotificationService.BROADCAST_ACTION_04));
 	}
 
-	class ChattingListTask extends AsyncTask<Void, Void, ArrayList<ChattingCellView>> {
-		
+	public void setListLoadBroadcast(){
+		llbr = new BroadcastReceiver() {
+			@Override
+			public void onReceive(Context context, Intent intent) {
+				new ChattingListTask().execute(false,null,null);
+			}
+		};
+
+		getActivity().registerReceiver(llbr, new IntentFilter(gsScrollview.BROADCAST_ACTION_06));
+	}
+
+	class ChattingListTask extends AsyncTask<Boolean, Void, ArrayList<ChattingCellView>> {
+
 		private LinearLayout ll_pb;
+		private Boolean scrollBottom = true;
 
 		@Override 
 		protected void onPreExecute() {
@@ -164,10 +179,11 @@ public class GroupChattingFrag extends Fragment {
 			});
 		}
 
-		protected ArrayList<ChattingCellView> doInBackground(Void... Void) {
+		protected ArrayList<ChattingCellView> doInBackground(Boolean... para) {
+			scrollBottom = para[0];
 			ArrayList<ChattingCellView> list = new ArrayList<ChattingCellView>();
 			try {
-				ja = Settings.GET("mode=getChatting&gid="+Settings.group_info.getString("gid"));
+				ja = Settings.GET("mode=getChatting&gid="+Settings.group_info.getString("gid")+"&len="+chat_len);
 				for(int i=0; i<ja.length();i++){
 					list.add(new ChattingCellView(getActivity(),ja.getJSONObject(i)));
 				}
@@ -185,11 +201,12 @@ public class GroupChattingFrag extends Fragment {
 					llChatting.removeView(ll_pb);
 				}
 			});
-			
+
 			for(int i=0; i<para.size(); i++){
 				llChatting.addView(para.get(i).getView());
 			}
-			setScrollBottom();
+			if(scrollBottom) setScrollBottom();
+			else setScrollPrevEle();
 			return;
 		}
 
@@ -206,10 +223,74 @@ public class GroupChattingFrag extends Fragment {
 			}
 		});
 	}
-	
+
+	private void setScrollPrevEle(){
+		svChatting.post(new Runnable() {
+			@Override
+			public void run() {
+				View v_10 = llChatting.getChildAt(10);
+				svChatting.setScrollY(v_10.getMeasuredHeight( )*10);
+			}
+		});
+	}
+
 	@Override
 	public void onDestroy(){
 		super.onDestroy();
 		getActivity().unregisterReceiver(broadcastReceiver);
+		getActivity().unregisterReceiver(llbr);
+	}
+}
+
+class gsScrollview extends ScrollView {
+
+	public static final String BROADCAST_ACTION_06 = "com.Redbomba.loadChattingList";
+	private Intent intent6;
+
+	private Context con=null;
+
+	Handler m_hd = null ;
+	Rect m_rect ;
+
+	public gsScrollview(Context context, AttributeSet attrs)  {
+		super(context, attrs);
+		con = context;
+		intent6 = new Intent(BROADCAST_ACTION_06);
+	}
+
+	@Override
+	protected void onDraw(Canvas canvas) {
+		// TODO Auto-generated method stub
+		super.onDraw(canvas);
+		checkIsLocatedAHeader( ) ;
+	}
+
+	private void checkIsLocatedAHeader() {
+		if( m_rect == null ) {
+			m_rect = new Rect( ) ;
+			getLocalVisibleRect( m_rect );
+			return ;
+		}
+		int oldTop = m_rect.top;
+
+		getLocalVisibleRect( m_rect );
+
+		ViewGroup v = (ViewGroup) getChildAt(0);
+
+		int v_len = v.getChildCount();
+		if(v_len>=GroupChattingFrag.chat_len){
+			if (oldTop != m_rect.top && m_rect.top == 0 )  {
+				Log.i("ghlab", "최상단에 왔을 때의 처리:"+v_len);
+				GroupChattingFrag.chat_len += 10;
+				con.sendBroadcast(intent6);
+				if( m_hd != null ) {
+					m_hd.sendEmptyMessage( 1 ) ;
+				}
+			}
+		}
+	}
+
+	public void setHandler( Handler hd ){
+		m_hd = hd ; 
 	}
 }

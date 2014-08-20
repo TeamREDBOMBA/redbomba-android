@@ -52,6 +52,7 @@
         <activity
             android:name="GroupActivity"
             android:theme="@style/StyledIndicators"
+            android:windowSoftInputMode="stateHidden"
             android:screenOrientation="portrait" />
         <activity android:name="FontActivity"></activity>
     </application>

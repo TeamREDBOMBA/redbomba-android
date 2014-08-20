@@ -4,7 +4,7 @@
     android:background="#e0e3e4"
     android:orientation="vertical" >
 
-    <ScrollView
+    <com.Redbomba.gsScrollview
         android:id="@+id/svChatting"
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
@@ -18,7 +18,7 @@
             android:layout_height="fill_parent"
             android:orientation="vertical" >
         </LinearLayout>
-    </ScrollView>
+    </com.Redbomba.gsScrollview>
 
     <LinearLayout
         android:layout_width="match_parent"

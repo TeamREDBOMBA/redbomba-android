@@ -19,6 +19,7 @@ import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -62,9 +63,10 @@ public class GroupActivity extends FragmentActivity implements OnClickListener {
 			e1.printStackTrace();
 		}
 
-		Bundle in = getIntent().getExtras();
-		if(in.getInt("tab", 0)!=0)
+		try{
+			Bundle in = getIntent().getExtras();
 			indicator.setCurrentItem(in.getInt("tab"));
+		}catch(Exception e){ }
 
 	}
 
