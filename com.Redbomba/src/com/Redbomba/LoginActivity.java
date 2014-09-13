@@ -36,9 +36,13 @@ public class LoginActivity extends FragmentActivity implements OnClickListener, 
 
 	private LinearLayout ll_hscv_v1;
 	private Button btnJoin;
+	private LinearLayout ll_v1_login;
 
 	private LinearLayout ll_hscv_v2;
-	private Button btnBack;
+	private Button btnBack_v2;
+
+	private LinearLayout ll_hscv_v3;
+	private Button btnBack_v3;
 
 	private SharedPreferences prefs_system;
 	private SharedPreferences.Editor editor_system;
@@ -74,6 +78,7 @@ public class LoginActivity extends FragmentActivity implements OnClickListener, 
 
 		setView1();
 		setView2();
+		setView3();
 
 		setVideoBG();
 
@@ -91,17 +96,27 @@ public class LoginActivity extends FragmentActivity implements OnClickListener, 
 	private void setView1(){
 		ll_hscv_v1 = (LinearLayout)findViewById(R.id.ll_hscv_v1);
 		btnJoin = (Button)findViewById(R.id.btnJoin);
+		ll_v1_login = (LinearLayout)findViewById(R.id.ll_v1_login);
 
 		ll_hscv_v1.setLayoutParams(new LinearLayout.LayoutParams(display.getWidth(),ViewGroup.LayoutParams.FILL_PARENT));
 		btnJoin.setOnClickListener(this);
+		ll_v1_login.setOnClickListener(this);
 	}
 
 	private void setView2(){
 		ll_hscv_v2 = (LinearLayout)findViewById(R.id.ll_hscv_v2);
-		btnBack = (Button)findViewById(R.id.btnBack);
+		btnBack_v2 = (Button)findViewById(R.id.btnBack_v2);
 
 		ll_hscv_v2.setLayoutParams(new LinearLayout.LayoutParams(display.getWidth(),ViewGroup.LayoutParams.FILL_PARENT));
-		btnBack.setOnClickListener(this);
+		btnBack_v2.setOnClickListener(this);
+	}
+
+	private void setView3(){
+		ll_hscv_v3 = (LinearLayout)findViewById(R.id.ll_hscv_v3);
+		btnBack_v3 = (Button)findViewById(R.id.btnBack_v3);
+
+		ll_hscv_v3.setLayoutParams(new LinearLayout.LayoutParams(display.getWidth(),ViewGroup.LayoutParams.FILL_PARENT));
+		btnBack_v3.setOnClickListener(this);
 	}
 
 	@Override
@@ -111,10 +126,22 @@ public class LoginActivity extends FragmentActivity implements OnClickListener, 
 		Vibe.vibrate(20);
 		switch(v.getId()){
 		case R.id.btnJoin:
+			ll_hscv_v3.setVisibility(View.GONE);
 			hscv.smoothScrollTo(display.getWidth(), 0);
 			break;
-		case R.id.btnBack:
+		case R.id.btnBack_v2:
+			ll_hscv_v2.setVisibility(View.VISIBLE);
+			ll_hscv_v3.setVisibility(View.VISIBLE);
 			hscv.smoothScrollTo(0, 0);
+			break;
+		case R.id.btnBack_v3:
+			ll_hscv_v2.setVisibility(View.VISIBLE);
+			ll_hscv_v3.setVisibility(View.VISIBLE);
+			hscv.smoothScrollTo(0, 0);
+			break;
+		case R.id.ll_v1_login:
+			ll_hscv_v2.setVisibility(View.GONE);
+			hscv.smoothScrollTo(display.getWidth(), 0);
 			break;
 		}
 	}
@@ -174,6 +201,8 @@ public class LoginActivity extends FragmentActivity implements OnClickListener, 
 					Toast.makeText(this, "'뒤로' 버튼을 한번 더 누르시면 종료됩니다.", Toast.LENGTH_SHORT).show();
 					mHandler.sendEmptyMessageDelayed(0, 2000);
 				}else{
+					ll_hscv_v2.setVisibility(View.VISIBLE);
+					ll_hscv_v3.setVisibility(View.VISIBLE);
 					hscv.smoothScrollTo(0, 0);
 					mFlag = false;
 				}
