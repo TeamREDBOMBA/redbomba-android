@@ -1,10 +1,13 @@
 package com.Redbomba;
 
+import java.io.IOException;
+
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.AssetFileDescriptor;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -62,6 +65,8 @@ public class LoginActivity extends FragmentActivity implements OnClickListener, 
 		etPW.setOnFocusChangeListener((OnFocusChangeListener)this);
 		btnLogin.setOnClickListener((OnClickListener) this);
 		btnJoin.setOnClickListener((OnClickListener) this);
+		
+		setVideoBG();
 
 		mHandler = new Handler() {
 			@Override
@@ -161,5 +166,22 @@ public class LoginActivity extends FragmentActivity implements OnClickListener, 
 			break;
 		}
 		return super.onKeyDown(keyCode, event);
+	}
+	
+	private void setVideoBG(){
+		TextureVideoView cropTextureView = (TextureVideoView) findViewById(R.id.cropTextureView);
+
+		cropTextureView.setScaleType(TextureVideoView.ScaleType.CENTER_CROP);
+
+		try {
+			AssetFileDescriptor afd = getAssets().openFd("bg.mp4");
+			cropTextureView.setDataSource(afd);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		cropTextureView.play();
+		cropTextureView.setLooping(true);
 	}
 }

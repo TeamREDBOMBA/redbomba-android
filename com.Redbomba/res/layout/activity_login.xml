@@ -2,106 +2,145 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="#34495e"
     android:orientation="vertical"
+
     tools:context=".MainActivity" >
-
-    <LinearLayout
+    
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center_vertical|center_horizontal"
-        android:orientation="vertical" >
+        android:layout_height="match_parent" >
 
-        <ImageView
-            android:id="@+id/imgIcon"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:src="@drawable/login_top_logo" />
+        <com.Redbomba.TextureVideoView
+            android:id="@+id/cropTextureView"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
-            android:layout_marginTop="70dp"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-            android:background="@drawable/login_input_email" >
+            android:layout_height="match_parent"
+            android:background="#99000000"
+            android:orientation="vertical" >
 
-            <EditText
-                android:id="@+id/etEmail"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="10dp"
-                android:layout_weight="1"
-                android:background="#00000000"
-                android:ems="10"
-                android:inputType="textEmailAddress"
-                android:text="이메일"
-                android:textColor="#fff"
-                android:textSize="18sp" >
-            </EditText>
+            <ImageView
+                android:id="@+id/ImageView01"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:src="@drawable/login_top_logo" />
+
+            <Button
+                android:id="@+id/button1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:background="@drawable/btn_border_radius"
+                android:text="Button"
+                android:textColor="#FFF"
+                android:textSize="30sp" />
+
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
-            android:layout_marginTop="20dp"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-            android:background="@drawable/login_input_pw" >
+            android:layout_height="match_parent"
+            android:gravity="center_vertical|center_horizontal"
+            android:orientation="vertical"
+            android:visibility="gone" >
 
-            <EditText
-                android:id="@+id/etPW"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="10dp"
-                android:layout_weight="1"
-                android:background="#00000000"
-                android:ems="10"
-                android:inputType="textWebPassword"
-                android:text="********"
+            <ImageView
+                android:id="@+id/imgIcon"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@drawable/login_top_logo" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginTop="70dp"
+                android:background="@drawable/btn_border_radius"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:padding="15dp" >
+
+                <EditText
+                    android:id="@+id/etEmail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1"
+                    android:background="#00000000"
+                    android:ems="10"
+                    android:inputType="textEmailAddress"
+                    android:text="이메일"
+                    android:textColor="#fff"
+                    android:textSize="18sp" >
+
+                    <requestFocus />
+                </EditText>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginTop="20dp"
+                android:background="#22ffffff"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:padding="15dp" >
+
+                <EditText
+                    android:id="@+id/etPW"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1"
+                    android:background="#00000000"
+                    android:ems="10"
+                    android:inputType="textWebPassword"
+                    android:text="********"
+                    android:textColor="#fff"
+                    android:textSize="18sp" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btnLogin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/login_btn_login"
+                android:text="로그인"
                 android:textColor="#fff"
-                android:textSize="18sp" >
-            </EditText>
+                android:textSize="20sp" />
+
+            <ImageView
+                android:id="@+id/imgUsericon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginTop="20dp"
+                android:src="@drawable/login_img_div" />
+
+            <Button
+                android:id="@+id/btnJoin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="40dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/login_btn_join"
+                android:text="회원가입"
+                android:textColor="#fff"
+                android:textSize="20sp" />
         </LinearLayout>
 
-        <Button
-            android:id="@+id/btnLogin"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/login_btn_login"
-            android:text="로그인"
-            android:textColor="#fff"
-            android:textSize="20sp" />
-
-        <ImageView
-            android:id="@+id/imgUsericon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
-            android:layout_marginTop="20dp"
-            android:src="@drawable/login_img_div" />
-
-        <Button
-            android:id="@+id/btnJoin"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="40dp"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/login_btn_join"
-            android:text="회원가입"
-            android:textColor="#fff"
-            android:textSize="20sp" />
-
-    </LinearLayout>
+    </FrameLayout>
 
 </LinearLayout>
