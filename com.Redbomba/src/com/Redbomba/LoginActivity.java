@@ -26,11 +26,6 @@ import android.widget.Toast;
 
 public class LoginActivity extends FragmentActivity implements OnClickListener, OnFocusChangeListener{
 
-	private EditText etEmail;
-	private EditText etPW;
-	private Button btnLogin;
-	private Button btnJoin;
-
 	private SharedPreferences prefs_system;
 	private SharedPreferences.Editor editor_system;
 
@@ -50,21 +45,6 @@ public class LoginActivity extends FragmentActivity implements OnClickListener, 
 			startActivity(new Intent(this, MainActivity.class));
 			this.finish();
 		}
-
-		etEmail = (EditText)findViewById(R.id.etEmail);
-		etPW = (EditText)findViewById(R.id.etPW);
-		btnLogin = (Button)findViewById(R.id.btnLogin);
-		btnJoin = (Button)findViewById(R.id.btnJoin);
-		
-		etEmail.setTypeface(Settings.setFont(this));
-		etPW.setTypeface(Settings.setFont(this));
-		btnLogin.setTypeface(Settings.setFont(this));
-		btnJoin.setTypeface(Settings.setFont(this));
-
-		etEmail.setOnFocusChangeListener((OnFocusChangeListener)this);
-		etPW.setOnFocusChangeListener((OnFocusChangeListener)this);
-		btnLogin.setOnClickListener((OnClickListener) this);
-		btnJoin.setOnClickListener((OnClickListener) this);
 		
 		setVideoBG();
 
@@ -84,40 +64,20 @@ public class LoginActivity extends FragmentActivity implements OnClickListener, 
 		// TODO Auto-generated method stub
 		Vibrator Vibe = (Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
 		Vibe.vibrate(20);
-		switch(v.getId()){
-		case R.id.btnLogin :
-			new LoginTask().execute(null, null, null);
-			break;
-		case R.id.btnJoin :
-			break;
-		}
 	}
 	
 	@Override
 	public void onFocusChange(View v, boolean hasFocus) {
 		// TODO Auto-generated method stub
 		switch(v.getId()){
-		case R.id.etEmail :
-			if(hasFocus) { 
-				if(etEmail.getText().toString().equals("이메일")) etEmail.setText("");
-			} else{
-				if(etEmail.getText().toString().equals("")) etEmail.setText("이메일");
-			}
-			break;
-		case R.id.etPW :
-			if(hasFocus) { 
-				if(etPW.getText().toString().equals("********")) etPW.setText("");
-			}else{
-				if(etPW.getText().toString().equals("")) etPW.setText("********");
-			}
-			break;
+		
 		}
 	}
 
 	class LoginTask extends AsyncTask<Void, Void, Boolean> {
 		protected Boolean doInBackground(Void... Void) {
-			String email = etEmail.getText().toString();
-			String password = etPW.getText().toString();
+			String email = "";
+			String password = "";
 			int uid=0;
 			try {
 				uid = Settings.GET("mode=1&email="+email+"&password="+password).getJSONObject(0).getInt("uid");
