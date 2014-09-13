@@ -15,27 +15,53 @@ import android.os.Message;
 import android.os.Vibrator;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
+import android.view.Display;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnTouchListener;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.HorizontalScrollView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 public class LoginActivity extends FragmentActivity implements OnClickListener, OnFocusChangeListener{
+
+	private HorizontalScrollView hscv;
+
+	private LinearLayout ll_hscv_v1;
+	private Button btnJoin;
+
+	private LinearLayout ll_hscv_v2;
+	private Button btnBack;
 
 	private SharedPreferences prefs_system;
 	private SharedPreferences.Editor editor_system;
 
 	private Handler mHandler;
 	private boolean mFlag = false;
+	private Display display;
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_login);
+
+		display = getWindowManager().getDefaultDisplay(); 
+
+		hscv = (HorizontalScrollView)findViewById(R.id.hscv);
+		hscv.setOnTouchListener( new OnTouchListener(){ 
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				// TODO Auto-generated method stub
+				return true;
+			}
+		});
 
 		prefs_system = getSharedPreferences("system", 0);
 		editor_system = prefs_system.edit();
@@ -45,7 +71,10 @@ public class LoginActivity extends FragmentActivity implements OnClickListener, 
 			startActivity(new Intent(this, MainActivity.class));
 			this.finish();
 		}
-		
+
+		setView1();
+		setView2();
+
 		setVideoBG();
 
 		mHandler = new Handler() {
@@ -59,18 +88,42 @@ public class LoginActivity extends FragmentActivity implements OnClickListener, 
 
 	}
 
+	private void setView1(){
+		ll_hscv_v1 = (LinearLayout)findViewById(R.id.ll_hscv_v1);
+		btnJoin = (Button)findViewById(R.id.btnJoin);
+
+		ll_hscv_v1.setLayoutParams(new LinearLayout.LayoutParams(display.getWidth(),ViewGroup.LayoutParams.FILL_PARENT));
+		btnJoin.setOnClickListener(this);
+	}
+
+	private void setView2(){
+		ll_hscv_v2 = (LinearLayout)findViewById(R.id.ll_hscv_v2);
+		btnBack = (Button)findViewById(R.id.btnBack);
+
+		ll_hscv_v2.setLayoutParams(new LinearLayout.LayoutParams(display.getWidth(),ViewGroup.LayoutParams.FILL_PARENT));
+		btnBack.setOnClickListener(this);
+	}
+
 	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
 		Vibrator Vibe = (Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
 		Vibe.vibrate(20);
+		switch(v.getId()){
+		case R.id.btnJoin:
+			hscv.smoothScrollTo(display.getWidth(), 0);
+			break;
+		case R.id.btnBack:
+			hscv.smoothScrollTo(0, 0);
+			break;
+		}
 	}
-	
+
 	@Override
 	public void onFocusChange(View v, boolean hasFocus) {
 		// TODO Auto-generated method stub
 		switch(v.getId()){
-		
+
 		}
 	}
 
@@ -116,9 +169,14 @@ public class LoginActivity extends FragmentActivity implements OnClickListener, 
 		switch(keyCode) {
 		case KeyEvent.KEYCODE_BACK:
 			if(!mFlag) {
-				Toast.makeText(this, "'뒤로' 버튼을 한번 더 누르시면 종료됩니다.", Toast.LENGTH_SHORT).show();
-				mFlag = true;
-				mHandler.sendEmptyMessageDelayed(0, 2000);
+				if(hscv.getScrollX() == 0){
+					mFlag = true;
+					Toast.makeText(this, "'뒤로' 버튼을 한번 더 누르시면 종료됩니다.", Toast.LENGTH_SHORT).show();
+					mHandler.sendEmptyMessageDelayed(0, 2000);
+				}else{
+					hscv.smoothScrollTo(0, 0);
+					mFlag = false;
+				}
 				return false;
 			} else {
 				finish();
@@ -127,7 +185,7 @@ public class LoginActivity extends FragmentActivity implements OnClickListener, 
 		}
 		return super.onKeyDown(keyCode, event);
 	}
-	
+
 	private void setVideoBG(){
 		TextureVideoView cropTextureView = (TextureVideoView) findViewById(R.id.cropTextureView);
 
@@ -140,8 +198,6 @@ public class LoginActivity extends FragmentActivity implements OnClickListener, 
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 		cropTextureView.play();
-		cropTextureView.setLooping(true);
 	}
 }
