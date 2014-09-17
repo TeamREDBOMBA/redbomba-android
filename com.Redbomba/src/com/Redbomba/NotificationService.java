@@ -220,7 +220,7 @@ public class NotificationService extends Service {
 	private void setNotification(String msg, String title){
 		NotificationManager notiMgr = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 		Notification noti = new Notification(R.drawable.ic_launcher,title,System.currentTimeMillis());
-		Intent intent = new Intent(NotificationService.this, LoginActivity.class);
+		Intent intent = new Intent(NotificationService.this, LandingActivity.class);
 		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		intent.putExtra("msg", msg);
 		PendingIntent pending = PendingIntent.getActivity(NotificationService.this, 0, intent, 0);

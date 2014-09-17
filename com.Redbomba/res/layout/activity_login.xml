@@ -3,9 +3,8 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical"
-
     tools:context=".MainActivity" >
-    
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
@@ -26,6 +25,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:descendantFocusability="beforeDescendants"
+                android:focusableInTouchMode="true"
                 android:scrollbarAlwaysDrawVerticalTrack="false"
                 android:scrollbars="none" >
 
@@ -39,6 +40,7 @@
                         android:id="@+id/ll_hscv_v1"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:layout_weight="1"
                         android:orientation="vertical" >
 
                         <LinearLayout
@@ -64,13 +66,13 @@
                             android:orientation="vertical" >
 
                             <Button
-                                android:id="@+id/btnJoin"
+                                android:id="@+id/btnTryJoin"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="40dp"
                                 android:layout_marginRight="40dp"
                                 android:layout_marginTop="10dp"
-                                android:background="@drawable/btn_border_radius"
+                                android:background="@drawable/btn_tryjoin_border_radius"
                                 android:text="새로운 계정 만들기"
                                 android:textColor="#FFFFFF"
                                 android:textSize="20sp" />
@@ -98,9 +100,7 @@
                                     android:textColor="#FFF"
                                     android:textSize="15sp"
                                     android:textStyle="bold" />
-
                             </LinearLayout>
-
                         </LinearLayout>
                     </LinearLayout>
 
@@ -108,70 +108,12 @@
                         android:id="@+id/ll_hscv_v2"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:layout_weight="1"
                         android:orientation="vertical" >
-
-                        <Button
-                            android:id="@+id/btnBack_v2"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="10dp"
-                            android:layout_marginLeft="20dp"
-                            android:layout_marginRight="20dp"
-                            android:layout_marginTop="20dp"
-                            android:background="@drawable/btn_border_radius"
-                            android:paddingLeft="13dp"
-                            android:paddingRight="13dp"
-                            android:text="&lt; 뒤로"
-                            android:textColor="#FFFFFF" />
-
-                        <TextView
-                            android:id="@+id/textView1"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center_vertical|center_horizontal"
-                            android:text="가입하기"
-                            android:textAppearance="?android:attr/textAppearanceLarge"
-                            android:textColor="#FFFFFF"
-                            android:textSize="30sp" />
-
                     </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/ll_hscv_v3"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical" >
-
-                        <Button
-                            android:id="@+id/btnBack_v3"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="10dp"
-                            android:layout_marginLeft="20dp"
-                            android:layout_marginRight="20dp"
-                            android:layout_marginTop="20dp"
-                            android:background="@drawable/btn_border_radius"
-                            android:paddingLeft="13dp"
-                            android:paddingRight="13dp"
-                            android:text="&lt; 뒤로"
-                            android:textColor="#FFFFFF" />
-
-                        <TextView
-                            android:id="@+id/TextView01"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center_vertical|center_horizontal"
-                            android:text="로그인"
-                            android:textAppearance="?android:attr/textAppearanceLarge"
-                            android:textColor="#FFFFFF"
-                            android:textSize="30sp" />
-                    </LinearLayout>
-
                 </LinearLayout>
             </HorizontalScrollView>
-
         </LinearLayout>
-
     </FrameLayout>
 
 </LinearLayout>
