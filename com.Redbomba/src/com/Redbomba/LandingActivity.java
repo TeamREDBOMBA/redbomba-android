@@ -1,6 +1,9 @@
 package com.Redbomba;
 
 import java.io.IOException;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.TimeUnit;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -80,8 +83,8 @@ public class LandingActivity extends FragmentActivity implements OnClickListener
 		}
 		
 		setView1();
-		setView2();
-		setView3();
+		ljv = new LandingJoinView(this);
+		llv = new LandingLoginView(this);
 		
 		setVideoBG();
 
@@ -111,17 +114,6 @@ public class LandingActivity extends FragmentActivity implements OnClickListener
 		
 		ll_hscv_v2.setLayoutParams(new LinearLayout.LayoutParams(display.getWidth(),ViewGroup.LayoutParams.FILL_PARENT));
 	}
-	
-	private void setView2(){
-		ljv = new LandingJoinView(this);
-		ljv.btnBack_v2.setOnClickListener(this);
-	}
-	
-	private void setView3(){
-		llv = new LandingLoginView(this);
-		llv.btnBack_v3.setOnClickListener(this);
-		llv.btnLogin.setOnClickListener(this);
-	}
 
 	@Override
 	public void onClick(View v) {
@@ -150,7 +142,30 @@ public class LandingActivity extends FragmentActivity implements OnClickListener
 		case R.id.btnLogin :
 			new LoginTask().execute(null, null, null);
 			break;
+		case R.id.ll_ll_join:
+			returnView(ljv.getView());
+			break;
+		case R.id.ll_lj_loin:
+			returnView(llv.getView());
+			break;
 		}
+	}
+	
+	private void returnView(final View v){
+		hscv.smoothScrollTo(0, 0);
+		Timer timer = new Timer();
+		timer.schedule(new TimerTask() {
+		    public void run() {
+		        runOnUiThread(new Runnable() {
+		            @Override
+		            public void run() {
+		            	ll_hscv_v2.removeAllViews();
+		            	ll_hscv_v2.addView(v);
+		    			hscv.smoothScrollTo(display.getWidth(), 0);
+		            }
+		        });
+		    }
+		}, 250);
 	}
 
 	class LoginTask extends AsyncTask<Void, Void, Boolean> {
