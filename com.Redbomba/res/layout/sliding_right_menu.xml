@@ -9,7 +9,7 @@
         android:id="@+id/linearLayout1"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:background="#2c3e50" >
+        android:background="#e85344" >
 
         <ImageView
             android:id="@+id/imgIcon"
@@ -36,7 +36,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="right|center"
             android:layout_marginRight="10dp"
-            android:background="#e74c3c"
+            android:background="#000"
             android:paddingBottom="1dp"
             android:paddingLeft="8dp"
             android:paddingRight="8dp"

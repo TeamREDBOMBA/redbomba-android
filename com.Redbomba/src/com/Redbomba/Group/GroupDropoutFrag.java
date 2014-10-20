@@ -1,4 +1,4 @@
-package com.Redbomba;
+package com.Redbomba.Group;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.Redbomba.R;
+import com.Redbomba.R.id;
+import com.Redbomba.R.layout;
 
 public class GroupDropoutFrag extends Fragment {
 	

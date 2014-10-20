@@ -1,4 +1,4 @@
-package com.Redbomba;
+package com.Redbomba.Group;
 
 import java.util.ArrayList;
 
@@ -33,6 +33,11 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.Redbomba.R;
+import com.Redbomba.R.drawable;
+import com.Redbomba.R.id;
+import com.Redbomba.R.layout;
+import com.Redbomba.Settings.NotificationService;
+import com.Redbomba.Settings.Settings;
 
 public class GroupChattingFrag extends Fragment {
 

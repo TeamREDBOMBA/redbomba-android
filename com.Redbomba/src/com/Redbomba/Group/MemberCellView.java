@@ -1,7 +1,12 @@
-package com.Redbomba;
+package com.Redbomba.Group;
 
 import org.json.JSONObject;
 
+import com.Redbomba.R;
+import com.Redbomba.R.drawable;
+import com.Redbomba.R.id;
+import com.Redbomba.R.layout;
+import com.Redbomba.Settings.Settings;
 import com.androidquery.AQuery;
 import com.androidquery.callback.ImageOptions;
 
@@ -48,8 +53,8 @@ public class MemberCellView extends View {
 			
 			if(!user_icon.equals("")){
 				ImageOptions options = new ImageOptions();
-				options.round = 100;
-				aq.id(ivMemberIcon).image("http://redbomba.net/static/img/icon/usericon_"+user_icon+".jpg",options);
+				options.round = 10000;
+				aq.id(ivMemberIcon).image("http://redbomba.net"+user_icon,options);
 			}
 			tvMemberName.setText(username);
 		}catch (Exception e){ Log.i("error",""+e.getMessage()); }

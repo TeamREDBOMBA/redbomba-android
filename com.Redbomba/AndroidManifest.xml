@@ -24,7 +24,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppBaseTheme" >
         <activity
-            android:name=".LandingActivity"
+            android:name=".Landing.LandingActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar" >
@@ -35,11 +35,12 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MainActivity"
+            android:name="com.Redbomba.Main.MainActivity"
+            android:theme="@style/StyledIndicators"
             android:screenOrientation="portrait" />
 
         <service
-            android:name=".NotificationService"
+            android:name="com.Redbomba.Settings.NotificationService"
             android:label="@string/app_name"
             android:process=":remote" >
             <intent-filter>
@@ -50,7 +51,8 @@
             </intent-filter>
         </service>
         <activity
-            android:name="GroupActivity"
+            android:name="com.Redbomba.Group.GroupActivity"
+            android:parentActivityName="com.Redbomba.Main.MainActivity"
             android:theme="@style/StyledIndicators"
             android:windowSoftInputMode="stateHidden"
             android:screenOrientation="portrait" />

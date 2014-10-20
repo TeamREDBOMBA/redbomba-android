@@ -1,4 +1,4 @@
-package com.Redbomba;
+package com.Redbomba.Group;
 
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
@@ -23,7 +23,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import com.Redbomba.R;
+import com.Redbomba.R.id;
+import com.Redbomba.R.layout;
+import com.Redbomba.Settings.NotificationService;
+import com.Redbomba.Settings.Settings;
 
 public class GroupInfoFrag extends Fragment {
 	private AQuery aq = new AQuery(getActivity());

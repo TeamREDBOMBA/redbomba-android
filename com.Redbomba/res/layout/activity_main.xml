@@ -2,80 +2,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical"
-    tools:context=".MainActivity" >
+    android:orientation="vertical" >
 
-    <LinearLayout
+    <com.viewpagerindicator.TabPageIndicator
+        android:id="@+id/mainIndicator"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:background="#2c3e50" >
+        android:layout_height="wrap_content" />
 
-        <ImageButton
-            android:id="@+id/leftbutton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="15dp"
-            android:background="#00000000"
-            android:src="@drawable/main_top_btnleft" />
-
-        <TextView
-            android:id="@+id/textTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="5dp"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="MY GROUP"
-            android:textColor="#FFF"
-            android:textSize="20sp" />
-
-        <FrameLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent" >
-
-            <ImageButton
-                android:id="@+id/rightbutton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="15dp"
-                android:layout_weight="0.0"
-                android:background="#00000000"
-                android:src="@drawable/main_top_btnright" />
-
-            <TextView
-                android:id="@+id/tvNotiLength"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="10dp"
-                android:background="#e74c3c"
-                android:paddingBottom="1dp"
-                android:paddingLeft="8dp"
-                android:paddingRight="8dp"
-                android:paddingTop="1dp"
-                android:text="0"
-                android:textColor="#FFF"
-                android:textSize="15sp"
-                android:visibility="gone" />
-        </FrameLayout>
-    </LinearLayout>
-
-    <ScrollView
-        android:id="@+id/scrollView1"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#ecf0f1"
-        android:paddingTop="10dp" >
-
-        <LinearLayout
-            android:id="@+id/llGroupList"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" >
-
-        </LinearLayout>
-    </ScrollView>
+    <android.support.v4.view.ViewPager
+        android:id="@+id/mainPager"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
 
 </LinearLayout>

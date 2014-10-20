@@ -1,4 +1,4 @@
-package com.Redbomba;
+package com.Redbomba.Settings;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;

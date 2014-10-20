@@ -1,7 +1,11 @@
-package com.Redbomba;
+package com.Redbomba.Group;
 
 import org.json.JSONObject;
 
+import com.Redbomba.R;
+import com.Redbomba.R.id;
+import com.Redbomba.R.layout;
+import com.Redbomba.Settings.Settings;
 import com.androidquery.AQuery;
 import com.androidquery.callback.ImageOptions;
 
@@ -52,11 +56,11 @@ public class ChattingCellView extends View {
 		tvChatCon.setTypeface(Settings.setFont(context));
 		
 		ImageOptions options = new ImageOptions();
-		options.round = 20;
+		options.round = 10000;
 		
 		aq.id(tvChatName).text(name);
 		aq.id(tvChatCon).text(con);
-		aq.id(ivChatIcon).image("http://redbomba.net/static/img/icon/usericon_"+icon+".jpg",options);
+		aq.id(ivChatIcon).image("http://redbomba.net"+icon,options);
 	}
 	
 	public View getView(){

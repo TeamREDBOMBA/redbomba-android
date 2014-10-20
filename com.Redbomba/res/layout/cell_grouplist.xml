@@ -31,12 +31,13 @@
                     android:layout_weight="1"
                     android:scaleType="centerCrop" />
 
-                <ImageView
-                    android:id="@+id/imageView3"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/blank_bg" />
+                    android:background="#99000000"
+                    android:orientation="vertical" >
+
+                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"

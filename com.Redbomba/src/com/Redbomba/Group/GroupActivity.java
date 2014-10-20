@@ -1,11 +1,9 @@
-package com.Redbomba;
+package com.Redbomba.Group;
 
 import org.json.JSONException;
 
-import com.viewpagerindicator.IconPagerAdapter;
 import com.viewpagerindicator.PageIndicator;
 import com.viewpagerindicator.TabPageIndicator;
-import com.viewpagerindicator.TitlePageIndicator;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -15,20 +13,20 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.Redbomba.R;
+import com.Redbomba.R.anim;
+import com.Redbomba.R.id;
+import com.Redbomba.R.layout;
+import com.Redbomba.Settings.Settings;
 
-public class GroupActivity extends FragmentActivity implements OnClickListener {
-
-	TextView tvGroupTitle;
-	ImageButton btnSubBack;
+public class GroupActivity extends FragmentActivity {
 
 	GroupFragAdapter mAdapter;
 	ViewPager mPager;
@@ -40,12 +38,7 @@ public class GroupActivity extends FragmentActivity implements OnClickListener {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_group);
-
-		tvGroupTitle = (TextView)findViewById(R.id.tvGroupTitle);
-		btnSubBack = (ImageButton)findViewById(R.id.btnSubBack);
-		btnSubBack.setOnClickListener((OnClickListener)this);
 
 		mAdapter = new GroupFragAdapter(getSupportFragmentManager());
 
@@ -55,9 +48,8 @@ public class GroupActivity extends FragmentActivity implements OnClickListener {
 		TabPageIndicator indicator = (TabPageIndicator)findViewById(R.id.indicator);
 		indicator.setViewPager(mPager);
 
-		tvGroupTitle.setTypeface(Settings.setFont(this));
 		try {
-			tvGroupTitle.setText(Settings.group_info.getString("name"));
+			setTitle(Settings.group_info.getString("name"));
 		} catch (JSONException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -69,19 +61,16 @@ public class GroupActivity extends FragmentActivity implements OnClickListener {
 		}catch(Exception e){ }
 
 	}
-
+	
 	@Override
-	public void onClick(View v) {
-		// TODO Auto-generated method stub
-		Vibrator Vibe = (Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
-		Vibe.vibrate(20);
-
-		switch(v.getId()){
-		case R.id.btnSubBack:
-			finish();
-			break;
-		}
-
+	public boolean onOptionsItemSelected(MenuItem item) {
+	    switch (item.getItemId()) {
+	    // Respond to the action bar's Up/Home button
+	    case android.R.id.home:
+	    	finish();
+	        return true;
+	    }
+	    return super.onOptionsItemSelected(item);
 	}
 
 	@Override
@@ -90,7 +79,7 @@ public class GroupActivity extends FragmentActivity implements OnClickListener {
 		overridePendingTransition(R.anim.slide_out_right, R.anim.slide_in_left);
 	}
 
-	class GroupFragAdapter extends FragmentPagerAdapter {
+	public class GroupFragAdapter extends FragmentPagerAdapter {
 		public GroupFragAdapter(FragmentManager fm) {
 			super(fm);
 		}

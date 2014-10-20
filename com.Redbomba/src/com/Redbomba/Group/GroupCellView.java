@@ -1,9 +1,13 @@
-package com.Redbomba;
+package com.Redbomba.Group;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.Redbomba.R;
+import com.Redbomba.R.id;
+import com.Redbomba.R.layout;
+import com.Redbomba.Settings.Settings;
 import com.androidquery.AQuery;
 import com.androidquery.callback.ImageOptions;
 
@@ -28,9 +32,8 @@ public class GroupCellView extends View {
 	private TextView tvGameName;
 	private TextView tvGroupInitial;
 	private LinearLayout llGroupMem;
-	LinearLayout llbtnChatting;
+	public LinearLayout llbtnChatting;
 	
-	private String urlGroupIcon = "";
 	private String strGroupIcon = "";
 	private String strGroupName = "";
 	private String strGameName = "";
@@ -41,7 +44,7 @@ public class GroupCellView extends View {
 		this.con = context;
 		// TODO Auto-generated method stub
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		feed = inflater.inflate(R.layout.cell_group, null);
+		feed = inflater.inflate(R.layout.cell_grouplist, null);
 		
 		ivStatImg = (ImageView)feed.findViewById(R.id.ivStatImg);
 		ivGroupIcon = (ImageView)feed.findViewById(R.id.ivGroupIcon);
@@ -85,7 +88,7 @@ public class GroupCellView extends View {
 		try {
 			JSONArray ja = jo.getJSONArray("memlist");
 			for(int i=0;i<ja.length();i++){
-				llGroupMem.addView(getGroupMember(ja.getJSONObject(i).getInt("user_icon")));
+				llGroupMem.addView(getGroupMember(ja.getJSONObject(i).getString("user_icon")));
 			}
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
@@ -93,17 +96,17 @@ public class GroupCellView extends View {
 		}
 	}
 	
-	private ImageView getGroupMember(int user_icon){
+	private ImageView getGroupMember(String user_icon){
 		ImageView memberIcon = new ImageView(con);
 		memberIcon.setAdjustViewBounds(true);
-		memberIcon.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+		memberIcon.setLayoutParams(new LinearLayout.LayoutParams(115, 115));
 		memberIcon.setScaleType(ImageView.ScaleType.CENTER_CROP);
 		memberIcon.setPadding(10, 10, 0, 10);
 		
-		String urlIcon = "http://redbomba.net/static/img/icon/usericon_"+user_icon+".jpg";
+		String urlIcon = "http://redbomba.net"+user_icon;
 		
 		ImageOptions options = new ImageOptions();
-		options.round = 100;
+		options.round = 10000;
 		
 		aq.id(memberIcon).image(urlIcon,options);
 		

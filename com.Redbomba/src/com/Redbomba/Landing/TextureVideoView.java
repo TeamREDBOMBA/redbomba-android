@@ -1,4 +1,4 @@
-package com.Redbomba;
+package com.Redbomba.Landing;
 
 import android.content.Context;
 import android.content.res.AssetFileDescriptor;

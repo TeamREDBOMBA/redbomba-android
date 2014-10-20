@@ -1,8 +1,12 @@
-package com.Redbomba;
+package com.Redbomba.Main;
 
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import com.Redbomba.R;
+import com.Redbomba.R.id;
+import com.Redbomba.R.layout;
+import com.Redbomba.Settings.Settings;
 import com.androidquery.AQuery;
 
 import android.content.Context;

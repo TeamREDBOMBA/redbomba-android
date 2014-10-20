@@ -1,9 +1,13 @@
-package com.Redbomba;
+package com.Redbomba.Landing;
 
 import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
+
+import com.Redbomba.R;
+import com.Redbomba.Main.MainActivity;
+import com.Redbomba.Settings.Settings;
 
 import android.app.AlertDialog;
 import android.content.Context;

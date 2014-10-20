@@ -1,4 +1,4 @@
-package com.Redbomba;
+package com.Redbomba.Settings;
 
 import java.net.MalformedURLException;
 
@@ -10,6 +10,11 @@ import io.socket.SocketIOException;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import com.Redbomba.R;
+import com.Redbomba.Group.GroupChattingFrag;
+import com.Redbomba.Group.GroupInfoFrag;
+import com.Redbomba.Landing.LandingActivity;
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -67,6 +72,13 @@ public class NotificationService extends Service {
 			try{
 				JSONObject jo = Settings.GET("mode=2&uid="+uid).getJSONObject(0);
 				gid = jo.getInt("gid");
+				Log.i("@@@@@@@@@@@@@@@@@@@@@@",uid+","+gid);
+				Log.i("@@@@@@@@@@@@@@@@@@@@@@",uid+","+gid);
+				Log.i("@@@@@@@@@@@@@@@@@@@@@@",uid+","+gid);
+				Log.i("@@@@@@@@@@@@@@@@@@@@@@",uid+","+gid);
+				Log.i("@@@@@@@@@@@@@@@@@@@@@@",uid+","+gid);
+				Log.i("@@@@@@@@@@@@@@@@@@@@@@",uid+","+gid);
+				Log.i("@@@@@@@@@@@@@@@@@@@@@@",uid+","+gid);
 			}catch (Exception e) {
 				// TODO: handle exception
 				return false;

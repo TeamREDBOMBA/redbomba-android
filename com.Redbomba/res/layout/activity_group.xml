@@ -5,31 +5,6 @@
     android:background="#ecf0f1"
     android:orientation="vertical" >
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#2c3e50" >
-
-        <TextView
-            android:id="@+id/tvGroupTitle"
-            android:layout_width="match_parent"
-            android:layout_height="fill_parent"
-            android:layout_margin="18dp"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="GROUP"
-            android:textColor="#FFF"
-            android:textSize="20sp" />
-
-        <ImageButton
-            android:id="@+id/btnSubBack"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="15dp"
-            android:background="#00000000"
-            android:src="@drawable/sub_top_btnleft" />
-    </FrameLayout>
-
     <com.viewpagerindicator.TabPageIndicator
         android:id="@+id/indicator"
         android:layout_height="wrap_content"
