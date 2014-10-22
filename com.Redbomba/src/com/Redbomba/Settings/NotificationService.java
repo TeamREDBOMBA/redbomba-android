@@ -1,6 +1,7 @@
 package com.Redbomba.Settings;
 
 import java.net.MalformedURLException;
+import java.util.List;
 
 import io.socket.IOAcknowledge;
 import io.socket.IOCallback;
@@ -15,6 +16,7 @@ import com.Redbomba.R;
 import com.Redbomba.Group.GroupChattingFrag;
 import com.Redbomba.Group.GroupInfoFrag;
 import com.Redbomba.Landing.LandingActivity;
+import com.Redbomba.Main.MainProfileFrag;
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -25,6 +27,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.IBinder;
@@ -61,8 +65,6 @@ public class NotificationService extends Service {
 		prefs_system = getSharedPreferences("system", 0);
 		uid = prefs_system.getInt("uid", 0);
 
-		Log.i(""+uid,""+uid);
-
 		new SocketTask().execute(null, null, null);
 
 	}
@@ -72,13 +74,6 @@ public class NotificationService extends Service {
 			try{
 				JSONObject jo = Settings.GET("mode=2&uid="+uid).getJSONObject(0);
 				gid = jo.getInt("gid");
-				Log.i("@@@@@@@@@@@@@@@@@@@@@@",uid+","+gid);
-				Log.i("@@@@@@@@@@@@@@@@@@@@@@",uid+","+gid);
-				Log.i("@@@@@@@@@@@@@@@@@@@@@@",uid+","+gid);
-				Log.i("@@@@@@@@@@@@@@@@@@@@@@",uid+","+gid);
-				Log.i("@@@@@@@@@@@@@@@@@@@@@@",uid+","+gid);
-				Log.i("@@@@@@@@@@@@@@@@@@@@@@",uid+","+gid);
-				Log.i("@@@@@@@@@@@@@@@@@@@@@@",uid+","+gid);
 			}catch (Exception e) {
 				// TODO: handle exception
 				return false;
@@ -91,6 +86,7 @@ public class NotificationService extends Service {
 				startSocket();
 				setBroadcast_2();
 				setBroadcast_5();
+				setBroadcast_6();
 			}
 			return;
 		}
@@ -100,6 +96,7 @@ public class NotificationService extends Service {
 		BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
 			@Override
 			public void onReceive(Context context, Intent intent) {
+				Log.i("setBroadcast_2","LOAD");
 				Bundle extra = intent.getExtras();
 				String[] str_mem_list = extra.getStringArray("member_list");
 				for(int i=0; i<str_mem_list.length;i++)
@@ -114,6 +111,7 @@ public class NotificationService extends Service {
 		BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
 			@Override
 			public void onReceive(Context context, Intent intent) {
+				Log.i("setBroadcast_5","LOAD");
 				Bundle extra = intent.getExtras();
 				try {
 					String usericon = extra.getString("icon");
@@ -134,6 +132,18 @@ public class NotificationService extends Service {
 		};
 
 		registerReceiver(broadcastReceiver, new IntentFilter(GroupChattingFrag.BROADCAST_ACTION_05));
+	}
+	
+	public void setBroadcast_6(){
+		BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+			@Override
+			public void onReceive(Context context, Intent intent) {
+				Log.i("setBroadcast_6","LOAD");
+				socket.disconnect();
+			}
+		};
+
+		registerReceiver(broadcastReceiver, new IntentFilter(MainProfileFrag.BROADCAST_ACTION_06));
 	}
 
 	private void startSocket(){
@@ -204,6 +214,7 @@ public class NotificationService extends Service {
 							intent4.putExtra("name",jo.getString("name"));
 							intent4.putExtra("con",jo.getString("con"));
 							intent4.putExtra("icon",jo.getString("icon"));
+							Settings.setBadge(getApplication(),Settings.NotiCount++);
 							sendBroadcast(intent4);
 						}
 

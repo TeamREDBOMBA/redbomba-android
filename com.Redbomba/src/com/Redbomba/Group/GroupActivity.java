@@ -44,6 +44,7 @@ public class GroupActivity extends FragmentActivity {
 
 		mPager = (ViewPager)findViewById(R.id.pager);
 		mPager.setAdapter(mAdapter);
+		mPager.setOffscreenPageLimit(1);
 
 		TabPageIndicator indicator = (TabPageIndicator)findViewById(R.id.indicator);
 		indicator.setViewPager(mPager);

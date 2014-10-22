@@ -60,6 +60,7 @@ public class GroupChattingFrag extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
 		View layout = inflater.inflate(R.layout.frag_group_chatting, container, false);
+		Settings.setBadge(getActivity(),0);
 		
 		chat_len = 10;
 
@@ -137,6 +138,7 @@ public class GroupChattingFrag extends Fragment {
 		broadcastReceiver = new BroadcastReceiver() {
 			@Override
 			public void onReceive(Context context, Intent intent) {
+				Log.i("setBroadcast_4","LOAD");
 
 				Bundle extra = intent.getExtras();
 
@@ -145,6 +147,7 @@ public class GroupChattingFrag extends Fragment {
 				String chaticon = extra.getString("icon","1");
 
 				llChatting.addView(new ChattingCellView(getActivity(), chatname, chatcon, chaticon).getView());
+				Settings.setBadge(getActivity(),0);
 
 				setScrollBottom();
 			}
@@ -285,7 +288,6 @@ class gsScrollview extends ScrollView {
 		int v_len = v.getChildCount();
 		if(v_len>=GroupChattingFrag.chat_len){
 			if (oldTop != m_rect.top && m_rect.top == 0 )  {
-				Log.i("ghlab", "최상단에 왔을 때의 처리:"+v_len);
 				GroupChattingFrag.chat_len += 10;
 				con.sendBroadcast(intent6);
 				if( m_hd != null ) {

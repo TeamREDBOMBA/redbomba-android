@@ -1,7 +1,6 @@
 package com.Redbomba.Main;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 
 import android.content.Context;
 import android.content.Intent;
@@ -17,14 +16,11 @@ import android.view.View.OnClickListener;
 import android.widget.LinearLayout;
 
 import com.Redbomba.R;
-import com.Redbomba.Group.GroupActivity;
-import com.Redbomba.Group.GroupCellView;
-import com.Redbomba.Main.MainGroupFrag.GroupListTask;
-import com.Redbomba.R.layout;
+import com.Redbomba.Main.Detail.GlobalCardActivity;
 import com.Redbomba.Settings.Settings;
 
 public class MainGlobalFrag extends Fragment {
-	
+
 	View layout;
 	LinearLayout llGlobalList;
 	private JSONArray ja;
@@ -35,10 +31,10 @@ public class MainGlobalFrag extends Fragment {
 		layout = inflater.inflate(R.layout.frag_main_global, container, false);
 
 		new GlobalListTask().execute(null, null, null);
-		
+
 		return layout;
 	}
-	
+
 	class GlobalListTask extends AsyncTask<Void, Void, Boolean> {
 
 		protected Boolean doInBackground(Void... Void) {
@@ -49,7 +45,6 @@ public class MainGlobalFrag extends Fragment {
 
 		protected void onPostExecute(Boolean result) {
 			if(result){
-				Log.i("ja_size", ""+ja.length());
 				try{
 					for(int i=0;i<ja.length();i++){
 						GlobalCellView gcv  = new GlobalCellView(getActivity(),ja.getJSONObject(i));
@@ -61,6 +56,24 @@ public class MainGlobalFrag extends Fragment {
 								// TODO Auto-generated method stub
 								Vibrator Vibe = (Vibrator)getActivity().getSystemService(Context.VIBRATOR_SERVICE);
 								Vibe.vibrate(20);
+
+								if(v.getTag()!=null){
+									String click_head = v.getTag().toString();
+									if(click_head.startsWith("global_")){
+										try {
+											int no = Integer.parseInt(v.getTag().toString().replaceAll("global_", ""));
+											Intent gin = new Intent(getActivity(),GlobalCardActivity.class);
+											gin.putExtra("id", ja.getJSONObject(no).getString("id"));
+											gin.putExtra("src", ja.getJSONObject(no).getString("img"));
+											gin.putExtra("title", ja.getJSONObject(no).getString("title"));
+											gin.putExtra("tag", "리그오브레전드");
+											gin.putExtra("con", ja.getJSONObject(no).getString("txt"));
+											gin.putExtra("comment_no", ja.getJSONObject(no).getString("comment_no"));
+											startActivity(gin);
+											getActivity().overridePendingTransition(R.anim.slide_in_up, R.anim.stay);
+										} catch (Exception e) { }
+									}
+								}
 							}
 						});
 						llGlobalList.addView(gcv.getView());

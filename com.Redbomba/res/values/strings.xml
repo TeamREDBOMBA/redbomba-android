@@ -6,5 +6,8 @@
     <string name="hello_world">Hello world!</string>
     <string name="etemail_title">이메일</string>
     <string name="title_activity_group">GroupActivity</string>
+    <string name="title_activity_global_card">GlobalCardActivity</string>
+    <string name="title_activity_loading">LoadingActivity</string>
+    <string name="title_activity_write_feed">코멘트 추가하기</string>
 
 </resources>

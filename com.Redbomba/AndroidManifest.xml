@@ -23,24 +23,8 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppBaseTheme" >
-        <activity
-            android:name=".Landing.LandingActivity"
-            android:label="@string/app_name"
-            android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name="com.Redbomba.Main.MainActivity"
-            android:theme="@style/StyledIndicators"
-            android:screenOrientation="portrait" />
-
         <service
-            android:name="com.Redbomba.Settings.NotificationService"
+            android:name=".Settings.NotificationService"
             android:label="@string/app_name"
             android:process=":remote" >
             <intent-filter>
@@ -50,13 +34,46 @@
                 </category>
             </intent-filter>
         </service>
+
         <activity
-            android:name="com.Redbomba.Group.GroupActivity"
-            android:parentActivityName="com.Redbomba.Main.MainActivity"
+            android:name=".Landing.LoadingActivity"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.NoTitleBar" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".Landing.LandingActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" />
+        <activity
+            android:name=".Main.MainActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/StyledIndicators" />
+        <activity
+            android:name=".Group.GroupActivity"
+            android:parentActivityName=".Main.MainActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/StyledIndicators"
-            android:windowSoftInputMode="stateHidden"
+            android:windowSoftInputMode="stateHidden" />
+        <activity android:name=".FontActivity" />
+        <activity
+            android:name=".Main.Detail.GlobalCardActivity"
+            android:label="@string/title_activity_global_card"
             android:screenOrientation="portrait" />
-        <activity android:name="FontActivity"></activity>
+        <activity android:name=".Main.Detail.FeedActivity"
+            android:theme="@style/StyledIndicators" 
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.Redbomba.Main.Detail.WriteFeedActivity"
+            android:label="@string/title_activity_write_feed"
+            android:parentActivityName=".Main.Detail.FeedActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/StyledIndicators" />
     </application>
 
 </manifest>

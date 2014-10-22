@@ -138,6 +138,7 @@ public class GroupInfoFrag extends Fragment {
 		broadcastReceiver = new BroadcastReceiver() {
 			@Override
 			public void onReceive(Context context, Intent intent) {
+				Log.i("setBroadcast_3","LOAD");
 				Bundle extra = intent.getExtras();
 				String Member = extra.getString("Member");
 

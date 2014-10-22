@@ -79,12 +79,6 @@ public class LandingActivity extends FragmentActivity implements OnClickListener
 
 		prefs_system = getSharedPreferences("system", 0);
 		editor_system = prefs_system.edit();
-
-		if(prefs_system.getInt("uid", 0) != 0){
-			Settings.user_id = prefs_system.getInt("uid", 0);
-			startActivity(new Intent(this, MainActivity.class));
-			this.finish();
-		}
 		
 		setView1();
 		ljv = new LandingJoinView(this);
@@ -179,7 +173,6 @@ public class LandingActivity extends FragmentActivity implements OnClickListener
 			int uid=0;
 			try {
 				uid = Settings.GET("mode=1&email="+email+"&password="+password).getJSONObject(0).getInt("uid");
-				Log.i("Login Result",uid+"");
 				editor_system.putInt("uid", uid);
 				editor_system.commit();
 				Settings.user_id = uid;

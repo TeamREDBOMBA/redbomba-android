@@ -9,9 +9,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.Redbomba.R;
+import com.Redbomba.Settings.CustomTabIndicator;
 import com.Redbomba.Settings.NotificationService;
 import com.Redbomba.Settings.Settings;
 import com.androidquery.AQuery;
+import com.viewpagerindicator.IconPagerAdapter;
 import com.viewpagerindicator.PageIndicator;
 import com.viewpagerindicator.TabPageIndicator;
 
@@ -56,7 +58,13 @@ public class MainActivity extends FragmentActivity implements OnPageChangeListen
 	PageIndicator mIndicator;
 	int Number = 0;
 
-	private static final String[] CONTENT = new String[] { "글로벌아티클", "활동스트림", "그룹"};
+	private static final String[] CONTENT = new String[] { "글로벌아티클", "활동스트림", "그룹", "프로필"};
+	private static final int[] ICONS = new int[] {
+		R.drawable.ic_tab_global,
+		R.drawable.ic_tab_private,
+		R.drawable.ic_tab_group,
+		R.drawable.ic_tab_profile,
+	};
 
 	private Handler mHandler;
 	private boolean mFlag = false;
@@ -66,13 +74,6 @@ public class MainActivity extends FragmentActivity implements OnPageChangeListen
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-
-		try {
-			Settings.user_info = Settings.GET("mode=2&uid="+Settings.user_id).getJSONObject(0);
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 
 		setRightMenu();
 		setPager();
@@ -94,8 +95,9 @@ public class MainActivity extends FragmentActivity implements OnPageChangeListen
 
 		mPager = (ViewPager)findViewById(R.id.mainPager);
 		mPager.setAdapter(mAdapter);
+		mPager.setOffscreenPageLimit(3);
 
-		TabPageIndicator indicator = (TabPageIndicator)findViewById(R.id.mainIndicator);
+		CustomTabIndicator indicator = (CustomTabIndicator)findViewById(R.id.mainIndicator);
 		indicator.setViewPager(mPager);
 		indicator.setOnPageChangeListener(this);
 
@@ -106,8 +108,6 @@ public class MainActivity extends FragmentActivity implements OnPageChangeListen
 	}
 
 	private void setRightMenu(){
-		Log.i("RIGHT","CALLED");
-
 		mRight = MenuDrawer.attach(this, Type.OVERLAY, Position.RIGHT,
 				MenuDrawer.MENU_DRAG_WINDOW);
 
@@ -135,11 +135,6 @@ public class MainActivity extends FragmentActivity implements OnPageChangeListen
 			ja = Settings.GET("mode=Notification&uid="+Settings.user_id);
 			int ja_len = ja.length();
 			for(i=0;i<ja_len;i++){
-				Log.i("con",ja.getJSONObject(i).getString("con"));
-				Log.i("imgurl",ja.getJSONObject(i).getString("imgurl"));
-				Log.i("date_updated",""+ja.getJSONObject(i).getInt("date_updated"));
-				Log.i("now",""+ja.getJSONObject(i).getInt("now"));
-				Log.i("time",""+ja.getJSONObject(i).getString("time"));
 				int no = ja.getJSONObject(i).getInt("no");
 				String strCon = ja.getJSONObject(i).getString("con");
 				String strDate = ja.getJSONObject(i).getString("time");
@@ -157,35 +152,12 @@ public class MainActivity extends FragmentActivity implements OnPageChangeListen
 		}
 	}
 
-	//	@Override
-	//	public void onClick(View v) {
-	//		// TODO Auto-generated method stub
-	//		Vibrator Vibe = (Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
-	//		Vibe.vibrate(20);
-	//		
-	//		if(v.getTag()!=null){
-	//			String click_head = v.getTag().toString();
-	//			if(click_head.startsWith("noti_")){
-	//				try{
-	//					int no = Integer.parseInt(v.getTag().toString().replaceAll("noti_", ""));
-	//					JSONObject jo = Settings.GET("mode=NotificationDel&no="+no).getJSONObject(0);
-	//					if(jo.getInt("result")==1){
-	//						loadNoti();
-	//					}
-	//				}catch (Exception e) {
-	//					// TODO: handle exception
-	//				}
-	//				Log.i(""+v.getTag(),""+v.getTag());
-	//			}
-	//		}
-	//	}
-
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-	    getMenuInflater().inflate(R.menu.main, menu);
-	    return true;
+		getMenuInflater().inflate(R.menu.main, menu);
+		return true;
 	}
-	
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// Handle presses on the action bar items
@@ -254,7 +226,7 @@ public class MainActivity extends FragmentActivity implements OnPageChangeListen
 		unregisterReceiver(broadcastReceiver);
 	}
 
-	class MainFragAdapter extends FragmentPagerAdapter {
+	class MainFragAdapter extends FragmentPagerAdapter implements IconPagerAdapter {
 		public MainFragAdapter(FragmentManager fm) {
 			super(fm);
 		}
@@ -268,18 +240,21 @@ public class MainActivity extends FragmentActivity implements OnPageChangeListen
 				return new MainPrivateFrag();
 			case 2:
 				return new MainGroupFrag();
+			case 3:
+				return new MainProfileFrag();
 			}
 			return null;
 		}
 
 		@Override
-		public CharSequence getPageTitle(int position) {
-			return CONTENT[position % CONTENT.length].toUpperCase();
+		public int getCount() {
+			return CONTENT.length;
 		}
 
 		@Override
-		public int getCount() {
-			return CONTENT.length;
+		public int getIconResId(int index) {
+			// TODO Auto-generated method stub
+			return ICONS[index];
 		}
 	}
 

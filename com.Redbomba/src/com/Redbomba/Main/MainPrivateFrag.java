@@ -44,7 +44,6 @@ public class MainPrivateFrag extends Fragment {
 
 		protected void onPostExecute(Boolean result) {
 			if(result){
-				Log.i("ja_size", ""+ja.length());
 				try{
 					for(int i=0;i<ja.length();i++){
 						PrivateCellView pcv  = new PrivateCellView(getActivity(),ja.getJSONObject(i));

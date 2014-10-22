@@ -47,7 +47,6 @@ public class MainGroupFrag extends Fragment {
 
 		protected void onPostExecute(Boolean result) {
 			if(result){
-				Log.i("ja_size", ""+ja.length());
 				try{
 					for(int i=0;i<ja.length();i++){
 						GroupCellView gcv  = new GroupCellView(getActivity(),ja.getJSONObject(i));
