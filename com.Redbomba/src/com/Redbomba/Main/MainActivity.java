@@ -61,10 +61,10 @@ public class MainActivity extends FragmentActivity implements OnPageChangeListen
 
 	private static final String[] CONTENT = new String[] { "글로벌아티클", "활동스트림", "그룹", "프로필"};
 	private static final int[] ICONS = new int[] {
-		R.drawable.ic_tab_global,
-		R.drawable.ic_tab_private,
-		R.drawable.ic_tab_group,
-		R.drawable.ic_tab_profile,
+		R.drawable.tab_global_selector,
+		R.drawable.tab_private_selector,
+		R.drawable.tab_group_selector,
+		R.drawable.tab_profile_selector,
 	};
 
 	private Handler mHandler;

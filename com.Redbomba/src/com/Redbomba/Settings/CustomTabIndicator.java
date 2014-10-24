@@ -158,6 +158,7 @@ public class CustomTabIndicator extends HorizontalScrollView implements PageIndi
         tabView.setFocusable(true);
         tabView.setOnClickListener(mTabClickListener);
         tabView.setText(text);
+        tabView.setPadding(0, 16, 0, 0);
 
         if (iconResId != 0) {
             tabView.setCompoundDrawablesWithIntrinsicBounds( 0, iconResId, 0, 0);
