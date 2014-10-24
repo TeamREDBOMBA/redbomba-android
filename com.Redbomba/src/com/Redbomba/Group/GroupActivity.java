@@ -2,31 +2,23 @@ package com.Redbomba.Group;
 
 import org.json.JSONException;
 
+import com.viewpagerindicator.IconPagerAdapter;
 import com.viewpagerindicator.PageIndicator;
 import com.viewpagerindicator.TabPageIndicator;
 
-import android.content.Context;
 import android.os.Bundle;
-import android.os.Vibrator;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.Window;
-import android.widget.ImageButton;
-import android.widget.TextView;
 
 import com.Redbomba.R;
-import com.Redbomba.R.anim;
-import com.Redbomba.R.id;
-import com.Redbomba.R.layout;
 import com.Redbomba.Settings.Settings;
 
-public class GroupActivity extends FragmentActivity {
+public class GroupActivity extends FragmentActivity implements OnPageChangeListener {
 
 	GroupFragAdapter mAdapter;
 	ViewPager mPager;
@@ -35,7 +27,11 @@ public class GroupActivity extends FragmentActivity {
 	
 	Settings settings;
 
-	private static final String[] CONTENT = new String[] { "그룹정보", "채팅", "탈퇴"};
+	private static final String[] CONTENT = new String[] { "그룹홈", "채팅"};
+	private static final int[] ICONS = new int[] {
+		R.drawable.tab_home_selector,
+		R.drawable.tab_chat_selector,
+	};
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +48,7 @@ public class GroupActivity extends FragmentActivity {
 
 		TabPageIndicator indicator = (TabPageIndicator)findViewById(R.id.indicator);
 		indicator.setViewPager(mPager);
+		indicator.setOnPageChangeListener(this);
 
 		try {
 			setTitle(settings.group_info.getString("name"));
@@ -84,7 +81,7 @@ public class GroupActivity extends FragmentActivity {
 		overridePendingTransition(R.anim.slide_out_right, R.anim.slide_in_left);
 	}
 
-	public class GroupFragAdapter extends FragmentPagerAdapter {
+	public class GroupFragAdapter extends FragmentPagerAdapter implements IconPagerAdapter {
 		public GroupFragAdapter(FragmentManager fm) {
 			super(fm);
 		}
@@ -96,12 +93,10 @@ public class GroupActivity extends FragmentActivity {
 				return new GroupInfoFrag();
 			case 1:
 				return new GroupChattingFrag();
-			case 2:
-				return new GroupDropoutFrag();
 			}
 			return null;
 		}
-
+		
 		@Override
 		public CharSequence getPageTitle(int position) {
 			return CONTENT[position % CONTENT.length].toUpperCase();
@@ -111,6 +106,30 @@ public class GroupActivity extends FragmentActivity {
 		public int getCount() {
 			return CONTENT.length;
 		}
+
+		@Override
+		public int getIconResId(int index) {
+			// TODO Auto-generated method stub
+			return ICONS[index];
+		}
+	}
+
+	@Override
+	public void onPageScrollStateChanged(int arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onPageScrolled(int arg0, float arg1, int arg2) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onPageSelected(int arg0) {
+		// TODO Auto-generated method stub
+		
 	}
 }
 

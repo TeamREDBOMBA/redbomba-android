@@ -18,7 +18,6 @@ public class ChattingCellView extends View {
 	private AQuery aq = new AQuery(this);
 	
 	private View feed;
-	private Context con;
 
 	private ImageView ivChatIcon;
 	TextView tvChatName;
@@ -46,7 +45,6 @@ public class ChattingCellView extends View {
 	}
 	
 	private void setChattingText(Context context, String name, String con, String icon){
-		this.con = context;
 		// TODO Auto-generated method stub
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		feed = inflater.inflate(R.layout.cell_chatting, null);
