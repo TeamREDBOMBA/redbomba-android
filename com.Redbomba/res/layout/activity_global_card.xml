@@ -97,6 +97,13 @@
                     android:background="@drawable/login_btn_login"
                     android:gravity="center_vertical|center_horizontal" >
 
+                    <ImageView
+                        android:id="@+id/imageView1"
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:layout_marginRight="5dp"
+                        android:src="@drawable/ic_feed" />
+
                     <TextView
                         android:id="@+id/tvComment"
                         android:layout_width="wrap_content"

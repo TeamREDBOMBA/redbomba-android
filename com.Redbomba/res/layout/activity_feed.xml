@@ -2,7 +2,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="#ecf0f1" >
-        
+
     <ScrollView
         android:id="@+id/scrollView1"
         android:layout_width="match_parent"
@@ -14,7 +14,6 @@
             android:layout_height="match_parent"
             android:orientation="vertical" >
         </LinearLayout>
-
     </ScrollView>
 
     <LinearLayout
@@ -49,19 +48,21 @@
                     android:background="@drawable/login_btn_login"
                     android:gravity="center_vertical|center_horizontal" >
 
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:layout_marginRight="5dp"
+                        android:src="@drawable/ic_write" />
+
                     <TextView
                         android:id="@+id/tvComment"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/title_activity_write_feed"
                         android:textColor="#fff" />
-
                 </LinearLayout>
-
             </FrameLayout>
-
         </LinearLayout>
-
     </LinearLayout>
 
 </FrameLayout>
