@@ -47,6 +47,11 @@ public class FeedActivity extends Activity implements OnClickListener {
 	}
 	
 	@Override
+	public void onResume(){
+		super.onResume();
+	}
+	
+	@Override
 	public void finish(){
 		super.finish();
 		overridePendingTransition(R.anim.stay, R.anim.slide_out_down);

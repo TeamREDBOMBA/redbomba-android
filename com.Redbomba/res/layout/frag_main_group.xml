@@ -7,13 +7,13 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#ecf0f1"
-        android:paddingTop="10dp" >
+        android:background="#ecf0f1" >
 
         <LinearLayout
             android:id="@+id/llGroupList"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingTop="10dp"
             android:orientation="vertical" >
         </LinearLayout>
     </ScrollView>

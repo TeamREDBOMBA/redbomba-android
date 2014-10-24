@@ -7,14 +7,15 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#ecf0f1"
-        android:paddingTop="10dp" >
+        android:background="#ecf0f1" >
 
         <LinearLayout
             android:id="@+id/llGlobalList"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:orientation="vertical"
+            android:paddingTop="10dp" >
+
         </LinearLayout>
     </ScrollView>
 

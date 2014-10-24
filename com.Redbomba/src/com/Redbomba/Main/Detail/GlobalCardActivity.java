@@ -5,11 +5,14 @@ import com.Redbomba.Settings.Settings;
 import com.androidquery.AQuery;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.text.method.LinkMovementMethod;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -32,6 +35,8 @@ public class GlobalCardActivity extends Activity implements OnClickListener {
 	
 	private Bundle extra;
 	private String extra_id = "";
+	
+	BroadcastReceiver broadcastReceiver;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -57,22 +62,51 @@ public class GlobalCardActivity extends Activity implements OnClickListener {
 		tvTag.setTypeface(Settings.setFont(this));
 		tvComment.setTypeface(Settings.setFont(this));
 		
+		setContents();
+		setBroadcast();
+		
+	}
+	
+	private void setContents(){
+		extra_id = extra.getString("id");
 		aq.id(ivSrc).image("http://redbomba.net"+extra.getString("src"), true, true, 0, 0, null, AQuery.FADE_IN);
 		tvTitle.setText(extra.getString("title"));
 		tvTag.setText(extra.getString("tag"));
 		tvComment.setText(extra.getString("comment_no","0")+"개의 코멘트 보기");
-		extra_id = extra.getString("id");
 		
 		String markdownString = extra.getString("con");
 		tvCon.setText(markdownString);
 		tvCon.setMovementMethod(LinkMovementMethod.getInstance());
-		
+	}
+	
+	public void setBroadcast(){
+		broadcastReceiver = new BroadcastReceiver() {
+			@Override
+			public void onReceive(Context context, Intent intent) {
+				Log.i("BROADCAST_ACTION_SET_GLOBAL_CARD","LOAD");
+
+				setContents();
+			}
+		};
+
+		registerReceiver(broadcastReceiver, new IntentFilter(WriteFeedActivity.BROADCAST_ACTION_SET_GLOBAL_CARD));
+	}
+	
+	@Override
+	public void onResume(){
+		super.onResume();
 	}
 	
 	@Override
 	public void finish(){
 		super.finish();
 		overridePendingTransition(R.anim.stay, R.anim.slide_out_down);
+	}
+	
+	@Override
+	public void onDestroy(){
+		super.onDestroy();
+		unregisterReceiver(broadcastReceiver);
 	}
 
 	@Override
@@ -87,7 +121,7 @@ public class GlobalCardActivity extends Activity implements OnClickListener {
 			break;
 		case R.id.llFeedBtn:
 			Intent gin = new Intent(this,FeedActivity.class);
-			gin.putExtra("id", extra_id);
+			gin.putExtra("id", ""+extra_id);
 			gin.putExtra("type", "g");
 			startActivity(gin);
 			overridePendingTransition(R.anim.slide_in_up, R.anim.stay);

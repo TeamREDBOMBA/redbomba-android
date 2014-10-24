@@ -39,7 +39,6 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:layout_marginTop="10dp"
-                    android:text="Large Text"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:textSize="25sp"
                     android:textStyle="bold" />
@@ -51,7 +50,6 @@
                     android:layout_marginBottom="10dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
-                    android:text="TextView"
                     android:textColor="#aaa"
                     android:textSize="20sp" />
 
@@ -62,7 +60,6 @@
                     android:layout_marginBottom="10dp"
                     android:layout_marginLeft="15dp"
                     android:layout_marginRight="15dp"
-                    android:text="TextView"
                     android:textSize="18sp" />
 
             </LinearLayout>

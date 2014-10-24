@@ -138,11 +138,10 @@ public class MainActivity extends FragmentActivity implements OnPageChangeListen
 				int no = ja.getJSONObject(i).getInt("no");
 				String strCon = ja.getJSONObject(i).getString("con");
 				String strDate = ja.getJSONObject(i).getString("time");
-				String strImg = ja.getJSONObject(i).getString("imgurl");
+				String strImg = ja.getJSONObject(i).getString("img");
 				NotiCellView ncv  = new NotiCellView(this,strCon,strDate,strImg);
 				View v = ncv.getView();
 				v.setTag("noti_"+no);
-				v.setOnClickListener((OnClickListener) this);
 				llTable.addView(ncv.getView());
 			}
 			tvLength.setText(ja_len+"");

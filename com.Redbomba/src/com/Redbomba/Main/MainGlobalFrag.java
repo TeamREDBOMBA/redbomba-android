@@ -2,8 +2,10 @@ package com.Redbomba.Main;
 
 import org.json.JSONArray;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Vibrator;
@@ -14,25 +16,51 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 
 import com.Redbomba.R;
 import com.Redbomba.Main.Detail.GlobalCardActivity;
+import com.Redbomba.Main.Detail.WriteFeedActivity;
 import com.Redbomba.Settings.Settings;
 
 public class MainGlobalFrag extends Fragment {
 
 	View layout;
 	LinearLayout llGlobalList;
+	ProgressBar pb;
 	private JSONArray ja;
+	
+	BroadcastReceiver broadcastReceiver;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
 		layout = inflater.inflate(R.layout.frag_main_global, container, false);
+		llGlobalList = (LinearLayout)layout.findViewById(R.id.llGlobalList);
 
+		pb = new ProgressBar(getActivity());
+		
+		llGlobalList.removeAllViews();
+		llGlobalList.addView(pb);
 		new GlobalListTask().execute(null, null, null);
+		setBroadcast();
 
 		return layout;
+	}
+	
+	public void setBroadcast(){
+		broadcastReceiver = new BroadcastReceiver() {
+			@Override
+			public void onReceive(Context context, Intent intent) {
+				Log.i("BROADCAST_ACTION_SET_GLOBAL_CARD","LOAD");
+
+				llGlobalList.removeAllViews();
+				llGlobalList.addView(pb);
+				new GlobalListTask().execute(null, null, null);
+			}
+		};
+
+		getActivity().registerReceiver(broadcastReceiver, new IntentFilter(WriteFeedActivity.BROADCAST_ACTION_SET_GLOBAL_CARD));
 	}
 
 	class GlobalListTask extends AsyncTask<Void, Void, Boolean> {
@@ -78,6 +106,7 @@ public class MainGlobalFrag extends Fragment {
 						});
 						llGlobalList.addView(gcv.getView());
 					}
+					llGlobalList.removeView(pb);
 				}catch(Exception e){ Log.i("error", e.getMessage()); }
 			}
 
@@ -88,5 +117,6 @@ public class MainGlobalFrag extends Fragment {
 	@Override
 	public void onDestroy(){
 		super.onDestroy();
+		getActivity().unregisterReceiver(broadcastReceiver);
 	}
 }

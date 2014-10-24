@@ -21,6 +21,7 @@ import com.androidquery.AQuery;
 import com.androidquery.callback.ImageOptions;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -38,10 +39,15 @@ public class WriteFeedActivity extends Activity {
 	private Bundle extra;
 	private String uid="";
 	
+	public static final String BROADCAST_ACTION_SET_GLOBAL_CARD = "com.Redbomba.setGlobalCard";
+	private Intent intent_set_global_card;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_write_feed);
+		
+		intent_set_global_card = new Intent(BROADCAST_ACTION_SET_GLOBAL_CARD);
 		
 		extra = getIntent().getExtras();
 		
@@ -63,8 +69,6 @@ public class WriteFeedActivity extends Activity {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
 	}
 	
 	@Override
@@ -77,9 +81,16 @@ public class WriteFeedActivity extends Activity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// Handle presses on the action bar items
 		switch (item.getItemId()) {
-		case R.id.action_write:
-			writeFeed(uid,extra.getString("id"),extra.getString("type"),etCon.getText().toString());
+		case android.R.id.home:
 			this.finish();
+			overridePendingTransition(R.anim.stay, R.anim.slide_out_down);
+			return true;
+		case R.id.action_write:
+			if(!etCon.getText().toString().equals("")){
+				writeFeed(uid,extra.getString("id"),extra.getString("type"),etCon.getText().toString());
+				sendBroadcast(intent_set_global_card);
+				this.finish();
+			}
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);
