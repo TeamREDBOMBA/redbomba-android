@@ -44,9 +44,10 @@
             android:layout_height="wrap_content"
             android:background="@drawable/et_landing_border_radius"
             android:focusableInTouchMode="true"
+            android:hint="이메일"
             android:inputType="textEmailAddress"
-            android:text="이메일"
-            android:textColor="#FFFFFF" />
+            android:textColor="#FFFFFF"
+            android:textColorHint="#bdc3c7" />
 
         <EditText
             android:id="@+id/etPW"
@@ -55,9 +56,10 @@
             android:layout_marginTop="10dp"
             android:background="@drawable/et_landing_border_radius"
             android:focusableInTouchMode="true"
+            android:hint="비밀번"
             android:inputType="textPassword"
-            android:text="********"
-            android:textColor="#FFFFFF" />
+            android:textColor="#FFFFFF"
+            android:textColorHint="#bdc3c7" />
 
         <EditText
             android:id="@+id/etPW_"
@@ -67,9 +69,10 @@
             android:layout_marginTop="10dp"
             android:background="@drawable/et_landing_border_radius"
             android:focusableInTouchMode="true"
+            android:hint="비밀번호 재입력"
             android:inputType="textPassword"
-            android:text="********"
-            android:textColor="#FFFFFF" />
+            android:textColor="#FFFFFF"
+            android:textColorHint="#bdc3c7" />
 
         <Button
             android:id="@+id/btnJoin"
@@ -89,6 +92,7 @@
             android:gravity="center_vertical|center_horizontal"
             android:text="눌러서 계속 진행하면 개인정보취급방침과\n서비스 약관에 동의함을 나타냅니다."
             android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColorHint="#bdc3c7"
             android:textSize="12sp" />
 
     </LinearLayout>

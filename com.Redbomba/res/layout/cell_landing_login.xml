@@ -44,9 +44,10 @@
             android:layout_height="wrap_content"
             android:background="@drawable/et_landing_border_radius"
             android:focusableInTouchMode="true"
+            android:hint="이메일"
             android:inputType="textEmailAddress"
-            android:text="이메일"
-            android:textColor="#FFFFFF" >
+            android:textColor="#FFFFFF"
+            android:textColorHint="#bdc3c7" >
 
             <requestFocus />
         </EditText>
@@ -59,9 +60,10 @@
             android:layout_marginTop="10dp"
             android:background="@drawable/et_landing_border_radius"
             android:focusableInTouchMode="true"
+            android:hint="비밀번호"
             android:inputType="textPassword"
-            android:text="********"
-            android:textColor="#FFFFFF" />
+            android:textColor="#FFFFFF"
+            android:textColorHint="#bdc3c7" />
 
         <Button
             android:id="@+id/btnLogin"

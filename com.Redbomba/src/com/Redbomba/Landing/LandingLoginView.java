@@ -7,12 +7,11 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.View.OnFocusChangeListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
-public class LandingLoginView extends View implements OnFocusChangeListener{
+public class LandingLoginView extends View {
 	
 	private View feed;
 	private EditText etEmail;
@@ -39,8 +38,6 @@ public class LandingLoginView extends View implements OnFocusChangeListener{
 
 		feed.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT,ViewGroup.LayoutParams.FILL_PARENT));
 		btnBack_v3.setOnClickListener((OnClickListener)context);
-		etEmail.setOnFocusChangeListener((OnFocusChangeListener)this);
-		etPW.setOnFocusChangeListener((OnFocusChangeListener)this);
 		btnLogin.setOnClickListener((OnClickListener)context);
 		ll_ll_join.setOnClickListener((OnClickListener)context);
 	}
@@ -55,26 +52,5 @@ public class LandingLoginView extends View implements OnFocusChangeListener{
 	
 	public String getPW(){
 		return etPW.getText().toString();
-	}
-	
-	@Override
-	public void onFocusChange(View v, boolean hasFocus) {
-		// TODO Auto-generated method stub
-		switch(v.getId()){
-		case R.id.etEmail :
-			if(hasFocus) { 
-				if(etEmail.getText().toString().equals("이메일")) etEmail.setText("");
-			} else{
-				if(etEmail.getText().toString().equals("")) etEmail.setText("이메일");
-			}
-			break;
-		case R.id.etPW :
-			if(hasFocus) { 
-				if(etPW.getText().toString().equals("********")) etPW.setText("");
-			}else{
-				if(etPW.getText().toString().equals("")) etPW.setText("********");
-			}
-			break;
-		}
 	}
 }
