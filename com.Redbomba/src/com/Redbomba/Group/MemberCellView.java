@@ -6,6 +6,7 @@ import com.Redbomba.R;
 import com.Redbomba.R.drawable;
 import com.Redbomba.R.id;
 import com.Redbomba.R.layout;
+import com.Redbomba.Settings.Functions;
 import com.Redbomba.Settings.Settings;
 import com.androidquery.AQuery;
 import com.androidquery.callback.ImageOptions;
@@ -31,12 +32,15 @@ public class MemberCellView extends View {
 	private String user_icon = "";
 	private String uid = "";
 	private String username = "";
+	
+	Settings settings;
 
 	public MemberCellView(Context context, JSONObject jo) {
 		super(context);
 		this.con = context;
 		aq = new AQuery(con);
 		// TODO Auto-generated method stub
+		settings = (Settings) context.getApplicationContext();
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		feed = inflater.inflate(R.layout.cell_groupmember, null);
 		
@@ -44,7 +48,7 @@ public class MemberCellView extends View {
 		ivMemberOnOff = (ImageView)feed.findViewById(R.id.ivMemberOnOff);
 		tvMemberName = (TextView)feed.findViewById(R.id.tvMemberName);
 		
-		tvMemberName.setTypeface(Settings.setFont(context));
+		tvMemberName.setTypeface(Functions.setFont(context));
 		
 		try{
 			user_icon = jo.getString("user_icon");

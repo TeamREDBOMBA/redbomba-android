@@ -3,6 +3,7 @@ package com.Redbomba.Main;
 import org.json.JSONObject;
 
 import com.Redbomba.R;
+import com.Redbomba.Settings.Functions;
 import com.Redbomba.Settings.Settings;
 import com.androidquery.AQuery;
 
@@ -28,10 +29,13 @@ public class PrivateCellView extends View {
 	private String strTitle = "";
 	private String strCon = "";
 	
+	Settings settings;
+	
 	public PrivateCellView(Context context, JSONObject jo){
 		super(context);
 		this.con = context;
 		// TODO Auto-generated method stub
+		settings = (Settings) context.getApplicationContext();
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		feed = inflater.inflate(R.layout.cell_privatelist, null);
 		
@@ -40,9 +44,9 @@ public class PrivateCellView extends View {
 		tvTitle = (TextView)feed.findViewById(R.id.tvTitle);
 		tvCon = (TextView)feed.findViewById(R.id.tvCon);
 		
-		tvDate.setTypeface(Settings.setFont(con));
-		tvTitle.setTypeface(Settings.setFont(con));
-		tvCon.setTypeface(Settings.setFont(con));
+		tvDate.setTypeface(Functions.setFont(con));
+		tvTitle.setTypeface(Functions.setFont(con));
+		tvCon.setTypeface(Functions.setFont(con));
 		
 		try{
 			strIcon = jo.getString("icon");

@@ -1,6 +1,7 @@
 package com.Redbomba.Main;
 
 import com.Redbomba.R;
+import com.Redbomba.Settings.Functions;
 import com.Redbomba.Settings.Settings;
 import com.androidquery.AQuery;
 
@@ -19,12 +20,15 @@ public class NotiCellView extends View {
 	private ImageView imgIcon;
 	private TextView tvCon;
 	private TextView tvDate;
+	
+	Settings settings;
 
 	public NotiCellView(Context context, String strCon, String strDate, String strImg) {
 		super(context);
 		this.con = context;
 		aq = new AQuery(con);
 		// TODO Auto-generated method stub
+		settings = (Settings) context.getApplicationContext();
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		feed = inflater.inflate(R.layout.cell_notification, null);
 		
@@ -34,10 +38,10 @@ public class NotiCellView extends View {
 		tvCon = (TextView)feed.findViewById(R.id.tvCon);
 		tvDate = (TextView)feed.findViewById(R.id.tvDate);
 		
-		tvCon.setTypeface(Settings.setFont(context));
-		tvDate.setTypeface(Settings.setFont(context));
+		tvCon.setTypeface(Functions.setFont(context));
+		tvDate.setTypeface(Functions.setFont(context));
 		
-		tvCon.setText(Settings.stripHTML(strCon));
+		tvCon.setText(Functions.stripHTML(strCon));
 		tvDate.setText(strDate);
 		aq.id(imgIcon).image(urlIcon);
 	}

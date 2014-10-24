@@ -7,6 +7,7 @@ import java.util.concurrent.TimeUnit;
 
 import com.Redbomba.R;
 import com.Redbomba.Main.MainActivity;
+import com.Redbomba.Settings.Functions;
 import com.Redbomba.Settings.Settings;
 
 import android.app.AlertDialog;
@@ -56,11 +57,15 @@ public class LandingActivity extends FragmentActivity implements OnClickListener
 	private Handler mHandler;
 	private boolean mFlag = false;
 	private Display display;
+	
+	Settings settings;
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_login);
+		
+		settings = (Settings) getApplicationContext();
 
 		display = getWindowManager().getDefaultDisplay(); 
 
@@ -104,7 +109,7 @@ public class LandingActivity extends FragmentActivity implements OnClickListener
 		
 		ll_hscv_v2 = (LinearLayout)findViewById(R.id.ll_hscv_v2);
 
-		btnTryJoin.setTypeface(Settings.setFont(this));
+		btnTryJoin.setTypeface(Functions.setFont(this));
 
 		ll_hscv_v1.setLayoutParams(new LinearLayout.LayoutParams(display.getWidth(),ViewGroup.LayoutParams.FILL_PARENT));
 		btnTryJoin.setOnClickListener(this);
@@ -172,10 +177,10 @@ public class LandingActivity extends FragmentActivity implements OnClickListener
 			String password = llv.getPW();
 			int uid=0;
 			try {
-				uid = Settings.GET("mode=1&email="+email+"&password="+password).getJSONObject(0).getInt("uid");
+				uid = Functions.GET("mode=1&email="+email+"&password="+password).getJSONObject(0).getInt("uid");
 				editor_system.putInt("uid", uid);
 				editor_system.commit();
-				Settings.user_id = uid;
+				settings.user_id = uid;
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

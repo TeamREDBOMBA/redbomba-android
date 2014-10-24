@@ -32,6 +32,8 @@ public class GroupActivity extends FragmentActivity {
 	ViewPager mPager;
 	PageIndicator mIndicator;
 	int Number = 0;
+	
+	Settings settings;
 
 	private static final String[] CONTENT = new String[] { "그룹정보", "채팅", "탈퇴"};
 
@@ -39,6 +41,8 @@ public class GroupActivity extends FragmentActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_group);
+		
+		settings = (Settings) getApplicationContext();
 
 		mAdapter = new GroupFragAdapter(getSupportFragmentManager());
 
@@ -50,7 +54,7 @@ public class GroupActivity extends FragmentActivity {
 		indicator.setViewPager(mPager);
 
 		try {
-			setTitle(Settings.group_info.getString("name"));
+			setTitle(settings.group_info.getString("name"));
 		} catch (JSONException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();

@@ -21,6 +21,7 @@ import android.widget.ProgressBar;
 import com.Redbomba.R;
 import com.Redbomba.Main.Detail.GlobalCardActivity;
 import com.Redbomba.Main.Detail.WriteFeedActivity;
+import com.Redbomba.Settings.Functions;
 import com.Redbomba.Settings.Settings;
 
 public class MainGlobalFrag extends Fragment {
@@ -31,12 +32,15 @@ public class MainGlobalFrag extends Fragment {
 	private JSONArray ja;
 	
 	BroadcastReceiver broadcastReceiver;
+	Settings settings;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
 		layout = inflater.inflate(R.layout.frag_main_global, container, false);
 		llGlobalList = (LinearLayout)layout.findViewById(R.id.llGlobalList);
+		
+		settings = (Settings) getActivity().getApplicationContext();
 
 		pb = new ProgressBar(getActivity());
 		
@@ -67,7 +71,7 @@ public class MainGlobalFrag extends Fragment {
 
 		protected Boolean doInBackground(Void... Void) {
 			llGlobalList = (LinearLayout)layout.findViewById(R.id.llGlobalList);
-			ja = Settings.GET("mode=getGlobalList");
+			ja = Functions.GET("mode=getGlobalList");
 			return true;
 		}
 

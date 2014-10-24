@@ -16,6 +16,7 @@ import org.apache.http.util.EntityUtils;
 import org.json.JSONException;
 
 import com.Redbomba.R;
+import com.Redbomba.Settings.Functions;
 import com.Redbomba.Settings.Settings;
 import com.androidquery.AQuery;
 import com.androidquery.callback.ImageOptions;
@@ -42,10 +43,14 @@ public class WriteFeedActivity extends Activity {
 	public static final String BROADCAST_ACTION_SET_GLOBAL_CARD = "com.Redbomba.setGlobalCard";
 	private Intent intent_set_global_card;
 	
+	Settings settings;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_write_feed);
+		
+		settings = (Settings) getApplicationContext();
 		
 		intent_set_global_card = new Intent(BROADCAST_ACTION_SET_GLOBAL_CARD);
 		
@@ -55,16 +60,16 @@ public class WriteFeedActivity extends Activity {
 		tvName = (TextView)findViewById(R.id.tvName);
 		etCon = (EditText)findViewById(R.id.etCon);
 		
-		tvName.setTypeface(Settings.setFont(this));
-		etCon.setTypeface(Settings.setFont(this));
+		tvName.setTypeface(Functions.setFont(this));
+		etCon.setTypeface(Functions.setFont(this));
 		
 		ImageOptions options = new ImageOptions();
 		options.round = 10000;
 		
 		try {
-			tvName.setText(Settings.user_info.getString("username"));
-			aq.id(ivIcon).image("http://redbomba.net"+Settings.user_info.getString("user_icon"),options);
-			uid = Settings.user_info.getString("id");
+			tvName.setText(settings.user_info.getString("username"));
+			aq.id(ivIcon).image("http://redbomba.net"+settings.user_info.getString("user_icon"),options);
+			uid = settings.user_info.getString("id");
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

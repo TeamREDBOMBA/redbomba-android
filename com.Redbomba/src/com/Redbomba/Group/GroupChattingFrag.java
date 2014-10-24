@@ -30,12 +30,9 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
-import android.widget.TextView;
 
 import com.Redbomba.R;
-import com.Redbomba.R.drawable;
-import com.Redbomba.R.id;
-import com.Redbomba.R.layout;
+import com.Redbomba.Settings.Functions;
 import com.Redbomba.Settings.NotificationService;
 import com.Redbomba.Settings.Settings;
 
@@ -55,12 +52,16 @@ public class GroupChattingFrag extends Fragment {
 
 	BroadcastReceiver broadcastReceiver;
 	BroadcastReceiver llbr;
+	
+	Settings settings;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
+		settings = (Settings) getActivity().getApplicationContext();
+		
 		View layout = inflater.inflate(R.layout.frag_group_chatting, container, false);
-		Settings.setBadge(getActivity(),0);
+		Functions.setBadge(getActivity(),0);
 		
 		chat_len = 10;
 
@@ -71,7 +72,7 @@ public class GroupChattingFrag extends Fragment {
 		etChatting = (EditText)layout.findViewById(R.id.etChatting);
 		btnChatting = (ImageButton)layout.findViewById(R.id.btnChatting);
 
-		etChatting.setTypeface(Settings.setFont(getActivity()));
+		etChatting.setTypeface(Functions.setFont(getActivity()));
 
 		etChatting.setOnFocusChangeListener(new OnFocusChangeListener() {
 			@Override
@@ -112,9 +113,9 @@ public class GroupChattingFrag extends Fragment {
 				// TODO Auto-generated method stub
 				if(etChatting.getText().length() > 0){
 					try {
-						intent5.putExtra("name", Settings.user_info.getString("username"));
+						intent5.putExtra("name", settings.user_info.getString("username"));
 						intent5.putExtra("con", etChatting.getText().toString());
-						intent5.putExtra("icon", Settings.user_info.getString("user_icon"));
+						intent5.putExtra("icon", settings.user_info.getString("user_icon"));
 						getActivity().sendBroadcast(intent5);
 						etChatting.setText("");
 						setScrollBottom();
@@ -147,7 +148,7 @@ public class GroupChattingFrag extends Fragment {
 				String chaticon = extra.getString("icon","1");
 
 				llChatting.addView(new ChattingCellView(getActivity(), chatname, chatcon, chaticon).getView());
-				Settings.setBadge(getActivity(),0);
+				Functions.setBadge(getActivity(),0);
 
 				setScrollBottom();
 			}
@@ -191,7 +192,7 @@ public class GroupChattingFrag extends Fragment {
 			scrollBottom = para[0];
 			ArrayList<ChattingCellView> list = new ArrayList<ChattingCellView>();
 			try {
-				ja = Settings.GET("mode=getChatting&gid="+Settings.group_info.getString("gid")+"&len="+chat_len);
+				ja = Functions.GET("mode=getChatting&gid="+settings.group_info.getString("gid")+"&len="+chat_len);
 				for(int i=0; i<ja.length();i++){
 					list.add(new ChattingCellView(getActivity(),ja.getJSONObject(i)));
 				}

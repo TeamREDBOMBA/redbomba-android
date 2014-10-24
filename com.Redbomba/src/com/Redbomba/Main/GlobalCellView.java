@@ -3,6 +3,7 @@ package com.Redbomba.Main;
 import org.json.JSONObject;
 
 import com.Redbomba.R;
+import com.Redbomba.Settings.Functions;
 import com.Redbomba.Settings.Settings;
 import com.androidquery.AQuery;
 
@@ -29,6 +30,8 @@ public class GlobalCellView extends View {
 	private String strCommentNo = "";
 	private String strDate = "";
 	
+	Settings settings;
+	
 	public GlobalCellView(Context context, JSONObject jo){
 		super(context);
 		this.con = context;
@@ -36,16 +39,18 @@ public class GlobalCellView extends View {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		feed = inflater.inflate(R.layout.cell_globallist, null);
 		
+		settings = (Settings) context.getApplicationContext();
+		
 		ivSrc = (ImageView)feed.findViewById(R.id.ivSrc);
 		tvTitle = (TextView)feed.findViewById(R.id.tvTitle);
 		tvTag = (TextView)feed.findViewById(R.id.tvTag);
 		tvCommentNo = (TextView)feed.findViewById(R.id.tvCommentNo);
 		tvDate = (TextView)feed.findViewById(R.id.tvDate);
 		
-		tvTitle.setTypeface(Settings.setFont(con));
-		tvTag.setTypeface(Settings.setFont(con));
-		tvCommentNo.setTypeface(Settings.setFont(con));
-		tvDate.setTypeface(Settings.setFont(con));
+		tvTitle.setTypeface(Functions.setFont(con));
+		tvTag.setTypeface(Functions.setFont(con));
+		tvCommentNo.setTypeface(Functions.setFont(con));
+		tvDate.setTypeface(Functions.setFont(con));
 		
 		try{
 			strSrc = jo.getString("img");

@@ -16,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
 import com.Redbomba.R;
+import com.Redbomba.Settings.Functions;
 import com.Redbomba.Settings.Settings;
 
 public class MainPrivateFrag extends Fragment {
@@ -23,11 +24,15 @@ public class MainPrivateFrag extends Fragment {
 	View layout;
 	LinearLayout llPrivateList;
 	private JSONArray ja;
+	
+	Settings settings;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
 		layout = inflater.inflate(R.layout.frag_main_private, container, false);
+		
+		settings = (Settings) getActivity().getApplicationContext();
 
 		new PrivateListTask().execute(null, null, null);
 		
@@ -38,7 +43,7 @@ public class MainPrivateFrag extends Fragment {
 
 		protected Boolean doInBackground(Void... Void) {
 			llPrivateList = (LinearLayout)layout.findViewById(R.id.llPrivateList);
-			ja = Settings.GET("mode=getPrivateList&uid="+Settings.user_id);
+			ja = Functions.GET("mode=getPrivateList&uid="+settings.user_id);
 			return true;
 		}
 
@@ -59,7 +64,7 @@ public class MainPrivateFrag extends Fragment {
 						});
 						llPrivateList.addView(pcv.getView());
 					}
-				}catch(Exception e){ Log.i("error", e.getMessage()); }
+				}catch(Exception e){ Log.i("error", ""+e.getMessage()); }
 			}
 
 			return;

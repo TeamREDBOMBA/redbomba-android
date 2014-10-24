@@ -1,6 +1,7 @@
 package com.Redbomba.Main.Detail;
 
 import com.Redbomba.R;
+import com.Redbomba.Settings.Functions;
 import com.Redbomba.Settings.Settings;
 import com.androidquery.AQuery;
 
@@ -37,12 +38,15 @@ public class GlobalCardActivity extends Activity implements OnClickListener {
 	private String extra_id = "";
 	
 	BroadcastReceiver broadcastReceiver;
+	Settings settings;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_global_card);
+		
+		settings = (Settings) getApplicationContext();
 		
 		extra = getIntent().getExtras();
 		
@@ -58,9 +62,9 @@ public class GlobalCardActivity extends Activity implements OnClickListener {
 		ibClose.setOnClickListener((OnClickListener) this);
 		llFeedBtn.setOnClickListener((OnClickListener) this);
 		
-		tvTitle.setTypeface(Settings.setFont(this));
-		tvTag.setTypeface(Settings.setFont(this));
-		tvComment.setTypeface(Settings.setFont(this));
+		tvTitle.setTypeface(Functions.setFont(this));
+		tvTag.setTypeface(Functions.setFont(this));
+		tvComment.setTypeface(Functions.setFont(this));
 		
 		setContents();
 		setBroadcast();

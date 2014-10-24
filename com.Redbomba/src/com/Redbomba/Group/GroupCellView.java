@@ -7,6 +7,7 @@ import org.json.JSONObject;
 import com.Redbomba.R;
 import com.Redbomba.R.id;
 import com.Redbomba.R.layout;
+import com.Redbomba.Settings.Functions;
 import com.Redbomba.Settings.Settings;
 import com.androidquery.AQuery;
 import com.androidquery.callback.ImageOptions;
@@ -39,10 +40,13 @@ public class GroupCellView extends View {
 	private String strGameName = "";
 	private String strGroupInitial = "";
 	
+	Settings settings;
+	
 	public GroupCellView(Context context, JSONObject jo){
 		super(context);
 		this.con = context;
 		// TODO Auto-generated method stub
+		settings = (Settings) context.getApplicationContext();
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		feed = inflater.inflate(R.layout.cell_grouplist, null);
 		
@@ -53,9 +57,9 @@ public class GroupCellView extends View {
 		tvGroupInitial = (TextView)feed.findViewById(R.id.tvGroupInitial);
 		llbtnChatting = (LinearLayout)feed.findViewById(R.id.llbtnChatting);
 		
-		tvGroupName.setTypeface(Settings.setFont(con));
-		tvGameName.setTypeface(Settings.setFont(con));
-		tvGroupInitial.setTypeface(Settings.setFont(con));
+		tvGroupName.setTypeface(Functions.setFont(con));
+		tvGameName.setTypeface(Functions.setFont(con));
+		tvGroupInitial.setTypeface(Functions.setFont(con));
 		
 		try{
 			strGroupIcon = jo.getString("icon");

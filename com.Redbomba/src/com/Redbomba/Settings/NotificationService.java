@@ -53,10 +53,14 @@ public class NotificationService extends Service {
 	private Intent intent1;
 	private Intent intent3;
 	private Intent intent4;
+	
+	Settings settings;
 
 	public void onCreate() {
 		// TODO Auto-generated method stub
 		super.onCreate();
+		
+		settings = (Settings) getApplicationContext();
 
 		intent1 = new Intent(BROADCAST_ACTION_01);
 		intent3 = new Intent(BROADCAST_ACTION_03);
@@ -72,7 +76,7 @@ public class NotificationService extends Service {
 	class SocketTask extends AsyncTask<Void, Void, Boolean> {
 		protected Boolean doInBackground(Void... Void) {
 			try{
-				JSONObject jo = Settings.GET("mode=2&uid="+uid).getJSONObject(0);
+				JSONObject jo = Functions.GET("mode=2&uid="+uid).getJSONObject(0);
 				gid = jo.getInt("gid");
 			}catch (Exception e) {
 				// TODO: handle exception
@@ -214,7 +218,7 @@ public class NotificationService extends Service {
 							intent4.putExtra("name",jo.getString("name"));
 							intent4.putExtra("con",jo.getString("con"));
 							intent4.putExtra("icon",jo.getString("icon"));
-							Settings.setBadge(getApplication(),Settings.NotiCount++);
+							Functions.setBadge(getApplication(),settings.NotiCount++);
 							sendBroadcast(intent4);
 						}
 

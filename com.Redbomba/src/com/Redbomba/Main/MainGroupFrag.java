@@ -19,6 +19,7 @@ import android.widget.LinearLayout;
 import com.Redbomba.R;
 import com.Redbomba.Group.GroupActivity;
 import com.Redbomba.Group.GroupCellView;
+import com.Redbomba.Settings.Functions;
 import com.Redbomba.Settings.Settings;
 
 public class MainGroupFrag extends Fragment {
@@ -26,11 +27,15 @@ public class MainGroupFrag extends Fragment {
 	View layout;
 	LinearLayout llGroupList;
 	private JSONArray ja;
+	
+	Settings settings;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
 		layout = inflater.inflate(R.layout.frag_main_group, container, false);
+		
+		settings = (Settings) getActivity().getApplicationContext();
 
 		new GroupListTask().execute(null, null, null);
 
@@ -41,7 +46,7 @@ public class MainGroupFrag extends Fragment {
 
 		protected Boolean doInBackground(Void... Void) {
 			llGroupList = (LinearLayout)layout.findViewById(R.id.llGroupList);
-			ja = Settings.GET("mode=getGroupList&uid="+Settings.user_id);
+			ja = Functions.GET("mode=getGroupList&uid="+settings.user_id);
 			return true;
 		}
 
@@ -66,7 +71,7 @@ public class MainGroupFrag extends Fragment {
 											int no = Integer.parseInt(v.getTag().toString().replaceAll("group_", ""));
 											Intent gin = new Intent(getActivity(),GroupActivity.class);
 											startActivity(gin);
-											Settings.group_info = ja.getJSONObject(no);
+											settings.group_info = ja.getJSONObject(no);
 											getActivity().overridePendingTransition(R.anim.slide_out_left, R.anim.slide_in_right);
 										} catch (Exception e) { }
 									}
@@ -83,7 +88,7 @@ public class MainGroupFrag extends Fragment {
 								gin.putExtra("tab", 1);
 								startActivity(gin);
 								try {
-									Settings.group_info = ja.getJSONObject(no);
+									settings.group_info = ja.getJSONObject(no);
 								} catch (JSONException e) {
 									// TODO Auto-generated catch block
 									e.printStackTrace();

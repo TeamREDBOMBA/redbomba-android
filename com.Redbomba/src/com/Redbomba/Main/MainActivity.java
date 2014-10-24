@@ -10,6 +10,7 @@ import org.json.JSONObject;
 
 import com.Redbomba.R;
 import com.Redbomba.Settings.CustomTabIndicator;
+import com.Redbomba.Settings.Functions;
 import com.Redbomba.Settings.NotificationService;
 import com.Redbomba.Settings.Settings;
 import com.androidquery.AQuery;
@@ -69,11 +70,15 @@ public class MainActivity extends FragmentActivity implements OnPageChangeListen
 	private Handler mHandler;
 	private boolean mFlag = false;
 	private BroadcastReceiver broadcastReceiver;
+	
+	Settings settings;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		
+		settings = (Settings) getApplicationContext();
 
 		setRightMenu();
 		setPager();
@@ -132,7 +137,7 @@ public class MainActivity extends FragmentActivity implements OnPageChangeListen
 		JSONArray ja = null;
 		int i=0;
 		try{
-			ja = Settings.GET("mode=Notification&uid="+Settings.user_id);
+			ja = Functions.GET("mode=Notification&uid="+settings.user_id);
 			int ja_len = ja.length();
 			for(i=0;i<ja_len;i++){
 				int no = ja.getJSONObject(i).getInt("no");

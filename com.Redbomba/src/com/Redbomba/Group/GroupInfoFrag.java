@@ -27,6 +27,7 @@ import android.widget.TextView;
 import com.Redbomba.R;
 import com.Redbomba.R.id;
 import com.Redbomba.R.layout;
+import com.Redbomba.Settings.Functions;
 import com.Redbomba.Settings.NotificationService;
 import com.Redbomba.Settings.Settings;
 
@@ -50,14 +51,18 @@ public class GroupInfoFrag extends Fragment {
 	private LinearLayout llGroupMemList1;
 
 	private MemberCellView[] mvc;
-	private ArrayList<String> isOnline= new ArrayList<String>();;
+	private ArrayList<String> isOnline= new ArrayList<String>();
+	
+	Settings settings;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
 		intent = new Intent(BROADCAST_ACTION_02);
+		
+		settings = (Settings) getActivity().getApplicationContext();
 
-		this.jo = Settings.group_info;
+		this.jo = settings.group_info;
 
 		layout = inflater.inflate(R.layout.frag_group_info, container, false);
 
@@ -69,8 +74,8 @@ public class GroupInfoFrag extends Fragment {
 		llGroupMemList0 = (LinearLayout)layout.findViewById(R.id.llGroupMemList0);
 		llGroupMemList1 = (LinearLayout)layout.findViewById(R.id.llGroupMemList1);
 		
-		tvGroupName.setTypeface(Settings.setFont(getActivity()));
-		tvGameName.setTypeface(Settings.setFont(getActivity()));
+		tvGroupName.setTypeface(Functions.setFont(getActivity()));
+		tvGameName.setTypeface(Functions.setFont(getActivity()));
 
 		try {
 			tvGroupName.setText(jo.getString("name"));

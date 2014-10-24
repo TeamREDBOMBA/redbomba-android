@@ -1,6 +1,7 @@
 package com.Redbomba.Landing;
 
 import com.Redbomba.R;
+import com.Redbomba.Settings.Functions;
 import com.Redbomba.Settings.Settings;
 
 import android.content.Context;
@@ -19,9 +20,12 @@ public class LandingLoginView extends View {
 	public Button btnBack_v3;
 	public Button btnLogin;
 	public LinearLayout ll_ll_join;
+	
+	Settings settings;
 
 	public LandingLoginView(Context context){
 		super(context);
+		settings = (Settings) context.getApplicationContext();
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		feed = inflater.inflate(R.layout.cell_landing_login, null);
 
@@ -31,10 +35,10 @@ public class LandingLoginView extends View {
 		btnLogin = (Button)feed.findViewById(R.id.btnLogin);
 		ll_ll_join = (LinearLayout)feed.findViewById(R.id.ll_ll_join);
 
-		btnBack_v3.setTypeface(Settings.setFont(context));
-		etEmail.setTypeface(Settings.setFont(context));
-		etPW.setTypeface(Settings.setFont(context));
-		btnLogin.setTypeface(Settings.setFont(context));
+		btnBack_v3.setTypeface(Functions.setFont(context));
+		etEmail.setTypeface(Functions.setFont(context));
+		etPW.setTypeface(Functions.setFont(context));
+		btnLogin.setTypeface(Functions.setFont(context));
 
 		feed.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT,ViewGroup.LayoutParams.FILL_PARENT));
 		btnBack_v3.setOnClickListener((OnClickListener)context);

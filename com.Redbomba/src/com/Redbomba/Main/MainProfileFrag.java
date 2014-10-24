@@ -26,6 +26,8 @@ public class MainProfileFrag extends Fragment {
 	
 	public static final String BROADCAST_ACTION_06 = "com.Redbomba.Logout";
 	private Intent intent6;
+	
+	Settings settings;
 
 	@Override
 	public View onCreateView(LayoutInflater lf, ViewGroup vg, Bundle b) {
@@ -33,6 +35,8 @@ public class MainProfileFrag extends Fragment {
 		Button logout = (Button) rootView.findViewById(R.id.logout);
 		prefs_system = this.getActivity().getSharedPreferences("system", 0);
 		editor_system = prefs_system.edit();
+		
+		settings = (Settings) getActivity().getApplicationContext();
 		
 		intent6 = new Intent(BROADCAST_ACTION_06);
 
@@ -44,7 +48,7 @@ public class MainProfileFrag extends Fragment {
 				case DialogInterface.BUTTON_POSITIVE:
 					getActivity().sendBroadcast(intent6);
 					editor_system.clear();
-					Settings.user_id = 0;
+					settings.user_id = 0;
 					editor_system.commit();
 					Intent intent = new Intent(getActivity(), LandingActivity.class);
 					getActivity().finish();

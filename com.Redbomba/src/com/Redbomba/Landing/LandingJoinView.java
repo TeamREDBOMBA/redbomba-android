@@ -1,6 +1,7 @@
 package com.Redbomba.Landing;
 
 import com.Redbomba.R;
+import com.Redbomba.Settings.Functions;
 import com.Redbomba.Settings.Settings;
 
 import android.content.Context;
@@ -19,9 +20,12 @@ public class LandingJoinView extends View {
 	public EditText etPW;
 	public EditText etPW_;
 	public LinearLayout ll_lj_loin;
+	
+	Settings settings;
 
 	public LandingJoinView(Context context){
 		super(context);
+		settings = (Settings) context.getApplicationContext();
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		feed = inflater.inflate(R.layout.cell_landing_join, null);
 		
@@ -31,7 +35,7 @@ public class LandingJoinView extends View {
 		etPW_ = (EditText)feed.findViewById(R.id.etPW_);
 		ll_lj_loin = (LinearLayout)feed.findViewById(R.id.ll_lj_loin);
 
-		btnBack_v2.setTypeface(Settings.setFont(context));
+		btnBack_v2.setTypeface(Functions.setFont(context));
 
 		feed.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT,ViewGroup.LayoutParams.FILL_PARENT));
 		btnBack_v2.setOnClickListener((OnClickListener)context);

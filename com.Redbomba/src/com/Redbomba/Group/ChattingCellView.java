@@ -3,8 +3,7 @@ package com.Redbomba.Group;
 import org.json.JSONObject;
 
 import com.Redbomba.R;
-import com.Redbomba.R.id;
-import com.Redbomba.R.layout;
+import com.Redbomba.Settings.Functions;
 import com.Redbomba.Settings.Settings;
 import com.androidquery.AQuery;
 import com.androidquery.callback.ImageOptions;
@@ -24,9 +23,13 @@ public class ChattingCellView extends View {
 	private ImageView ivChatIcon;
 	TextView tvChatName;
 	TextView tvChatCon;
+	
+	Settings settings;
 
 	public ChattingCellView(Context context, JSONObject jo) {
 		super(context);
+		
+		settings = (Settings) context.getApplicationContext();
 		
 		try {
 			setChattingText(context, jo.getString("username"), jo.getString("con"), jo.getString("usericon"));
@@ -52,8 +55,8 @@ public class ChattingCellView extends View {
 		tvChatName = (TextView)feed.findViewById(R.id.tvChatName);
 		tvChatCon = (TextView)feed.findViewById(R.id.tvChatCon);
 		
-		tvChatName.setTypeface(Settings.setFont(context));
-		tvChatCon.setTypeface(Settings.setFont(context));
+		tvChatName.setTypeface(Functions.setFont(context));
+		tvChatCon.setTypeface(Functions.setFont(context));
 		
 		ImageOptions options = new ImageOptions();
 		options.round = 10000;

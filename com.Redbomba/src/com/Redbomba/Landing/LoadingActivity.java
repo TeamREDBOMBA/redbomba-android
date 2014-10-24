@@ -4,6 +4,7 @@ import org.json.JSONException;
 
 import com.Redbomba.R;
 import com.Redbomba.Main.MainActivity;
+import com.Redbomba.Settings.Functions;
 import com.Redbomba.Settings.Settings;
 
 import android.app.Activity;
@@ -16,12 +17,16 @@ import android.view.Window;
 public class LoadingActivity extends Activity {
 	
 	private SharedPreferences prefs_system;
+	
+	Settings settings;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_loading);
+		
+		settings = (Settings) getApplicationContext();
 		
 		prefs_system = getSharedPreferences("system", 0);
 		
@@ -31,9 +36,9 @@ public class LoadingActivity extends Activity {
 	class LoginTask extends AsyncTask<Void, Void, Integer> {
 		protected Integer doInBackground(Void... Void) {
 			if(prefs_system.getInt("uid", 0) != 0){
-				Settings.user_id = prefs_system.getInt("uid", 0);
+				settings.user_id = prefs_system.getInt("uid", 0);
 				try {
-					Settings.user_info = Settings.GET("mode=2&uid="+Settings.user_id).getJSONObject(0);
+					settings.user_info = Functions.GET("mode=2&uid="+settings.user_id).getJSONObject(0);
 				} catch (JSONException e) {
 					// TODO Auto-generated catch block
 					return 2;
