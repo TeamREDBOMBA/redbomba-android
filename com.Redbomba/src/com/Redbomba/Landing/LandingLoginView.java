@@ -47,7 +47,13 @@ public class LandingLoginView extends View {
 	}
 	
 	public View getView(){
+		init();
 		return feed;
+	}
+	
+	public void init(){
+		etEmail.setText("");
+		etPW.setText("");
 	}
 	
 	public String getID(){

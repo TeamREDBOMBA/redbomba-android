@@ -37,7 +37,7 @@ public class Functions{
 
 	public static JSONArray GET(String var){
 		String jsonStr = null;
-		jsonStr = downloadHtml("http://redbomba.net/mobile/?"+var);
+		jsonStr = downloadHtml(var);
 		jsonStr = jsonStr.trim();
 		try{
 			JSONArray ja = new JSONArray(jsonStr);
@@ -48,9 +48,10 @@ public class Functions{
 		return null;
 	}
 
-	static String downloadHtml(String addr){
+	public static String downloadHtml(String addr){
 		StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder().detectDiskReads().detectDiskWrites().detectNetwork().penaltyLog().build());
 		StringBuilder html = new StringBuilder();
+		addr = "http://redbomba.net/mobile/?"+addr;
 		try{
 			URL url = new URL(addr);
 			HttpURLConnection conn = (HttpURLConnection) url.openConnection();

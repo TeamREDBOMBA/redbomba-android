@@ -38,7 +38,7 @@ public class LoadingActivity extends Activity {
 			if(prefs_system.getInt("uid", 0) != 0){
 				settings.user_id = prefs_system.getInt("uid", 0);
 				try {
-					settings.user_info = Functions.GET("mode=2&uid="+settings.user_id).getJSONObject(0);
+					settings.user_info = Functions.GET("mode=getUserInfo&uid="+settings.user_id).getJSONObject(0);
 				} catch (JSONException e) {
 					// TODO Auto-generated catch block
 					return 2;

@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ecf0f1"
+    android:background="@color/actionbar_text"
     android:orientation="vertical" >
 
     <FrameLayout
@@ -71,6 +71,15 @@
             </LinearLayout>
         </LinearLayout>
     </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:layout_weight="0"
+        android:background="#f1c40f"
+        android:orientation="vertical" >
+
+    </LinearLayout>
 
     <ScrollView
         android:id="@+id/scrollView1"

@@ -1,127 +1,208 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:orientation="vertical" >
-
-    <Button
-        android:id="@+id/btnBack_v2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/btn_tryjoin_border_radius"
-        android:paddingLeft="13dp"
-        android:paddingRight="13dp"
-        android:text="&lt; 뒤로"
-        android:textColor="#FFFFFF" />
-
-    <TextView
-        android:id="@+id/tvComment"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical|center_horizontal"
-        android:text="회원가입"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textColor="#FFFFFF"
-        android:textSize="30sp" />
+    android:layout_height="fill_parent" >
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="15dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/ll_loginbg_border_radius"
-        android:orientation="vertical"
-        android:paddingBottom="40dp"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:paddingTop="40dp" >
-
-        <EditText
-            android:id="@+id/etEmail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/et_landing_border_radius"
-            android:focusableInTouchMode="true"
-            android:hint="이메일"
-            android:inputType="textEmailAddress"
-            android:textColor="#FFFFFF"
-            android:textColorHint="#bdc3c7" />
-
-        <EditText
-            android:id="@+id/etPW"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/et_landing_border_radius"
-            android:focusableInTouchMode="true"
-            android:hint="비밀번호"
-            android:inputType="textPassword"
-            android:textColor="#FFFFFF"
-            android:textColorHint="#bdc3c7" />
-
-        <EditText
-            android:id="@+id/etPW_"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10px"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/et_landing_border_radius"
-            android:focusableInTouchMode="true"
-            android:hint="비밀번호 재입력"
-            android:inputType="textPassword"
-            android:textColor="#FFFFFF"
-            android:textColorHint="#bdc3c7" />
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
 
         <Button
-            android:id="@+id/btnJoin"
-            android:layout_width="match_parent"
+            android:id="@+id/btnBack_v2"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/btn_join_border_radius"
-            android:text="다 음 >"
-            android:textColor="#f1c40f"
-            android:textSize="20sp" />
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/btn_tryjoin_border_radius"
+            android:paddingLeft="13dp"
+            android:paddingRight="13dp"
+            android:text="&lt; 뒤로"
+            android:textColor="#FFFFFF" />
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/tvComment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical|center_horizontal"
-            android:text="눌러서 계속 진행하면 개인정보취급방침과\n서비스 약관에 동의함을 나타냅니다."
-            android:textColor="#bdc3c7"
-            android:textSize="12sp" />
+            android:text="회원가입"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="#FFFFFF"
+            android:textSize="30sp" />
 
+        <HorizontalScrollView
+            android:id="@+id/hsv_join"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/ll_loginbg_border_radius"
+            android:descendantFocusability="beforeDescendants"
+            android:focusableInTouchMode="true"
+            android:scrollbarAlwaysDrawVerticalTrack="false"
+            android:scrollbars="none" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal" >
+
+                <LinearLayout
+                    android:id="@+id/ll_join_v1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingBottom="10dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:paddingTop="10dp" >
+
+                    <EditText
+                        android:id="@+id/etEmail"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/et_landing_border_radius"
+                        android:focusableInTouchMode="true"
+                        android:hint="이메일"
+                        android:inputType="textEmailAddress"
+                        android:textColor="#FFFFFF"
+                        android:textColorHint="#bdc3c7" >
+
+                        <requestFocus />
+                    </EditText>
+
+                    <EditText
+                        android:id="@+id/etPW"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/et_landing_border_radius"
+                        android:focusableInTouchMode="true"
+                        android:hint="비밀번호"
+                        android:inputType="textPassword"
+                        android:textColor="#FFFFFF"
+                        android:textColorHint="#bdc3c7" />
+
+                    <EditText
+                        android:id="@+id/etPW_"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10px"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/et_landing_border_radius"
+                        android:focusableInTouchMode="true"
+                        android:hint="비밀번호 재입력"
+                        android:inputType="textPassword"
+                        android:textColor="#FFFFFF"
+                        android:textColorHint="#bdc3c7" />
+
+                    <Button
+                        android:id="@+id/btnNext"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/btn_join_border_radius"
+                        android:text="다 음 >"
+                        android:textColor="#f1c40f"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:id="@+id/textView2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical|center_horizontal"
+                        android:text="눌러서 계속 진행하면 개인정보취급방침과\n서비스 약관에 동의함을 나타냅니다."
+                        android:textColor="#bdc3c7"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_join_v2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingBottom="10dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:paddingTop="10dp" >
+
+                    <EditText
+                        android:id="@+id/etNick"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/et_landing_border_radius"
+                        android:focusableInTouchMode="true"
+                        android:hint="닉네임"
+                        android:inputType="textEmailAddress"
+                        android:textColor="#FFFFFF"
+                        android:textColorHint="#bdc3c7" />
+
+                    <Button
+                        android:id="@+id/btnJoin"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/btn_join_border_radius"
+                        android:text="가입하기"
+                        android:textColor="#f1c40f"
+                        android:textSize="20sp" />
+                </LinearLayout>
+            </LinearLayout>
+        </HorizontalScrollView>
+
+        <LinearLayout
+            android:id="@+id/ll_lj_loin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:gravity="center_horizontal"
+            android:padding="10dp" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="아직 계정이 있으신가요?"
+                android:textColor="#FFF"
+                android:textSize="15sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:text="로그인"
+                android:textColor="#FFF"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+        </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/ll_lj_loin"
+        android:id="@+id/ll_v2_loading"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:gravity="center_horizontal"
-        android:padding="10dp" >
+        android:layout_height="match_parent"
+        android:background="#bb000000"
+        android:gravity="center_vertical|center_horizontal"
+        android:orientation="vertical"
+        android:visibility="gone" >
 
         <TextView
+            android:id="@+id/textView1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="아직 계정이 있으신가요?"
-            android:textColor="#FFF"
-            android:textSize="15sp" />
+            android:text="잠시만 기다려주세요."
+            android:textColor="#fff" />
 
-        <TextView
+        <ProgressBar
+            android:id="@+id/progressBar1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:text="로그인"
-            android:textColor="#FFF"
-            android:textSize="15sp"
-            android:textStyle="bold" />
+            android:layout_marginTop="10dp" />
+
     </LinearLayout>
 
-</LinearLayout>
+</FrameLayout>

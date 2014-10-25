@@ -98,7 +98,7 @@ public class MainGroupFrag extends Fragment {
 						});
 						llGroupList.addView(gcv.getView());
 					}
-				}catch(Exception e){ Log.i("error", e.getMessage()); }
+				}catch(Exception e){ Log.i("error", ""+e.getMessage()); }
 			}
 
 			return;

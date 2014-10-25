@@ -45,9 +45,9 @@ public class LandingActivity extends FragmentActivity implements OnClickListener
 	private LinearLayout ll_hscv_v1;
 	private Button btnTryJoin;
 	private LinearLayout ll_v1_login;
-	
+
 	private LinearLayout ll_hscv_v2;
-	
+
 	private LandingLoginView llv;
 	private LandingJoinView ljv;
 
@@ -57,14 +57,16 @@ public class LandingActivity extends FragmentActivity implements OnClickListener
 	private Handler mHandler;
 	private boolean mFlag = false;
 	private Display display;
-	
+	private String login_email = "";
+	private String login_pw = "";
+
 	Settings settings;
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_login);
-		
+
 		settings = (Settings) getApplicationContext();
 
 		display = getWindowManager().getDefaultDisplay(); 
@@ -79,16 +81,16 @@ public class LandingActivity extends FragmentActivity implements OnClickListener
 				return true;
 			}
 		});
-		
+
 		ll_hscv_con = (LinearLayout)findViewById(R.id.ll_hscv_con);
 
 		prefs_system = getSharedPreferences("system", 0);
 		editor_system = prefs_system.edit();
-		
+
 		setView1();
-		ljv = new LandingJoinView(this);
+		ljv = new LandingJoinView(this,display.getWidth());
 		llv = new LandingLoginView(this);
-		
+
 		setVideoBG();
 
 		mHandler = new Handler() {
@@ -101,12 +103,12 @@ public class LandingActivity extends FragmentActivity implements OnClickListener
 		};
 
 	}
-	
+
 	private void setView1(){
 		ll_hscv_v1 = (LinearLayout)findViewById(R.id.ll_hscv_v1);
 		btnTryJoin = (Button)findViewById(R.id.btnTryJoin);
 		ll_v1_login = (LinearLayout)findViewById(R.id.ll_v1_login);
-		
+
 		ll_hscv_v2 = (LinearLayout)findViewById(R.id.ll_hscv_v2);
 
 		btnTryJoin.setTypeface(Functions.setFont(this));
@@ -114,7 +116,7 @@ public class LandingActivity extends FragmentActivity implements OnClickListener
 		ll_hscv_v1.setLayoutParams(new LinearLayout.LayoutParams(display.getWidth(),ViewGroup.LayoutParams.FILL_PARENT));
 		btnTryJoin.setOnClickListener(this);
 		ll_v1_login.setOnClickListener(this);
-		
+
 		ll_hscv_v2.setLayoutParams(new LinearLayout.LayoutParams(display.getWidth(),ViewGroup.LayoutParams.FILL_PARENT));
 	}
 
@@ -143,7 +145,13 @@ public class LandingActivity extends FragmentActivity implements OnClickListener
 			hscv.smoothScrollTo(0, 0);
 			break;
 		case R.id.btnLogin :
+			login_email = llv.getID();
+			login_pw = llv.getPW();
 			new LoginTask().execute(null, null, null);
+			break;
+		case R.id.btnJoin :
+			ljv.ll_v2_loading.setVisibility(View.VISIBLE);
+			new JoinTask().execute(null, null, null);
 			break;
 		case R.id.ll_ll_join:
 			returnView(ljv.getView());
@@ -153,31 +161,29 @@ public class LandingActivity extends FragmentActivity implements OnClickListener
 			break;
 		}
 	}
-	
+
 	private void returnView(final View v){
 		hscv.smoothScrollTo(0, 0);
 		Timer timer = new Timer();
 		timer.schedule(new TimerTask() {
-		    public void run() {
-		        runOnUiThread(new Runnable() {
-		            @Override
-		            public void run() {
-		            	ll_hscv_v2.removeAllViews();
-		            	ll_hscv_v2.addView(v);
-		    			hscv.smoothScrollTo(display.getWidth(), 0);
-		            }
-		        });
-		    }
+			public void run() {
+				runOnUiThread(new Runnable() {
+					@Override
+					public void run() {
+						ll_hscv_v2.removeAllViews();
+						ll_hscv_v2.addView(v);
+						hscv.smoothScrollTo(display.getWidth(), 0);
+					}
+				});
+			}
 		}, 250);
 	}
 
 	class LoginTask extends AsyncTask<Void, Void, Boolean> {
 		protected Boolean doInBackground(Void... Void) {
-			String email = llv.getID();
-			String password = llv.getPW();
 			int uid=0;
 			try {
-				uid = Functions.GET("mode=1&email="+email+"&password="+password).getJSONObject(0).getInt("uid");
+				uid = Functions.GET("mode=getLoginSession&email="+login_email+"&password="+login_pw).getJSONObject(0).getInt("uid");
 				editor_system.putInt("uid", uid);
 				editor_system.commit();
 				settings.user_id = uid;
@@ -196,6 +202,36 @@ public class LandingActivity extends FragmentActivity implements OnClickListener
 			}else{
 				new AlertDialog.Builder(LandingActivity.this).setTitle("로그인 실패")
 				.setMessage("아이디와 비밀번호를 다시 확인 후 시도해주세요.")
+				.setPositiveButton("예", new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int which) {
+						// TODO Auto-generated method stub
+					}
+				}).show();
+			}
+			return;
+		}
+	}
+
+	class JoinTask extends AsyncTask<Void, Void, Boolean> {
+		protected Boolean doInBackground(Void... Void) {
+			String email = ljv.getID();
+			String password = ljv.getPW();
+			String nick = ljv.getNICK();
+			String ret = Functions.downloadHtml("mode=postJoin&email="+email+"&pw="+password+"&nick="+nick);
+			Log.i("ret!!!!!!", ""+ret);
+			if(ret.equals("")) return true;
+			else return false;
+		}
+
+		protected void onPostExecute(Boolean result) {
+			if(result){
+				login_email = ljv.getID();
+				login_pw = ljv.getPW();
+				new LoginTask().execute(null, null, null);
+			}else{
+				ljv.ll_v2_loading.setVisibility(View.GONE);
+				new AlertDialog.Builder(LandingActivity.this).setTitle("회원가입 실패")
+				.setMessage("잠시 후 다시 시도해주세요.")
 				.setPositiveButton("예", new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int which) {
 						// TODO Auto-generated method stub
