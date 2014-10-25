@@ -8,13 +8,20 @@ import com.Redbomba.R;
 import com.Redbomba.R.id;
 import com.Redbomba.R.layout;
 import com.Redbomba.Settings.Functions;
+import com.Redbomba.Settings.NotificationService;
 import com.Redbomba.Settings.Settings;
 import com.androidquery.AQuery;
 import com.androidquery.callback.ImageOptions;
+import com.readystatesoftware.viewbadger.BadgeView;
 
+import android.os.Bundle;
 import android.provider.ContactsContract.CommonDataKinds.Im;
+import android.util.Log;
 import android.view.ViewGroup.LayoutParams;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -41,6 +48,9 @@ public class GroupCellView extends View {
 	private String strGroupInitial = "";
 	
 	Settings settings;
+	BroadcastReceiver broadcastReceiver;
+	static int newChat = 0;
+	static BadgeView badge;
 	
 	public GroupCellView(Context context, JSONObject jo){
 		super(context);
@@ -79,7 +89,23 @@ public class GroupCellView extends View {
 		tvGroupInitial.setText(strGroupInitial);
 		
 		setGroupMember(jo);
+		setBroadcast();
 		
+	}
+	
+	public void setBroadcast(){
+		broadcastReceiver = new BroadcastReceiver() {
+			@Override
+			public void onReceive(Context context, Intent intent) {
+				Log.i("setBroadcast_4","LOAD");
+				newChat++;
+				if(badge==null) badge = new BadgeView(con, llbtnChatting);
+				badge.setText(""+newChat);
+				badge.show();
+			}
+		};
+
+		con.registerReceiver(broadcastReceiver, new IntentFilter(NotificationService.BROADCAST_ACTION_04));
 	}
 	
 	public View getView(){

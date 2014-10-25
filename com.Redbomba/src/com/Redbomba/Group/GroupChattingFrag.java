@@ -148,7 +148,8 @@ public class GroupChattingFrag extends Fragment {
 				String chaticon = extra.getString("icon","1");
 
 				llChatting.addView(new ChattingCellView(getActivity(), chatname, chatcon, chaticon).getView());
-				Functions.setBadge(getActivity(),0);
+				settings.NotiCount = 0;
+				Functions.setBadge(getActivity(),settings.NotiCount);
 
 				setScrollBottom();
 			}
@@ -216,6 +217,8 @@ public class GroupChattingFrag extends Fragment {
 			}
 			if(scrollBottom) setScrollBottom();
 			else setScrollPrevEle();
+			settings.NotiCount = 0;
+			Functions.setBadge(getActivity(),settings.NotiCount);
 			return;
 		}
 

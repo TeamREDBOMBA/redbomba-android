@@ -76,7 +76,7 @@ public class NotificationService extends Service {
 	class SocketTask extends AsyncTask<Void, Void, Boolean> {
 		protected Boolean doInBackground(Void... Void) {
 			try{
-				JSONObject jo = Functions.GET("mode=2&uid="+uid).getJSONObject(0);
+				JSONObject jo = Functions.GET("mode=getUserInfo&uid="+uid).getJSONObject(0);
 				gid = jo.getInt("gid");
 			}catch (Exception e) {
 				// TODO: handle exception
@@ -166,6 +166,7 @@ public class NotificationService extends Service {
 				public void onConnect() {
 					// TODO Auto-generated method stub
 					System.out.println("Connection established");
+					Log.i("OnConnect", "@@@@@@@@@@@@@@@@@@@@@@ "+uid);
 					socket.emit("joinGroup", gid);
 					socket.emit("addUser", uid);
 					socket.emit("loadNotification", uid);
