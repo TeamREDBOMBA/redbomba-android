@@ -79,7 +79,7 @@ public class MainGlobalFrag extends Fragment {
 			if(result){
 				try{
 					for(int i=0;i<ja.length();i++){
-						GlobalCellView gcv  = new GlobalCellView(getActivity(),ja.getJSONObject(i));
+						GlobalCellView gcv  = new GlobalCellView(getActivity(),ja.getJSONObject(i), i);
 						View v = gcv.getView();
 						v.setTag("global_"+i);
 						v.setOnClickListener(new OnClickListener() {

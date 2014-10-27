@@ -8,9 +8,11 @@ import com.Redbomba.Settings.Settings;
 import com.androidquery.AQuery;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class GlobalCellView extends View {
@@ -19,6 +21,7 @@ public class GlobalCellView extends View {
 	private View feed;
 	private Context con;
 	
+	private LinearLayout ll_feed;
 	private ImageView ivSrc;
 	private TextView tvTitle;
 	private TextView tvTag;
@@ -32,7 +35,7 @@ public class GlobalCellView extends View {
 	
 	Settings settings;
 	
-	public GlobalCellView(Context context, JSONObject jo){
+	public GlobalCellView(Context context, JSONObject jo, int i){
 		super(context);
 		this.con = context;
 		// TODO Auto-generated method stub
@@ -41,6 +44,7 @@ public class GlobalCellView extends View {
 		
 		settings = (Settings) context.getApplicationContext();
 		
+		ll_feed = (LinearLayout)feed.findViewById(R.id.ll_feed);
 		ivSrc = (ImageView)feed.findViewById(R.id.ivSrc);
 		tvTitle = (TextView)feed.findViewById(R.id.tvTitle);
 		tvTag = (TextView)feed.findViewById(R.id.tvTag);
@@ -66,6 +70,9 @@ public class GlobalCellView extends View {
 		tvTitle.setText(strTitle);
 		tvCommentNo.setText(strCommentNo);
 		tvDate.setText(strDate);	
+		
+		if(i%2 == 0) ll_feed.setBackgroundColor(Color.parseColor("#f7f7f7"));
+		else ll_feed.setBackgroundColor(Color.parseColor("#ffffff"));
 	}
 	
 	public View getView(){
