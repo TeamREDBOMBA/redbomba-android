@@ -3,6 +3,7 @@ package com.Redbomba.Group;
 import java.util.ArrayList;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -147,7 +148,15 @@ public class GroupChattingFrag extends Fragment {
 				String chatcon = extra.getString("con");
 				String chaticon = extra.getString("icon","1");
 
-				llChatting.addView(new ChattingCellView(getActivity(), chatname, chatcon, chaticon).getView());
+				int dir = Gravity.LEFT;
+				try {
+					if(chatname.equals(settings.user_info.getString("username"))) dir = Gravity.RIGHT;
+					else dir = Gravity.LEFT;
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				llChatting.addView(new ChattingCellView(getActivity(), chatname, chatcon, chaticon,dir).getView());
 				settings.NotiCount = 0;
 				Functions.setBadge(getActivity(),settings.NotiCount);
 
@@ -195,7 +204,10 @@ public class GroupChattingFrag extends Fragment {
 			try {
 				ja = Functions.GET("mode=getChatting&gid="+settings.group_info.getString("gid")+"&len="+chat_len);
 				for(int i=0; i<ja.length();i++){
-					list.add(new ChattingCellView(getActivity(),ja.getJSONObject(i)));
+					int dir = Gravity.LEFT;
+					if(ja.getJSONObject(i).getString("username").equals(settings.user_info.getString("username"))) dir = Gravity.RIGHT;
+					else dir = Gravity.LEFT;
+					list.add(new ChattingCellView(getActivity(),ja.getJSONObject(i),dir));
 				}
 			} catch (Exception e) {
 				// TODO Auto-generated catch block

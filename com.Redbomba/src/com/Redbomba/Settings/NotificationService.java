@@ -38,34 +38,35 @@ import android.view.View;
 public class NotificationService extends Service {
 
 	private SocketIO socket;
+	private String socketURL = "http://redbomba.net:3000";
 
 	public static final String BROADCAST_ACTION_01 = "com.Redbomba.setNotification";
 	public static final String BROADCAST_ACTION_03 = "com.Redbomba.setMemOnOff";
 	public static final String BROADCAST_ACTION_04 = "com.Redbomba.getChatting";
-	
+
 	public static final String TAG = "ServiceMine"; 
 	private SharedPreferences prefs_system;
 	private SharedPreferences.Editor editor_system;
 
 	private int uid;
 	private int gid;
-	
+
 	private Intent intent1;
 	private Intent intent3;
 	private Intent intent4;
-	
+
 	Settings settings;
 
 	public void onCreate() {
 		// TODO Auto-generated method stub
 		super.onCreate();
-		
+
 		settings = (Settings) getApplicationContext();
 
 		intent1 = new Intent(BROADCAST_ACTION_01);
 		intent3 = new Intent(BROADCAST_ACTION_03);
 		intent4 = new Intent(BROADCAST_ACTION_04);
-		
+
 		prefs_system = getSharedPreferences("system", 0);
 		uid = prefs_system.getInt("uid", 0);
 
@@ -110,7 +111,7 @@ public class NotificationService extends Service {
 
 		registerReceiver(broadcastReceiver, new IntentFilter(GroupInfoFrag.BROADCAST_ACTION_02));
 	}
-	
+
 	public void setBroadcast_5(){
 		BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
 			@Override
@@ -121,12 +122,12 @@ public class NotificationService extends Service {
 					String usericon = extra.getString("icon");
 					String username = extra.getString("name");
 					String contents = extra.getString("con");
-					
+
 					JSONObject jo_info = new JSONObject();
 					jo_info.put("name", username);
 					jo_info.put("con", contents);
 					jo_info.put("icon", usericon);
-					
+
 					socket.emit("chatGroup", jo_info);
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
@@ -137,7 +138,7 @@ public class NotificationService extends Service {
 
 		registerReceiver(broadcastReceiver, new IntentFilter(GroupChattingFrag.BROADCAST_ACTION_05));
 	}
-	
+
 	public void setBroadcast_6(){
 		BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
 			@Override
@@ -151,98 +152,118 @@ public class NotificationService extends Service {
 	}
 
 	private void startSocket(){
-		try {
 
-			socket = new SocketIO("http://redbomba.net:3000");
-			socket.connect(new IOCallback() {
+		IOCallback ioCallBack = new IOCallback() {
+			@Override
+			public void onDisconnect() {
+				// TODO Auto-generated method stub
+				System.out.println("Connection terminated.");
+			}
 
-				@Override
-				public void onDisconnect() {
-					// TODO Auto-generated method stub
-					System.out.println("Connection terminated.");
+			@Override
+			public void onConnect() {
+				// TODO Auto-generated method stub
+				System.out.println("Connection established");
+				Log.i("OnConnect", "@@@@@@@@@@@@@@@@@@@@@@ "+uid);
+				socket.emit("joinGroup", gid);
+				socket.emit("addUser", uid);
+				socket.emit("loadNotification", uid);
+			}
+
+			@Override
+			public void onMessage(String data, IOAcknowledge ack) {
+				// TODO Auto-generated method stub
+				System.out.println("Server said: " + data);
+			}
+
+			@Override
+			public void onMessage(JSONObject json, IOAcknowledge ack) {
+				// TODO Auto-generated method stub
+				try {
+					System.out.println("Server said:" + json.toString(2));
+				} catch (JSONException e) {
+					e.printStackTrace();
 				}
+			}
 
-				@Override
-				public void onConnect() {
-					// TODO Auto-generated method stub
-					System.out.println("Connection established");
-					Log.i("OnConnect", "@@@@@@@@@@@@@@@@@@@@@@ "+uid);
-					socket.emit("joinGroup", gid);
-					socket.emit("addUser", uid);
-					socket.emit("loadNotification", uid);
-				}
+			@Override
+			public void on(String event, IOAcknowledge ack, Object... args) {
+				// TODO Auto-generated method stub
+				System.out.println("Server triggered event '" + event + "'");
+				try {
 
-				@Override
-				public void onMessage(String data, IOAcknowledge ack) {
-					// TODO Auto-generated method stub
-					System.out.println("Server said: " + data);
-				}
+					JSONObject jo = new JSONObject(args[0].toString());
 
-				@Override
-				public void onMessage(JSONObject json, IOAcknowledge ack) {
-					// TODO Auto-generated method stub
-					try {
-						System.out.println("Server said:" + json.toString(2));
-					} catch (JSONException e) {
-						e.printStackTrace();
-					}
-				}
-
-				@Override
-				public void on(String event, IOAcknowledge ack, Object... args) {
-					// TODO Auto-generated method stub
-					System.out.println("Server triggered event '" + event + "'");
-					try {
-
-						JSONObject jo = new JSONObject(args[0].toString());
-
-						if (event.equals("html")){
-							intent1.putExtra("emit", "html");
-							if((jo.getString("name")).equals("#noti_value")){
-								intent1.putExtra("name", jo.getString("name"));
-								intent1.putExtra("value", jo.getInt("html"));
-								sendBroadcast(intent1);
-							}
-						}else if(event.equals("isOnline")){
-							Log.i("isOnline!!!!!!!!!!!!!!",""+jo.getString("id"));
-							intent3.putExtra("emit", "isOnline");
-							intent3.putExtra("Member",jo.getString("id"));
-							sendBroadcast(intent3);
-						}else if(event.equals("isOffline")){
-							Log.i("isOffline!!!!!!!!!!!!!",""+jo.getString("id"));
-							intent3.putExtra("emit", "isOffline");
-							intent3.putExtra("Member",jo.getString("id"));
-							sendBroadcast(intent3);
-						}else if(event.equals("setChat")){
-							Log.i("setChat!!!!!!!!!!!!!",""+jo.getString("name"));
-							intent4.putExtra("emit", "setChat");
-							intent4.putExtra("name",jo.getString("name"));
-							intent4.putExtra("con",jo.getString("con"));
-							intent4.putExtra("icon",jo.getString("icon"));
-							Functions.setBadge(getApplication(),settings.NotiCount++);
-							sendBroadcast(intent4);
+					if (event.equals("html")){
+						intent1.putExtra("emit", "html");
+						if((jo.getString("name")).equals("#noti_value")){
+							intent1.putExtra("name", jo.getString("name"));
+							intent1.putExtra("value", jo.getInt("html"));
+							sendBroadcast(intent1);
 						}
+					}else if(event.equals("isOnline")){
+						Log.i("isOnline!!!!!!!!!!!!!!",""+jo.getString("id"));
+						intent3.putExtra("emit", "isOnline");
+						intent3.putExtra("Member",jo.getString("id"));
+						sendBroadcast(intent3);
+					}else if(event.equals("isOffline")){
+						Log.i("isOffline!!!!!!!!!!!!!",""+jo.getString("id"));
+						intent3.putExtra("emit", "isOffline");
+						intent3.putExtra("Member",jo.getString("id"));
+						sendBroadcast(intent3);
+					}else if(event.equals("setChat")){
+						Log.i("setChat!!!!!!!!!!!!!",""+jo.getString("name"));
+						intent4.putExtra("emit", "setChat");
+						intent4.putExtra("name",jo.getString("name"));
+						intent4.putExtra("con",jo.getString("con"));
+						intent4.putExtra("icon",jo.getString("icon"));
+						Functions.setBadge(getApplication(),settings.NotiCount++);
+						sendBroadcast(intent4);
+					}
 
 
-					} catch (JSONException e) {
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+
+			@Override
+			public void onError(SocketIOException socketIOException) {
+				// TODO Auto-generated method stub
+				System.out.println("an Error occured");
+
+				Log.d(TAG, "error: " + socketIOException.getMessage());
+				socketIOException.printStackTrace();
+				if (socketIOException.getMessage().endsWith("+0")) {
+					socket.disconnect();
+					try {
+						socket = new SocketIO(socketURL, this);
+					} catch (MalformedURLException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}
+			}
 
-				@Override
-				public void onError(SocketIOException socketIOException) {
-					// TODO Auto-generated method stub
-					System.out.println("an Error occured");
-					socketIOException.printStackTrace();
-				}
+		};
 
-			});
-
+		try {
+			if (socket == null) {
+				socket = new SocketIO(socketURL, ioCallBack);
+			}else if(!socket.isConnected()){
+				socket = new SocketIO(socketURL, ioCallBack);
+			}
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	@Override
+	public void onDestroy(){
+		super.onDestroy();
+		socket.disconnect();
 	}
 
 	private void setNotification(String msg, String title){
