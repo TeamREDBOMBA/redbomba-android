@@ -62,7 +62,6 @@ public class GroupChattingFrag extends Fragment {
 		settings = (Settings) getActivity().getApplicationContext();
 		
 		View layout = inflater.inflate(R.layout.frag_group_chatting, container, false);
-		Functions.setBadge(getActivity(),0);
 		
 		chat_len = 10;
 
@@ -158,7 +157,6 @@ public class GroupChattingFrag extends Fragment {
 				}
 				llChatting.addView(new ChattingCellView(getActivity(), chatname, chatcon, chaticon,dir).getView());
 				settings.NotiCount = 0;
-				Functions.setBadge(getActivity(),settings.NotiCount);
 
 				setScrollBottom();
 			}
@@ -230,7 +228,6 @@ public class GroupChattingFrag extends Fragment {
 			if(scrollBottom) setScrollBottom();
 			else setScrollPrevEle();
 			settings.NotiCount = 0;
-			Functions.setBadge(getActivity(),settings.NotiCount);
 			return;
 		}
 

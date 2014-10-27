@@ -1,4 +1,4 @@
-package com.Redbomba.Group;
+package com.Redbomba.Main;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -48,9 +48,6 @@ public class GroupCellView extends View {
 	private String strGroupInitial = "";
 	
 	Settings settings;
-	BroadcastReceiver broadcastReceiver;
-	static int newChat = 0;
-	static BadgeView badge;
 	
 	public GroupCellView(Context context, JSONObject jo){
 		super(context);
@@ -89,24 +86,9 @@ public class GroupCellView extends View {
 		tvGroupInitial.setText(strGroupInitial);
 		
 		setGroupMember(jo);
-		setBroadcast();
 		
 	}
-	
-	public void setBroadcast(){
-		broadcastReceiver = new BroadcastReceiver() {
-			@Override
-			public void onReceive(Context context, Intent intent) {
-				Log.i("setBroadcast_4","LOAD");
-				newChat++;
-				if(badge==null) badge = new BadgeView(con, llbtnChatting);
-				badge.setText(""+newChat);
-				badge.show();
-			}
-		};
 
-		con.registerReceiver(broadcastReceiver, new IntentFilter(NotificationService.BROADCAST_ACTION_04));
-	}
 	
 	public View getView(){
 		return feed;

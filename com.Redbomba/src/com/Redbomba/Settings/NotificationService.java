@@ -217,7 +217,6 @@ public class NotificationService extends Service {
 						intent4.putExtra("name",jo.getString("name"));
 						intent4.putExtra("con",jo.getString("con"));
 						intent4.putExtra("icon",jo.getString("icon"));
-						Functions.setBadge(getApplication(),settings.NotiCount++);
 						sendBroadcast(intent4);
 					}
 

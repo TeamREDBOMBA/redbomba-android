@@ -79,17 +79,17 @@ public class Functions{
 		return m.replaceAll("");
 	}
 	
-	public static void setBadge(Context context, int count) {
-	    String launcherClassName = getLauncherClassName(context);
-	    if (launcherClassName == null) {
-	        return;
-	    }
-	    Intent intent = new Intent("android.intent.action.BADGE_COUNT_UPDATE");
-	    intent.putExtra("badge_count", count);
-	    intent.putExtra("badge_count_package_name", context.getPackageName());
-	    intent.putExtra("badge_count_class_name", launcherClassName);
-	    context.sendBroadcast(intent);
-	}
+//	public static void setBadge(Context context, int count) {
+//	    String launcherClassName = getLauncherClassName(context);
+//	    if (launcherClassName == null) {
+//	        return;
+//	    }
+//	    Intent intent = new Intent("android.intent.action.BADGE_COUNT_UPDATE");
+//	    intent.putExtra("badge_count", count);
+//	    intent.putExtra("badge_count_package_name", context.getPackageName());
+//	    intent.putExtra("badge_count_class_name", launcherClassName);
+//	    context.sendBroadcast(intent);
+//	}
 
 	public static String getLauncherClassName(Context context) {
 

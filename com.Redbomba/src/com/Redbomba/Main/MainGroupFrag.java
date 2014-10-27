@@ -18,7 +18,6 @@ import android.widget.LinearLayout;
 
 import com.Redbomba.R;
 import com.Redbomba.Group.GroupActivity;
-import com.Redbomba.Group.GroupCellView;
 import com.Redbomba.Settings.Functions;
 import com.Redbomba.Settings.Settings;
 
