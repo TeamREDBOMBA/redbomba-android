@@ -66,9 +66,15 @@
             android:name=".Main.Detail.GlobalCardActivity"
             android:label="@string/title_activity_global_card"
             android:screenOrientation="portrait" />
-        <activity android:name=".Main.Detail.FeedActivity"
-            android:theme="@style/StyledIndicators" 
-            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Main.Detail.FeedActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/StyledIndicators" />
+        <activity
+            android:name=".Main.Detail.FeedDetailActivity"
+            android:parentActivityName=".Main.Detail.FeedActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/StyledIndicators" />
         <activity
             android:name="com.Redbomba.Main.Detail.WriteFeedActivity"
             android:label="@string/title_activity_write_feed"

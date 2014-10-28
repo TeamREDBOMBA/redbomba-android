@@ -90,7 +90,7 @@ public class WriteFeedActivity extends Activity {
 			this.finish();
 			overridePendingTransition(R.anim.stay, R.anim.slide_out_down);
 			return true;
-		case R.id.action_write:
+		case R.id.menu_write_feed:
 			if(!etCon.getText().toString().equals("")){
 				writeFeed(uid,extra.getString("id"),extra.getString("type"),etCon.getText().toString());
 				sendBroadcast(intent_set_global_card);

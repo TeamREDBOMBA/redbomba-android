@@ -3,9 +3,9 @@
     tools:context="com.Redbomba.WriteFeedActivity" >
 
     <item
-        android:id="@+id/action_write"
-        android:icon="@drawable/ic_write"
+        android:id="@+id/menu_write_feed"
+        android:icon="@drawable/ic_action_write"
         android:title="Write"
-        android:showAsAction="always" />
+        android:showAsAction="ifRoom" />
 
 </menu>

@@ -1,7 +1,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="#ecf0f1" >
+    android:background="#fff" >
 
     <ScrollView
         android:id="@+id/scrollView1"
@@ -10,9 +10,12 @@
         android:layout_weight="1" >
 
         <LinearLayout
+            android:id="@+id/llFeedList"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical" >
+            android:orientation="vertical"
+            android:paddingBottom="60dp" >
+
         </LinearLayout>
     </ScrollView>
 
@@ -52,7 +55,7 @@
                         android:layout_width="15dp"
                         android:layout_height="15dp"
                         android:layout_marginRight="5dp"
-                        android:src="@drawable/ic_write" />
+                        android:src="@drawable/ic_action_write" />
 
                     <TextView
                         android:id="@+id/tvComment"

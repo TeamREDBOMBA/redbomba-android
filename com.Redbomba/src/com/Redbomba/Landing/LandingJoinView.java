@@ -13,12 +13,14 @@ import com.Redbomba.Settings.Settings;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Vibrator;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -59,7 +61,11 @@ public class LandingJoinView extends View implements OnClickListener {
 	public LandingJoinView(Context context, int width){
 		super(context);
 		settings = (Settings) context.getApplicationContext();
-		display_width = width-40;
+		
+		Resources r = getResources();
+		float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 20, r.getDisplayMetrics());
+		
+		display_width = (int) (width-px);
 		con = context;
 
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);

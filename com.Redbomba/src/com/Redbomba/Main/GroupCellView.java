@@ -5,23 +5,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.Redbomba.R;
-import com.Redbomba.R.id;
-import com.Redbomba.R.layout;
 import com.Redbomba.Settings.Functions;
-import com.Redbomba.Settings.NotificationService;
 import com.Redbomba.Settings.Settings;
 import com.androidquery.AQuery;
 import com.androidquery.callback.ImageOptions;
-import com.readystatesoftware.viewbadger.BadgeView;
 
-import android.os.Bundle;
-import android.provider.ContactsContract.CommonDataKinds.Im;
-import android.util.Log;
-import android.view.ViewGroup.LayoutParams;
-import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
