@@ -7,7 +7,7 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
@@ -21,12 +21,12 @@
 
             <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="140dp"
                 android:layout_weight="1" >
 
                 <ImageView
                     android:id="@+id/ivStatImg"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:scaleType="centerCrop" />
@@ -115,15 +115,18 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="120dp"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="#fff" >
+                android:background="#fff"
+                android:minHeight="60dp" >
 
                 <LinearLayout
                     android:id="@+id/llGroupMem"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical"
                     android:layout_weight="1"
+                    android:minHeight="60dp"
                     android:orientation="horizontal" >
 
                 </LinearLayout>
@@ -139,7 +142,7 @@
                 <LinearLayout
                     android:id="@+id/llbtnChatting"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_height="60dp"
                     android:paddingLeft="5dp"
                     android:paddingRight="5dp" >
 

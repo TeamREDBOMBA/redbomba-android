@@ -11,6 +11,8 @@ import com.androidquery.AQuery;
 import com.androidquery.callback.ImageOptions;
 
 import android.content.Context;
+import android.content.res.Resources;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -98,9 +100,11 @@ public class GroupCellView extends View {
 	}
 	
 	private ImageView getGroupMember(String user_icon){
+		Resources r = getResources();
+		int px = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 55, r.getDisplayMetrics());
 		ImageView memberIcon = new ImageView(con);
 		memberIcon.setAdjustViewBounds(true);
-		memberIcon.setLayoutParams(new LinearLayout.LayoutParams(115, 115));
+		memberIcon.setLayoutParams(new LinearLayout.LayoutParams(px,px));
 		memberIcon.setScaleType(ImageView.ScaleType.CENTER_CROP);
 		memberIcon.setPadding(10, 10, 0, 10);
 		

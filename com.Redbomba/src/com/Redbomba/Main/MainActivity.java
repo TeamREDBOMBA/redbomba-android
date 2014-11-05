@@ -14,6 +14,7 @@ import com.Redbomba.Settings.Functions;
 import com.Redbomba.Settings.NotificationService;
 import com.Redbomba.Settings.Settings;
 import com.androidquery.AQuery;
+import com.readystatesoftware.viewbadger.BadgeView;
 import com.viewpagerindicator.IconPagerAdapter;
 import com.viewpagerindicator.PageIndicator;
 import com.viewpagerindicator.TabPageIndicator;
@@ -135,21 +136,23 @@ public class MainActivity extends FragmentActivity implements OnPageChangeListen
 	private void loadNoti(){
 		llTable.removeAllViews();
 		JSONArray ja = null;
-		int i=0;
+		int newNoti = 0;
 		try{
 			ja = Functions.GET("mode=Notification&uid="+settings.user_id);
 			int ja_len = ja.length();
-			for(i=0;i<ja_len;i++){
+			for(int i=0;i<ja_len;i++){
 				int no = ja.getJSONObject(i).getInt("no");
 				String strCon = ja.getJSONObject(i).getString("con");
 				String strDate = ja.getJSONObject(i).getString("time");
 				String strImg = ja.getJSONObject(i).getString("img");
+				String strState = ja.getJSONObject(i).getString("state");
 				NotiCellView ncv  = new NotiCellView(this,strCon,strDate,strImg);
 				View v = ncv.getView();
 				v.setTag("noti_"+no);
 				llTable.addView(ncv.getView());
+				if(strState.equals("-1")) newNoti++;
 			}
-			tvLength.setText(ja_len+"");
+			tvLength.setText(newNoti+"");
 
 		}catch (Exception e) {
 			// TODO: handle exception
@@ -159,6 +162,9 @@ public class MainActivity extends FragmentActivity implements OnPageChangeListen
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.main, menu);
+//		BadgeView badge = new BadgeView(this, menu.findItem(R.id.action_notification).getActionView());
+//		badge.setText("!!!!");
+//		badge.show();
 		return true;
 	}
 

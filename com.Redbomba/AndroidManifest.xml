@@ -18,7 +18,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
-        android:name="com.Redbomba.Settings.Settings"
+        android:name=".Settings.Settings"
         android:allowBackup="true"
         android:configChanges="keyboard|keyboardHidden|orientation"
         android:icon="@drawable/ic_launcher"
@@ -76,9 +76,14 @@
             android:screenOrientation="portrait"
             android:theme="@style/StyledIndicators" />
         <activity
-            android:name="com.Redbomba.Main.Detail.WriteFeedActivity"
+            android:name=".Main.Detail.WriteFeedActivity"
             android:label="@string/title_activity_write_feed"
             android:parentActivityName=".Main.Detail.FeedActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/StyledIndicators" />
+        <activity
+            android:name=".Main.TnCActivity"
+            android:parentActivityName=".Main.MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/StyledIndicators" />
     </application>

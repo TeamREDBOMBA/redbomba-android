@@ -3,11 +3,13 @@ package com.Redbomba.Main;
 import org.json.JSONObject;
 
 import com.Redbomba.R;
+import com.Redbomba.Main.Detail.GlobalCardActivity;
 import com.Redbomba.Settings.Functions;
 import com.Redbomba.Settings.Settings;
 import com.androidquery.AQuery;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;

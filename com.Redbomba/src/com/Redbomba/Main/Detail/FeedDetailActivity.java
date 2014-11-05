@@ -41,7 +41,7 @@ public class FeedDetailActivity extends Activity {
     Settings settings;
     private Bundle extra;
 	private String extra_id = "";
-	private String[] extra_con = new String[5];
+	private String[] extra_con = new String[7];
 	
 	private JSONArray ja;
 
@@ -95,7 +95,7 @@ public class FeedDetailActivity extends Activity {
 						View v = frcv.getView();
 						llReplyList.addView(v);
 					}
-					extra_con[4] = ja.length()+"";
+					extra_con[5] = ja.length()+"";
 					FeedCellView fcv  = new FeedCellView(getApplication(),extra_con, 0);
 					ll_feed_contents.addView(fcv.getView());
 				}catch(Exception e){
@@ -110,11 +110,13 @@ public class FeedDetailActivity extends Activity {
     private void getExtra(){
     	extra = getIntent().getExtras();
  		extra_id = extra.getString("id");
- 		extra_con[0] = extra.getString("icon");
- 		extra_con[1] = extra.getString("name");
- 		extra_con[2] = extra.getString("con");
- 		extra_con[3] = extra.getString("date");
- 		extra_con[4] = extra.getString("reply_no");
+ 		extra_con[0] = extra.getString("id");
+ 		extra_con[1] = extra.getString("icon");
+ 		extra_con[2] = extra.getString("name");
+ 		extra_con[3] = extra.getString("con");
+ 		extra_con[4] = extra.getString("date");
+ 		extra_con[5] = extra.getString("reply_no");
+ 		extra_con[6] = extra.getString("smile_len");
     }
     
     @Override

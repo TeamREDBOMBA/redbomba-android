@@ -9,5 +9,6 @@
     <string name="title_activity_global_card">GlobalCardActivity</string>
     <string name="title_activity_loading">LoadingActivity</string>
     <string name="title_activity_write_feed">코멘트 추가하기</string>
+    <string name="title_activity_tn_c">TnCActivity</string>
 
 </resources>

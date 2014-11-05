@@ -123,7 +123,7 @@
                 <LinearLayout
                     android:id="@+id/ll_join_v2"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:orientation="vertical"
                     android:paddingBottom="10dp"
                     android:paddingLeft="10dp"
@@ -141,12 +141,38 @@
                         android:textColor="#FFFFFF"
                         android:textColorHint="#bdc3c7" />
 
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical|center_horizontal"
+                        android:minHeight="150dp"
+                        android:orientation="vertical" >
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical|center_horizontal"
+                            android:text="닉네임을 입력해주세요,"
+                            android:textColor="#bdc3c7"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="당신의 게임라이프를 대변합니다."
+                            android:gravity="center_vertical|center_horizontal"
+                            android:textColor="#bdc3c7"
+                            android:textSize="13sp" />
+                    </LinearLayout>
+
                     <Button
                         android:id="@+id/btnJoin"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="10dp"
                         android:layout_marginTop="10dp"
+                        android:layout_weight="0.0"
                         android:background="@drawable/btn_join_border_radius"
                         android:text="가입하기"
                         android:textColor="#f1c40f"
@@ -202,7 +228,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp" />
-
     </LinearLayout>
 
 </FrameLayout>

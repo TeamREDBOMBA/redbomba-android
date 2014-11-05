@@ -4,6 +4,7 @@ import org.json.JSONArray;
 
 import com.Redbomba.R;
 import com.Redbomba.Settings.Functions;
+import com.Redbomba.Settings.Settings;
 import com.androidquery.AQuery;
 
 import android.app.Activity;
@@ -29,6 +30,7 @@ public class FeedActivity extends Activity implements OnClickListener {
 	private String extra_id = "";
 	private String extra_type = "";
 
+	Settings settings;
 	private JSONArray ja;
 
 	@Override
@@ -49,7 +51,7 @@ public class FeedActivity extends Activity implements OnClickListener {
 	class FeedListTask extends AsyncTask<Void, Void, Boolean> {
 
 		protected Boolean doInBackground(Void... Void) {
-			ja = Functions.GET("mode=getFeed&fid="+extra_id+"&type="+extra_type);
+			ja = Functions.GET("mode=getFeed&fid="+extra_id+"&type="+extra_type+"&uid="+settings.user_id);
 			return true;
 		}
 
@@ -79,6 +81,7 @@ public class FeedActivity extends Activity implements OnClickListener {
 											gin.putExtra("con", ja.getJSONObject(no).getString("con"));
 											gin.putExtra("date", ja.getJSONObject(no).getString("date"));
 											gin.putExtra("reply_no", ja.getJSONObject(no).getString("reply_no"));
+											gin.putExtra("smile_len", ja.getJSONObject(no).getString("smile_len"));
 											startActivity(gin);
 											overridePendingTransition(R.anim.slide_in_up, R.anim.stay);
 										} catch (Exception e) { }
@@ -100,6 +103,7 @@ public class FeedActivity extends Activity implements OnClickListener {
 	@Override
 	public void onResume(){
 		super.onResume();
+		settings = (Settings) getApplicationContext();
 		extra = getIntent().getExtras();
 		extra_id = extra.getString("id");
 		extra_type = extra.getString("type");

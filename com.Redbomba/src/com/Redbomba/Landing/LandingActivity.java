@@ -151,7 +151,8 @@ public class LandingActivity extends FragmentActivity implements OnClickListener
 			break;
 		case R.id.btnJoin :
 			ljv.ll_v2_loading.setVisibility(View.VISIBLE);
-			new JoinTask().execute(null, null, null);
+			if(!ljv.etNick.getText().toString().equals(""))
+				new JoinTask().execute(null, null, null);
 			break;
 		case R.id.ll_ll_join:
 			returnView(ljv.getView());
@@ -187,6 +188,7 @@ public class LandingActivity extends FragmentActivity implements OnClickListener
 				editor_system.putInt("uid", uid);
 				editor_system.commit();
 				settings.user_id = uid;
+				settings.user_info = Functions.GET("mode=getUserInfo&uid="+uid).getJSONObject(0);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
